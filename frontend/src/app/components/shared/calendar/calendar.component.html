@@ -1,0 +1,70 @@
+<div
+    class="calendar-container glass-dark border border-white/10 rounded-[30px] p-6 shadow-2xl overflow-hidden animate-fade-up">
+    <!-- Header -->
+    <div class="flex items-center justify-between mb-8 px-2">
+        <h4 class="text-white font-serif text-2xl font-bold capitalize">{{ getMonthName() }}</h4>
+        <div class="flex gap-4">
+            <button (click)="prevMonth()"
+                class="p-2 hover:bg-white/10 rounded-full transition-colors text-white/70 hover:text-white">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                </svg>
+            </button>
+            <button (click)="nextMonth()"
+                class="p-2 hover:bg-white/10 rounded-full transition-colors text-white/70 hover:text-white">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- Week Days -->
+    <div class="grid grid-cols-7 mb-4">
+        @for (dayName of weekDays; track dayName) {
+        <div class="text-center text-[10px] font-bold text-gray-500 uppercase tracking-[0.2em] py-2">
+            {{ dayName }}
+        </div>
+        }
+    </div>
+
+    <!-- Days Grid -->
+    <div class="grid grid-cols-7 gap-1 md:gap-2">
+        @for (day of days; track day.date.getTime()) {
+        <div [class.opacity-20]="!day.isCurrentMonth || day.isPast"
+            [class.pointer-events-none]="!day.isCurrentMonth || day.status === 'booked' || day.isPast"
+            [class.booked]="day.status === 'booked'" [class.pending]="day.status === 'pending'"
+            [class.selected]="day.isSelected" (click)="selectDate(day)"
+            class="relative aspect-square flex items-center justify-center rounded-xl cursor-pointer transition-all hover:bg-white/5 text-sm font-light text-white/80 hover:text-white group">
+            <span class="relative z-10">{{ day.date.getDate() }}</span>
+
+            <!-- Status Indicators -->
+            @if (day.status === 'booked') {
+            <div class="absolute inset-0 bg-red-500/20 border border-red-500/40 rounded-xl"></div>
+            }
+            @if (day.status === 'pending') {
+            <div class="absolute inset-0 bg-amber-600/20 border border-amber-600/40 rounded-xl"></div>
+            }
+            @if (day.isSelected) {
+            <div class="absolute inset-0 bg-indigo-500/30 border-2 border-indigo-400 rounded-xl"></div>
+            }
+        </div>
+        }
+    </div>
+
+    <!-- Legend -->
+    <div class="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-4 pt-6 border-t border-white/5">
+        <div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-red-500/20 border border-red-500/40 rounded-xl"></div>
+            <span class="text-sm text-gray-400 font-light">- Booked</span>
+        </div>
+        <div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-amber-600/20 border border-amber-600/40 rounded-xl"></div>
+            <span class="text-sm text-gray-400 font-light">- Pending</span>
+        </div>
+        <div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-indigo-500/30 border-2 border-indigo-400 rounded-xl"></div>
+            <span class="text-sm text-gray-400 font-light">- Your Date</span>
+        </div>
+    </div>
+</div>

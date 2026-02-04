@@ -1,0 +1,205 @@
+<div class="min-h-screen bg-luxury-black text-white font-sans">
+    <!-- Sidebar / Header -->
+    <header class="glass-dark border-b border-white/10 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <div class="flex items-center gap-8">
+                <div class="flex items-center gap-2">
+                    <span class="text-xl font-serif font-bold tracking-tighter uppercase">
+                        The <span class="text-gold">Silkadelics</span>
+                    </span>
+                    <span
+                        class="text-[10px] font-bold text-gold uppercase tracking-[0.2em] bg-gold/10 px-3 py-1 rounded-full">Backoffice</span>
+                </div>
+
+                <!-- Navigation Tabs -->
+                <nav class="hidden md:flex items-center gap-8 ml-8">
+                    <button (click)="activeTab = 'general'" [class.text-gold]="activeTab === 'general'"
+                        class="text-[10px] font-bold uppercase tracking-[0.2em] transition-colors hover:text-gold">
+                        Geral
+                    </button>
+                    <button (click)="activeTab = 'team'" [class.text-gold]="activeTab === 'team'"
+                        class="text-[10px] font-bold uppercase tracking-[0.2em] transition-colors hover:text-gold">
+                        Equipa & Parceiros
+                    </button>
+                    <button (click)="activeTab = 'repertoire'" [class.text-gold]="activeTab === 'repertoire'"
+                        class="text-[10px] font-bold uppercase tracking-[0.2em] transition-colors hover:text-gold">
+                        Repertório
+                    </button>
+                    <button (click)="activeTab = 'testimonials'" [class.text-gold]="activeTab === 'testimonials'"
+                        class="text-[10px] font-bold uppercase tracking-[0.2em] transition-colors hover:text-gold">
+                        Testemunhos
+                    </button>
+                    <button (click)="activeTab = 'packs'" [class.text-gold]="activeTab === 'packs'"
+                        class="text-[10px] font-bold uppercase tracking-[0.2em] transition-colors hover:text-gold">
+                        Packs
+                    </button>
+                    <button (click)="activeTab = 'bookings'" [class.text-gold]="activeTab === 'bookings'"
+                        class="text-[10px] font-bold uppercase tracking-[0.2em] transition-colors hover:text-gold">
+                        Reservas
+                    </button>
+                </nav>
+            </div>
+
+            <button (click)="onLogout()"
+                class="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] hover:text-white transition-colors flex items-center gap-2">
+                Sair
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+
+        @if (activeTab === 'general') {
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-12 animate-fade-up">
+            <!-- Left Column: Settings -->
+            <div class="lg:col-span-1 space-y-12">
+                <section class="glass-dark rounded-3xl p-8 border border-white/10">
+                    <h3 class="text-lg font-serif font-bold text-white mb-8 flex items-center gap-3">
+                        <svg class="w-5 h-5 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                        </svg>
+                        Vídeo Promocional
+                    </h3>
+
+                    <div class="space-y-6">
+                        <div class="group">
+                            <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-[0.2em] mb-3">URL
+                                do YouTube</label>
+                            <input type="text" [(ngModel)]="promoVideoUrl"
+                                class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:border-gold outline-none transition-all">
+                        </div>
+                        <button (click)="onUpdateVideo()"
+                            class="w-full py-4 bg-gold text-black font-bold text-[10px] uppercase tracking-[0.2em] rounded-xl hover:bg-white transition-all">
+                            Atualizar Vídeo
+                        </button>
+                    </div>
+                </section>
+
+                <section class="glass-dark rounded-3xl p-8 border border-white/10">
+                    <h3 class="text-lg font-serif font-bold text-white mb-8 flex items-center gap-3">
+                        <svg class="w-5 h-5 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+                        </svg>
+                        Upload Galeria
+                    </h3>
+
+                    <div class="relative group">
+                        <input type="file" (change)="onUpload($event)" [disabled]="uploading" multiple
+                            accept="image/*,video/*"
+                            class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-20">
+                        <div
+                            class="border-2 border-dashed border-white/10 rounded-2xl p-10 text-center group-hover:border-gold/50 transition-all">
+                            @if (!uploading) {
+                            <svg class="w-10 h-10 text-gold/30 mx-auto mb-4 group-hover:text-gold transition-colors"
+                                fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                    d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                            <p class="text-[10px] font-bold text-gray-500 uppercase tracking-[0.2em]">Clique ou arraste
+                                ficheiros</p>
+                            } @else {
+                            <div class="animate-spin h-10 w-10 border-b-2 border-gold rounded-full mx-auto mb-4"></div>
+                            <p class="text-[10px] font-bold text-gold uppercase tracking-[0.2em]">A carregar...</p>
+                            }
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Right Column: Gallery Items -->
+            <div class="lg:col-span-2">
+                <section class="glass-dark rounded-3xl p-8 md:p-12 border border-white/10 min-h-[600px]">
+                    <div class="flex items-center justify-between mb-12">
+                        <h3 class="text-2xl font-serif font-bold text-white">Gestão da Galeria</h3>
+                        <span class="text-[10px] font-bold text-gray-500 uppercase tracking-[0.2em]">{{ totalItems }}
+                            itens</span>
+                    </div>
+
+                    @if (loading) {
+                    <div class="flex flex-col items-center justify-center h-64 text-gray-500">
+                        <div class="animate-spin h-8 w-8 border-b-2 border-gold rounded-full mb-4"></div>
+                        <p class="text-[10px] uppercase tracking-widest">A carregar galeria...</p>
+                    </div>
+                    } @else {
+                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-6">
+                        @for (item of gallery; track item.id) {
+                        <div
+                            class="group relative aspect-square rounded-2xl overflow-hidden bg-black border border-white/5">
+                            @if (item.type === 'image') {
+                            <img [src]="item.url"
+                                class="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-all duration-500 group-hover:scale-110">
+                            } @else {
+                            <div class="w-full h-full flex items-center justify-center bg-white/5">
+                                <svg class="w-10 h-10 text-gold/30" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M8 5v14l11-7z" />
+                                </svg>
+                            </div>
+                            }
+
+                            <!-- Delete Overlay -->
+                            <div
+                                class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                <button (click)="onDelete(item)"
+                                    class="w-12 h-12 rounded-full bg-red-500/20 border border-red-500/50 text-red-500 hover:bg-red-500 hover:text-white transition-all flex items-center justify-center">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                        } @empty {
+                        <div
+                            class="col-span-full flex flex-col items-center justify-center h-64 border-2 border-dashed border-white/5 rounded-3xl text-gray-600">
+                            <p class="text-sm font-light italic">A galeria está vazia.</p>
+                        </div>
+                        }
+                    </div>
+
+                    <!-- Pagination Controls -->
+                    @if (totalPages > 1) {
+                    <div class="flex items-center justify-between mt-8 pt-8 border-t border-white/10">
+                        <button (click)="previousPage()" [disabled]="currentPage === 1"
+                            class="px-6 py-3 bg-white/5 border border-white/10 rounded-xl text-sm font-bold uppercase tracking-widest hover:bg-white/10 transition-all disabled:opacity-30 disabled:cursor-not-allowed">
+                            Anterior
+                        </button>
+
+                        <div class="flex items-center gap-4">
+                            <span class="text-sm text-gray-400">
+                                Página <span class="text-gold font-bold">{{ currentPage }}</span> de <span
+                                    class="text-white font-bold">{{ totalPages }}</span>
+                            </span>
+                            <span class="text-xs text-gray-600">
+                                ({{ totalItems }} itens)
+                            </span>
+                        </div>
+
+                        <button (click)="nextPage()" [disabled]="currentPage === totalPages"
+                            class="px-6 py-3 bg-white/5 border border-white/10 rounded-xl text-sm font-bold uppercase tracking-widest hover:bg-white/10 transition-all disabled:opacity-30 disabled:cursor-not-allowed">
+                            Próxima
+                        </button>
+                    </div>
+                    }
+                    }
+                </section>
+            </div>
+        </div>
+        } @else if (activeTab === 'team') {
+        <app-admin-team></app-admin-team>
+        } @else if (activeTab === 'repertoire') {
+        <app-admin-repertoire></app-admin-repertoire>
+        } @else if (activeTab === 'testimonials') {
+        <app-admin-testimonials></app-admin-testimonials>
+        } @else if (activeTab === 'packs') {
+        <app-admin-packs></app-admin-packs>
+        } @else if (activeTab === 'bookings') {
+        <app-admin-bookings></app-admin-bookings>
+        }
+    </main>
+</div>

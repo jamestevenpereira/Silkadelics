@@ -1,0 +1,70 @@
+<div class="fixed bottom-8 left-8 z-[100] flex flex-col items-start gap-4">
+    <!-- Chat Window -->
+    @if (isOpen()) {
+    <div class="w-80 glass-dark rounded-[32px] border border-white/10 shadow-2xl overflow-hidden animate-fade-up">
+        <!-- Header -->
+        <div class="bg-primary p-6 flex items-center gap-4">
+            <div class="w-12 h-12 rounded-full bg-black/10 flex items-center justify-center text-black">
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                    <path
+                        d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766 0-3.18-2.587-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217s.231.001.332.005c.101.004.237-.038.37.281.133.32.456 1.112.497 1.196.041.084.068.182.012.294-.056.112-.084.182-.168.281-.084.1-.177.223-.253.3-.085.085-.174.178-.075.348.099.17.438.723.939 1.17.645.576 1.187.755 1.357.839.17.085.27.071.37-.043.1-.114.428-.497.543-.666.114-.168.228-.142.385-.085.157.058 1.001.472 1.171.557s.284.128.326.201c.042.072.042.418-.102.823z" />
+                </svg>
+            </div>
+            <div>
+                <h4 class="text-black font-bold text-sm">Silkadelics</h4>
+                <p class="text-black/60 text-[10px] uppercase tracking-widest font-bold">Online agora</p>
+            </div>
+            <button (click)="toggleChat()" class="ml-auto text-black/40 hover:text-black transition-colors">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+
+        <!-- Body -->
+        <div class="p-6 space-y-4">
+            <div class="bg-white/5 rounded-2xl p-4 border border-white/10">
+                <p class="text-xs text-gray-400 leading-relaxed">
+                    Olá! Como podemos ajudar a tornar o vosso evento inesquecível?
+                </p>
+            </div>
+
+            <div class="space-y-2">
+                <label class="text-[10px] font-bold text-gray-500 uppercase tracking-widest">A vossa mensagem</label>
+                <textarea [(ngModel)]="userMessage" placeholder="Escreva aqui..."
+                    class="w-full bg-white/5 border border-white/10 rounded-2xl px-4 py-3 text-sm text-white focus:border-gold outline-none transition-all resize-none h-24"></textarea>
+            </div>
+
+            <button (click)="sendWhatsApp()"
+                class="w-full py-4 bg-primary text-black font-bold text-[10px] uppercase tracking-[0.2em] rounded-xl hover:bg-white transition-all flex items-center justify-center gap-2">
+                Enviar Mensagem
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                </svg>
+            </button>
+        </div>
+    </div>
+    }
+
+    <!-- Toggle Button -->
+    <button (click)="toggleChat()"
+        class="w-16 h-16 bg-primary text-black rounded-full shadow-2xl flex items-center justify-center hover:scale-110 transition-all duration-500 group relative">
+        @if (!isOpen()) {
+        <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
+            <path
+                d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766 0-3.18-2.587-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217s.231.001.332.005c.101.004.237-.038.37.281.133.32.456 1.112.497 1.196.041.084.068.182.012.294-.056.112-.084.182-.168.281-.084.1-.177.223-.253.3-.085.085-.174.178-.075.348.099.17.438.723.939 1.17.645.576 1.187.755 1.357.839.17.085.27.071.37-.043.1-.114.428-.497.543-.666.114-.168.228-.142.385-.085.157.058 1.001.472 1.171.557s.284.128.326.201c.042.072.042.418-.102.823z" />
+        </svg>
+        } @else {
+        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+        }
+
+        <!-- Notification Badge -->
+        @if (!isOpen()) {
+        <span
+            class="absolute -top-1 -right-1 w-5 h-5 bg-red-500 border-4 border-luxury-black rounded-full animate-pulse"></span>
+        }
+    </button>
+</div>

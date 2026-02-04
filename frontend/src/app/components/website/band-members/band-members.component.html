@@ -1,0 +1,48 @@
+<section class="pb-28 bg-luxury-charcoal relative overflow-hidden">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="text-center mb-20">
+            <h2 class="text-gold font-sans font-bold tracking-[0.2em] uppercase text-xs mb-4 animate-fade-up">
+                {{ content().bandMembers.title }}
+            </h2>
+            <h3 class="text-4xl md:text-5xl font-serif font-bold text-white animate-fade-up delay-200">
+                Músicos de <span class="text-gold-gradient italic">excelência</span>
+            </h3>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-10">
+            @if (members().length > 0) {
+            @for (member of members(); track member.id) {
+            <div
+                class="group relative overflow-hidden rounded-3xl bg-luxury-black border border-white/5 transition-all duration-700 hover:border-gold/30">
+                <div class="relative aspect-[3/4] overflow-hidden">
+                    <img [src]="member.img" [alt]="member.name"
+                        class="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-1000 ease-out">
+
+                    <!-- Overlay with Socials -->
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end justify-center pb-10">
+                        <div
+                            class="flex space-x-4 translate-y-10 group-hover:translate-y-0 transition-transform duration-500">
+                            <a [href]="member.instagram" target="_blank"
+                                class="w-10 h-10 rounded-full bg-gold/20 backdrop-blur-md border border-gold/30 flex items-center justify-center text-gold hover:bg-gold hover:text-black transition-all">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                    <path
+                                        d="M12 2.163c3.204 0 3.584.012 4.85.07 1.366.062 2.633.332 3.608 1.308.975.975 1.245 2.242 1.308 3.608.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.062 1.366-.332 2.633-1.308 3.608-.975.975-2.242 1.245-3.608 1.308-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.366-.062-2.633-.332-3.608-1.308-.975-.975-1.245-2.242-1.308-3.608-.058-1.266-.07-1.646-.07-4.85s.012-3.584.07-4.85c.062-1.366.332-2.633 1.308-3.608.975-.975 2.242-1.245 3.608-1.308 1.266-.058 1.646-.07 4.85-.07zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948s.014 3.667.072 4.947c.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072s3.667-.014 4.947-.072c4.358-.2 6.78-2.618 6.98-6.98.058-1.281.072-1.689.072-4.948s-.014-3.667-.072-4.947c-.2-4.358-2.618-6.78-6.98-6.98-1.281-.058-1.689-.072-4.948-.072zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.162 6.162 6.162 6.162-2.759 6.162-6.162-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.791-4-4s1.791-4 4-4 4 1.791 4 4-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-8 text-center relative z-10">
+                    <h4 class="text-xl font-serif font-bold text-white mb-2 group-hover:text-gold transition-colors">{{
+                        member.name }}</h4>
+                    <p class="text-gold font-sans font-bold text-[10px] uppercase tracking-[0.2em]">{{ member.role }}
+                    </p>
+                </div>
+            </div>
+            }
+            }
+        </div>
+    </div>
+</section>

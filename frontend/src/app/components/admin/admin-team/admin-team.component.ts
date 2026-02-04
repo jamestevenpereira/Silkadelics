@@ -1,0 +1,266 @@
+import { Component, inject, OnInit, signal } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { SupabaseService } from '../../../core/services/supabase.service';
+
+@Component({
+  selector: 'app-admin-team',
+  standalone: true,
+  imports: [CommonModule, FormsModule],
+  template: `
+    <div class="space-y-12 animate-fade-up">
+      <!-- Header -->
+      <div class="flex justify-between items-center">
+        <div>
+          <h2 class="text-3xl font-serif font-bold text-white mb-2">Equipa & Parceiros</h2>
+          <p class="text-gray-400 text-sm">Gira os membros da banda e os parceiros oficiais.</p>
+        </div>
+        <button (click)="openNewForm()" 
+          class="px-6 py-3 bg-gold text-black font-sans font-bold text-xs tracking-widest uppercase rounded-xl hover:bg-white transition-colors">
+          Adicionar Membro
+        </button>
+      </div>
+
+      <!-- Team List -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        @for (member of team(); track member.id) {
+          <div class="bg-white/5 border border-white/10 rounded-3xl p-6 flex items-center gap-6 group hover:border-gold/30 transition-all">
+            <div class="w-16 h-16 rounded-2xl overflow-hidden bg-luxury-black border border-white/10 flex-shrink-0">
+              @if (member.img) {
+                <img [src]="member.img" class="w-full h-full object-cover">
+              } @else {
+                <div class="w-full h-full flex items-center justify-center text-gold/30">
+                  <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                  </svg>
+                </div>
+              }
+            </div>
+            <div class="flex-grow min-w-0">
+              <div class="flex items-center gap-2 mb-1">
+                <h4 class="text-white font-bold truncate">{{ member.name }}</h4>
+                <span [class]="member.category === 'member' ? 'bg-blue-500/10 text-blue-400' : 'bg-purple-500/10 text-purple-400'"
+                  class="text-[8px] font-bold uppercase tracking-widest px-2 py-1 rounded-full flex-shrink-0">
+                  {{ member.category === 'member' ? 'Banda' : 'Parceiro' }}
+                </span>
+              </div>
+              <p class="text-gray-500 text-xs truncate">{{ member.role }}</p>
+            </div>
+            <div class="flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0">
+              <button (click)="editMember(member)" class="p-2 text-gray-400 hover:text-gold transition-colors">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                </svg>
+              </button>
+              <button (click)="deleteMember(member.id)" class="p-2 text-gray-400 hover:text-red-500 transition-colors">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-4v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+
+    <!-- Form Modal (Moved to end for stacking context) -->
+    @if (showForm()) {
+      <div class="fixed inset-0 z-[9999] overflow-y-auto bg-black/90 backdrop-blur-md">
+        <div class="flex min-h-full items-center justify-center p-4">
+          <div class="bg-luxury-charcoal border border-white/10 rounded-[32px] p-8 max-w-2xl w-full shadow-2xl relative animate-fade-up">
+            <button (click)="cancelEdit()" class="absolute top-6 right-6 text-gray-400 hover:text-white transition-colors z-10">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+
+            <h3 class="text-2xl font-serif font-bold text-white mb-8">
+              {{ editingId() ? 'Editar Membro' : 'Novo Membro' }}
+            </h3>
+            
+            <form (ngSubmit)="saveMember()" class="space-y-8">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Left Column: Info -->
+                <div class="space-y-6">
+                  <div class="space-y-2">
+                    <label class="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Nome</label>
+                    <input [(ngModel)]="memberForm.name" name="name" type="text" required
+                      class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-gold outline-none transition-all">
+                  </div>
+
+                  <div class="space-y-2">
+                    <label class="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Categoria</label>
+                    <select [(ngModel)]="memberForm.category" name="category" required
+                      class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-gold outline-none transition-all">
+                      <option value="member" class="bg-luxury-charcoal">Membro da Banda</option>
+                      <option value="partner" class="bg-luxury-charcoal">Parceiro (Foto/Vídeo)</option>
+                    </select>
+                  </div>
+
+                  <div class="space-y-2">
+                    <label class="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Cargo / Função</label>
+                    <input [(ngModel)]="memberForm.role" name="role" type="text" required
+                      [placeholder]="memberForm.category === 'member' ? 'Ex: Vocalista, Baterista...' : 'Ex: Fotógrafo, Videógrafo...'"
+                      class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-gold outline-none transition-all">
+                  </div>
+
+                  <div class="space-y-2">
+                    <label class="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Instagram (URL)</label>
+                    <input [(ngModel)]="memberForm.instagram" name="instagram" type="text"
+                      class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-gold outline-none transition-all"
+                      placeholder="https://instagram.com/...">
+                  </div>
+                </div>
+
+                <!-- Right Column: Image -->
+                <div class="space-y-6">
+                  <label class="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Foto</label>
+                  
+                  <div class="relative group aspect-[3/4] rounded-2xl overflow-hidden bg-white/5 border border-white/10 flex flex-col items-center justify-center text-center p-4">
+                    @if (memberForm.img) {
+                      <img [src]="memberForm.img" class="absolute inset-0 w-full h-full object-cover">
+                      <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                        <p class="text-[10px] font-bold text-white uppercase tracking-widest">Alterar Foto</p>
+                      </div>
+                    } @else {
+                      <svg class="w-12 h-12 text-gray-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                      </svg>
+                      <p class="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Upload de Imagem</p>
+                    }
+                    <input type="file" (change)="onImageUpload($event)" class="absolute inset-0 opacity-0 cursor-pointer z-10">
+                    
+                    @if (uploading()) {
+                      <div class="absolute inset-0 bg-black/80 flex items-center justify-center z-20">
+                        <div class="animate-spin h-8 w-8 border-b-2 border-gold rounded-full"></div>
+                      </div>
+                    }
+                  </div>
+                  
+                  <div class="space-y-2">
+                    <label class="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Ou URL Direta</label>
+                    <input [(ngModel)]="memberForm.img" name="img" type="text"
+                      class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-xs text-white focus:border-gold outline-none transition-all"
+                      placeholder="https://...">
+                  </div>
+                </div>
+              </div>
+
+              <div class="flex gap-4 pt-4">
+                <button type="button" (click)="cancelEdit()"
+                  class="flex-1 py-4 border border-white/10 text-white font-sans font-bold text-xs tracking-widest uppercase rounded-xl hover:bg-white/5 transition-all">
+                  Cancelar
+                </button>
+                <button type="submit" [disabled]="loading() || uploading()"
+                  class="flex-1 py-4 bg-gold text-black font-sans font-bold text-xs tracking-widest uppercase rounded-xl hover:bg-white transition-all disabled:opacity-50">
+                  {{ loading() ? 'A guardar...' : 'Guardar Membro' }}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    }
+  `,
+  styles: [`
+    :host { display: block; }
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); }
+    ::-webkit-scrollbar-thumb { background: rgba(212,175,55,0.2); border-radius: 10px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(212,175,55,0.4); }
+  `]
+})
+export class AdminTeamComponent implements OnInit {
+  supabaseService = inject(SupabaseService);
+
+  team = signal<any[]>([]);
+  loading = signal<boolean>(false);
+  uploading = signal<boolean>(false);
+  showForm = signal<boolean>(false);
+  editingId = signal<string | null>(null);
+
+  memberForm = {
+    name: '',
+    role: '',
+    category: 'member',
+    img: '',
+    instagram: '',
+    display_order: 0
+  };
+
+  async ngOnInit() {
+    await this.loadTeam();
+  }
+
+  async loadTeam() {
+    const { data } = await this.supabaseService.getTeam();
+    if (data) this.team.set(data);
+  }
+
+  openNewForm() {
+    this.editingId.set(null);
+    this.memberForm = {
+      name: '',
+      role: '',
+      category: 'member',
+      img: '',
+      instagram: '',
+      display_order: this.team().length
+    };
+    this.showForm.set(true);
+  }
+
+  editMember(member: any) {
+    this.editingId.set(member.id);
+    this.memberForm = { ...member };
+    this.showForm.set(true);
+  }
+
+  cancelEdit() {
+    this.showForm.set(false);
+    this.editingId.set(null);
+  }
+
+  async onImageUpload(event: any) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    this.uploading.set(true);
+    try {
+      const fileName = `team/${Date.now()}_${file.name}`;
+      const { data, error } = await this.supabaseService.uploadFile('team-photos', fileName, file);
+      if (error) throw error;
+
+      const publicUrl = await this.supabaseService.getPublicUrl('team-photos', fileName);
+      this.memberForm.img = publicUrl;
+    } catch (err: any) {
+      alert('Erro no upload: ' + err.message);
+    } finally {
+      this.uploading.set(false);
+    }
+  }
+
+  async saveMember() {
+    this.loading.set(true);
+    try {
+      if (this.editingId()) {
+        await this.supabaseService.updateTeamMember(this.editingId()!, this.memberForm);
+      } else {
+        await this.supabaseService.addTeamMember(this.memberForm);
+      }
+      await this.loadTeam();
+      this.cancelEdit();
+    } catch (error) {
+      console.error('Error saving member:', error);
+    } finally {
+      this.loading.set(false);
+    }
+  }
+
+  async deleteMember(id: string) {
+    if (confirm('Tem a certeza que deseja remover este membro?')) {
+      await this.supabaseService.deleteTeamMember(id);
+      await this.loadTeam();
+    }
+  }
+}

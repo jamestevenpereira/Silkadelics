@@ -1,0 +1,42 @@
+<section class="py-28 bg-luxury-charcoal relative">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="text-center mb-20">
+            <h2 class="text-gold font-sans font-bold tracking-[0.2em] uppercase text-xs mb-4 animate-fade-up">
+                {{ content().faq.title }}
+            </h2>
+            <h3 class="text-4xl md:text-5xl font-serif font-bold text-white animate-fade-up delay-200">
+                Esclareça as suas <span class="text-gold-gradient italic">dúvidas</span>
+            </h3>
+        </div>
+
+        <div class="space-y-6">
+            @for (item of content().faq.items; track item.question; let i = $index) {
+            <div class="group rounded-2xl overflow-hidden transition-all duration-500"
+                [class.bg-white_5]="openIndex !== i" [class.bg-gold_5]="openIndex === i"
+                [class.border-white_10]="openIndex !== i" [class.border-gold_30]="openIndex === i" class="border">
+                <button (click)="toggle(i)"
+                    class="w-full flex justify-between items-center p-8 text-left transition-all duration-300">
+                    <span class="text-lg font-serif font-bold transition-colors" [class.text-white]="openIndex !== i"
+                        [class.text-gold]="openIndex === i">{{ item.question }}</span>
+
+                    <div class="w-10 h-10 rounded-full flex items-center justify-center transition-all duration-500"
+                        [class.bg-white_5]="openIndex !== i" [class.bg-gold]="openIndex === i">
+                        <svg [class.rotate-180]="openIndex === i" class="w-5 h-5 transition-transform duration-500"
+                            [class.text-gold]="openIndex !== i" [class.text-black]="openIndex === i" fill="none"
+                            stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </div>
+                </button>
+
+                @if (openIndex === i) {
+                <div class="px-8 pb-8 text-gray-400 font-sans font-light leading-relaxed animate-fade-up">
+                    <div class="w-full h-[1px] bg-gold/20 mb-6"></div>
+                    {{ item.answer }}
+                </div>
+                }
+            </div>
+            }
+        </div>
+    </div>
+</section>

@@ -1,0 +1,190 @@
+<section id="booking" class="py-28 bg-luxury-black relative overflow-hidden">
+    <!-- Background Glow -->
+    <div
+        class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[1000px] bg-primary/10 rounded-full blur-[150px]">
+    </div>
+
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="glass-dark rounded-[40px] p-8 md:p-20 border border-secondary/10 shadow-2xl">
+            <div class="text-center mb-16">
+                <h2 class="text-primary font-sans font-bold tracking-[0.2em] uppercase text-xs mb-4 animate-fade-up">
+                    {{ content().booking.title }}
+                </h2>
+                <h3 class="text-4xl md:text-5xl font-serif font-bold text-white animate-fade-up delay-200">
+                    Vamos planear algo <span class="text-silk-gradient italic">inesquecível</span>
+                </h3>
+            </div>
+
+            <form [formGroup]="bookingForm" (ngSubmit)="onSubmit()" class="space-y-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Name -->
+                    <div class="group">
+                        <label
+                            class="block text-[10px] font-sans font-bold text-gray-500 uppercase tracking-[0.2em] mb-3 group-focus-within:text-primary transition-colors">
+                            {{ content().booking.fields.name }}
+                        </label>
+                        <input type="text" formControlName="name"
+                            class="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-5 text-white focus:border-secondary focus:bg-white/10 transition-all outline-none font-sans font-light">
+                    </div>
+                    <!-- Email -->
+                    <div class="group">
+                        <label
+                            class="block text-[10px] font-sans font-bold text-gray-500 uppercase tracking-[0.2em] mb-3 group-focus-within:text-primary transition-colors">
+                            {{ content().booking.fields.email }}
+                        </label>
+                        <input type="email" formControlName="email"
+                            class="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-5 text-white focus:border-secondary focus:bg-white/10 transition-all outline-none font-sans font-light">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Phone -->
+                    <div class="group">
+                        <label
+                            class="block text-[10px] font-sans font-bold text-gray-500 uppercase tracking-[0.2em] mb-3 group-focus-within:text-primary transition-colors">
+                            {{ content().booking.fields.phone }}
+                        </label>
+                        <input type="text" formControlName="phone"
+                            class="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-5 text-white focus:border-secondary focus:bg-white/10 transition-all outline-none font-sans font-light">
+                    </div>
+                    <!-- Date (Read Only or Sync) -->
+                    <div class="group">
+                        <label
+                            class="block text-[10px] font-sans font-bold text-gray-500 uppercase tracking-[0.2em] mb-3 group-focus-within:text-primary transition-colors">
+                            {{ content().booking.fields.date }}
+                        </label>
+                        <input type="date" formControlName="date" readonly
+                            class="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-5 text-white/50 focus:border-secondary transition-all outline-none font-sans font-light [color-scheme:dark] cursor-not-allowed">
+                        <p class="mt-2 text-[9px] text-gray-500 uppercase tracking-widest">* Selecione a data no
+                            calendário abaixo</p>
+                    </div>
+                </div>
+
+                <!-- Calendar Integration -->
+                <div class="mt-8">
+                    <label
+                        class="block text-[10px] font-sans font-bold text-gray-500 uppercase tracking-[0.2em] mb-6 text-center">
+                        Disponibilidade
+                    </label>
+                    <app-calendar [bookedDates]="bookedDates()" [selectedDate]="selectedCalendarDate()"
+                        (dateSelected)="onDateSelected($event)"></app-calendar>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Event Type -->
+                    <div class="group relative">
+                        <label
+                            class="block text-[10px] font-sans font-bold text-gray-500 uppercase tracking-[0.2em] mb-3 group-focus-within:text-primary transition-colors">
+                            {{ content().booking.fields.eventType }}
+                        </label>
+                        <select formControlName="eventType"
+                            class="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-5 text-white focus:border-secondary focus:bg-white/10 transition-all outline-none appearance-none font-sans font-light">
+                            <option value="" disabled selected>Selecionar...</option>
+                            @for (type of content().eventTypes.items; track type.title) {
+                            <option [value]="type.title" class="bg-luxury-charcoal">{{ type.title }}</option>
+                            }
+                        </select>
+                        <div class="absolute right-6 bottom-6 pointer-events-none text-gray-500">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </div>
+                    </div>
+                    <!-- Pack (Only for Weddings) -->
+                    @if (showPackField()) {
+                    <div class="group relative">
+                        <label
+                            class="block text-[10px] font-sans font-bold text-gray-500 uppercase tracking-[0.2em] mb-3 group-focus-within:text-primary transition-colors">
+                            {{ content().booking.fields.pack }}
+                        </label>
+                        <select formControlName="pack"
+                            class="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-5 text-white focus:border-secondary focus:bg-white/10 transition-all outline-none appearance-none font-sans font-light">
+                            <option value="" disabled selected>Selecionar...</option>
+                            @for (pack of content().packs.items; track pack.name) {
+                            <option [value]="pack.name" class="bg-luxury-charcoal">{{ pack.name }}</option>
+                            }
+                        </select>
+                        <div class="absolute right-6 bottom-6 pointer-events-none text-gray-500">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </div>
+                    </div>
+                    }
+                </div>
+
+                <!-- Extras -->
+                <div class="group">
+                    <label
+                        class="block text-[10px] font-sans font-bold text-gray-500 uppercase tracking-[0.2em] mb-3 group-focus-within:text-primary transition-colors">
+                        {{ content().booking.fields.extras }}
+                    </label>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        @for (extra of content().packs.extras; track extra.name) {
+                        <label
+                            class="flex items-center gap-4 p-4 bg-white/5 border border-white/10 rounded-2xl cursor-pointer hover:bg-white/10 transition-all group/extra">
+                            <input type="checkbox" [value]="extra.name" (change)="onExtraChange($event)"
+                                class="w-5 h-5 rounded border-white/20 bg-transparent text-primary focus:ring-primary focus:ring-offset-0 transition-all">
+                            <span class="text-sm text-gray-300 group-hover/extra:text-white transition-colors">{{
+                                extra.name }}</span>
+                        </label>
+                        }
+                    </div>
+                </div>
+
+                <!-- Message -->
+                <div class="group">
+                    <label
+                        class="block text-[10px] font-sans font-bold text-gray-500 uppercase tracking-[0.2em] mb-3 group-focus-within:text-primary transition-colors">
+                        {{ content().booking.fields.message }}
+                    </label>
+                    <textarea formControlName="message" rows="4"
+                        class="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-5 text-white focus:border-secondary focus:bg-white/10 transition-all outline-none font-sans font-light resize-none"
+                        placeholder="Conte-nos mais sobre o seu evento..."></textarea>
+                </div>
+
+                <!-- Submit -->
+                <div class="pt-10">
+                    <button type="submit" [disabled]="bookingForm.invalid || isSubmitting"
+                        class="group relative w-full py-6 bg-primary text-black font-sans font-bold text-sm tracking-[0.3em] uppercase rounded-2xl overflow-hidden transition-all disabled:opacity-30 disabled:cursor-not-allowed shadow-[0_0_20px_rgba(255,45,149,0.3)]">
+                        <span class="relative z-10">
+                            @if (!isSubmitting) {
+                            {{ content().booking.submit }}
+                            } @else {
+                            <span class="flex items-center justify-center gap-3">
+                                <svg class="animate-spin h-5 w-5 text-black" xmlns="http://www.w3.org/2000/svg"
+                                    fill="none" viewBox="0 0 24 24">
+                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                                        stroke-width="4"></circle>
+                                    <path class="opacity-75" fill="currentColor"
+                                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                                    </path>
+                                </svg>
+                                Processando...
+                            </span>
+                            }
+                        </span>
+                        <div
+                            class="absolute inset-0 bg-secondary transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-500 ease-out">
+                        </div>
+                    </button>
+                </div>
+
+                <!-- Success Message -->
+                @if (submitSuccess) {
+                <div
+                    class="mt-8 p-6 bg-green-500/10 border border-green-500/30 rounded-2xl text-green-400 text-center font-sans font-medium animate-fade-up">
+                    <div class="flex items-center justify-center gap-3">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                        </svg>
+                        Pedido enviado com sucesso! Entraremos em contacto em breve.
+                    </div>
+                </div>
+                }
+            </form>
+        </div>
+    </div>
+</section>

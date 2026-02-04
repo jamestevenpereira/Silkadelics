@@ -1,0 +1,178 @@
+<section id="repertoire" class="py-28 bg-luxury-black relative overflow-hidden">
+    <!-- Background Elements -->
+    <div class="absolute top-0 left-0 w-full h-full opacity-20 pointer-events-none">
+        <div class="absolute top-1/4 -left-20 w-96 h-96 bg-gold/10 rounded-full blur-[120px]"></div>
+        <div class="absolute bottom-1/4 -right-20 w-96 h-96 bg-gold/5 rounded-full blur-[120px]"></div>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="text-center mb-16">
+            <h2 class="text-gold font-sans font-bold tracking-[0.2em] uppercase text-xs mb-4 animate-fade-up">
+                O Nosso Repertório
+            </h2>
+            <h3 class="text-4xl md:text-5xl font-serif font-bold text-white mb-8 animate-fade-up delay-200">
+                A banda sonora do vosso <span class="text-gold-gradient italic">grande dia</span>
+            </h3>
+
+            <div class="max-w-3xl mx-auto glass-card rounded-2xl p-8 border border-gold/20 animate-fade-up delay-300">
+                <p class="text-gray-300 font-sans font-light leading-relaxed text-lg">
+                    Para uma performance de <span class="text-gold font-bold">2 horas</span>, selecionamos em conjunto
+                    um total de <span class="text-gold font-bold">28 músicas</span>.
+                </p>
+                <div class="mt-4 flex flex-col md:flex-row items-center justify-center gap-4 text-sm text-gray-400">
+                    <span class="flex items-center gap-2">
+                        <svg class="w-4 h-4 text-gold" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd"
+                                d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                clip-rule="evenodd" />
+                        </svg>
+                        26 músicas da nossa lista
+                    </span>
+                    <span class="hidden md:block text-gold/30">+</span>
+                    <span class="flex items-center gap-2">
+                        <svg class="w-4 h-4 text-gold" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd"
+                                d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                clip-rule="evenodd" />
+                        </svg>
+                        2 músicas à vossa escolha
+                    </span>
+                </div>
+                <p class="text-xs text-gray-500 mt-6 italic">
+                    * A nossa lista conta com mais de 60 temas e está em constante crescimento.
+                </p>
+            </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="max-w-4xl mx-auto mb-12 animate-fade-up delay-400">
+            <div class="flex flex-col md:flex-row gap-6 items-center">
+                <!-- Search Corrected Design -->
+                <div class="relative flex-1 w-full group">
+                    <div class="absolute inset-0 bg-gold/5 rounded-2xl blur-md group-hover:bg-gold/10 transition-all">
+                    </div>
+                    <div
+                        class="relative bg-white/5 border border-white/10 rounded-2xl overflow-hidden group-focus-within:border-gold/50 transition-all flex items-center">
+                        <div class="pl-5 text-gray-400 group-focus-within:text-gold transition-colors">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            </svg>
+                        </div>
+                        <input type="text" [ngModel]="searchQuery()" (ngModelChange)="onSearchChange($event)"
+                            placeholder="Pesquisar música ou artista..."
+                            class="w-full bg-transparent px-5 py-4 text-white outline-none font-sans font-light placeholder:text-white/20">
+                    </div>
+                </div>
+
+                <!-- Category Filter -->
+                <div class="relative w-full md:w-64 group">
+                    <div class="absolute inset-0 bg-gold/5 rounded-2xl blur-md group-hover:bg-gold/10 transition-all">
+                    </div>
+                    <div
+                        class="relative bg-white/5 border border-white/10 rounded-2xl overflow-hidden group-focus-within:border-gold/50 transition-all flex items-center">
+                        <select [ngModel]="selectedCategory()" (ngModelChange)="onCategoryChange($event)"
+                            class="w-full bg-transparent px-5 py-4 text-white outline-none appearance-none font-sans font-light cursor-pointer">
+                            <option value="" class="bg-luxury-black">Categorias: Todas</option>
+                            @for (cat of categories(); track cat) {
+                            <option [value]="cat" class="bg-luxury-black">{{ cat }}</option>
+                            }
+                        </select>
+                        <div class="absolute right-4 pointer-events-none text-gray-500">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-4 flex justify-end text-[10px] font-sans font-bold uppercase tracking-[0.2em] text-gray-500">
+                <span class="text-gold">{{ filteredRepertoire().length }}</span> &nbsp; Músicas encontradas
+            </div>
+        </div>
+
+        <!-- Table -->
+        @if (paginatedRepertoire().length > 0) {
+        <div class="glass-dark rounded-[30px] border border-white/10 overflow-hidden animate-fade-up shadow-2xl">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="bg-white/5 border-b border-white/10">
+                        <th class="px-8 py-6 text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] w-2/3">
+                            Música</th>
+                        <th class="px-8 py-6 text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em]">Artista
+                        </th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-white/5">
+                    @for (song of paginatedRepertoire(); track song.id) {
+                    <tr class="hover:bg-gold/[0.03] transition-all duration-300 group">
+                        <td class="px-8 py-5">
+                            <span
+                                class="text-white text-lg font-serif tracking-wide block group-hover:text-gold transition-colors">
+                                {{ song.title }}
+                            </span>
+                        </td>
+                        <td class="px-8 py-5">
+                            <span
+                                class="text-gray-400 font-sans font-light group-hover:text-gray-200 transition-colors uppercase tracking-widest text-xs">
+                                {{ song.artist }}
+                            </span>
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Pagination -->
+        @if (totalPages() > 1) {
+        <div class="flex items-center justify-center gap-10 mt-12 animate-fade-up">
+            <button (click)="previousPage()" [disabled]="currentPage() === 1"
+                class="w-12 h-12 rounded-full bg-white/5 border border-white/10 text-white hover:bg-gold hover:text-black hover:border-gold transition-all flex items-center justify-center disabled:opacity-20 disabled:cursor-not-allowed group">
+                <svg class="w-5 h-5 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor"
+                    viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                </svg>
+            </button>
+
+            <div class="flex items-center gap-3">
+                <span class="text-[10px] font-sans font-bold uppercase tracking-[0.3em] text-gray-500">Página</span>
+                <span class="text-xl font-serif font-bold text-gold">{{ currentPage() }}</span>
+                <span class="text-[10px] font-sans font-bold uppercase tracking-[0.3em] text-gray-300">/</span>
+                <span class="text-lg font-serif font-bold text-gray-500">{{ totalPages() }}</span>
+            </div>
+
+            <button (click)="nextPage()" [disabled]="currentPage() === totalPages()"
+                class="w-12 h-12 rounded-full bg-white/5 border border-white/10 text-white hover:bg-gold hover:text-black hover:border-gold transition-all flex items-center justify-center disabled:opacity-20 disabled:cursor-not-allowed group">
+                <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor"
+                    viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+            </button>
+        </div>
+        }
+        } @else {
+        <div class="text-center py-24 glass-dark rounded-[40px] border border-white/10 animate-fade-up">
+            <div class="inline-flex w-16 h-16 bg-white/5 rounded-full items-center justify-center mb-6 text-gray-500">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9.172 9.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+            </div>
+            <p class="text-gray-400 font-serif italic text-xl">Nenhuma música corresponde à sua pesquisa.</p>
+        </div>
+        }
+
+        <!-- CTA -->
+        <div class="mt-24 text-center animate-fade-up">
+            <p class="text-gray-500 text-sm mb-8 font-sans font-light">Não encontras a tua música favorita? Vamos
+                adicioná-la!</p>
+            <a href="#booking"
+                class="inline-block px-12 py-5 bg-gold text-black font-sans font-bold text-xs tracking-[0.3em] uppercase rounded-xl hover:bg-white transition-all duration-300 shadow-xl">
+                Personalizar Evento
+            </a>
+        </div>
+    </div>
+</section>

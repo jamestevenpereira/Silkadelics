@@ -1,0 +1,258 @@
+import { Component, inject, OnInit, signal } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { SupabaseService } from '../../../core/services/supabase.service';
+
+@Component({
+  selector: 'app-admin-repertoire',
+  standalone: true,
+  imports: [CommonModule, FormsModule],
+  template: `
+    <div class="space-y-8">
+      <!-- Header -->
+      <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+        <div>
+          <h2 class="text-3xl font-serif font-bold text-white mb-2">Repertório</h2>
+          <p class="text-gray-400 text-sm">Gira a lista de músicas disponíveis para os eventos.</p>
+        </div>
+        <button (click)="openNewForm()" 
+          class="px-6 py-3 bg-gold text-black font-sans font-bold text-xs tracking-widest uppercase rounded-xl hover:bg-white transition-colors">
+          Adicionar Música
+        </button>
+      </div>
+
+      <!-- Search Bar -->
+      <div class="relative group max-w-md">
+        <input type="text" [(ngModel)]="searchQuery" (ngModelChange)="onSearch()"
+          placeholder="Pesquisar por título ou artista..."
+          class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 pl-10 text-white focus:border-gold outline-none transition-all">
+        <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 group-hover:text-gold transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        </svg>
+      </div>
+
+      <!-- Form Modal -->
+      @if (showForm()) {
+        <div class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/90 backdrop-blur-md">
+          <div class="bg-luxury-charcoal border border-white/10 rounded-[32px] p-8 max-w-lg w-full shadow-2xl relative">
+            <button (click)="cancelEdit()" class="absolute top-6 right-6 text-gray-400 hover:text-white transition-colors">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+
+            <h3 class="text-2xl font-serif font-bold text-white mb-8">
+              {{ editingId() ? 'Editar Música' : 'Nova Música' }}
+            </h3>
+            
+            <form (ngSubmit)="saveItem()" class="space-y-6">
+              <div class="space-y-2">
+                <label class="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Título da Música</label>
+                <input [(ngModel)]="itemForm.title" name="title" type="text" required
+                  class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-gold outline-none transition-all">
+              </div>
+
+              <div class="space-y-2">
+                <label class="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Artista</label>
+                <input [(ngModel)]="itemForm.artist" name="artist" type="text" required
+                  class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-gold outline-none transition-all">
+              </div>
+
+              <div class="space-y-2">
+                <label class="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Categoria / Género</label>
+                <input [(ngModel)]="itemForm.category" name="category" type="text" required
+                  placeholder="Ex: Pop, Rock, Jazz, Portuguesa..."
+                  class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-gold outline-none transition-all">
+              </div>
+
+              <div class="flex gap-4 pt-4">
+                <button type="button" (click)="cancelEdit()"
+                  class="flex-1 py-4 border border-white/10 text-white font-sans font-bold text-xs tracking-widest uppercase rounded-xl hover:bg-white/5 transition-all">
+                  Cancelar
+                </button>
+                <button type="submit" [disabled]="loading()"
+                  class="flex-1 py-4 bg-gold text-black font-sans font-bold text-xs tracking-widest uppercase rounded-xl hover:bg-white transition-all disabled:opacity-50">
+                  {{ loading() ? 'A guardar...' : 'Guardar' }}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      }
+
+      <!-- Repertoire List -->
+      <div class="glass-dark rounded-[32px] border border-white/10 overflow-hidden">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left">
+            <thead>
+              <tr class="border-b border-white/10 bg-white/5">
+                <th class="px-8 py-6 text-[10px] font-bold text-gray-500 uppercase tracking-widest">Título</th>
+                <th class="px-8 py-6 text-[10px] font-bold text-gray-500 uppercase tracking-widest">Artista</th>
+                <th class="px-8 py-6 text-[10px] font-bold text-gray-500 uppercase tracking-widest">Categoria</th>
+                <th class="px-8 py-6 text-[10px] font-bold text-gray-500 uppercase tracking-widest text-right">Ações</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-white/5">
+              @for (item of repertoire(); track item.id) {
+                <tr class="group hover:bg-white/5 transition-colors">
+                  <td class="px-8 py-6 text-white font-medium">{{ item.title }}</td>
+                  <td class="px-8 py-6 text-gray-400">{{ item.artist }}</td>
+                  <td class="px-8 py-6">
+                    <span class="bg-gold/10 text-gold text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full whitespace-nowrap">
+                      {{ item.category }}
+                    </span>
+                  </td>
+                  <td class="px-8 py-6 text-right">
+                    <div class="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <button (click)="editItem(item)" class="p-2 text-gray-400 hover:text-gold transition-colors">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                        </svg>
+                      </button>
+                      <button (click)="deleteItem(item.id)" class="p-2 text-gray-400 hover:text-red-500 transition-colors">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-4v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                        </svg>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              } @empty {
+                <tr>
+                  <td colspan="4" class="px-8 py-20 text-center text-gray-500 italic">
+                    {{ searchQuery() ? 'Nenhuma música encontrada.' : 'Nenhuma música adicionada ao repertório.' }}
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Pagination -->
+        <div class="px-8 py-4 border-t border-white/10 flex items-center justify-between bg-white/5">
+          <div class="text-xs text-gray-500">
+            A mostrar <span class="text-white font-bold">{{ (page() - 1) * pageSize() + 1 }}</span> a <span class="text-white font-bold">{{ Math.min(page() * pageSize(), totalItems()) }}</span> de <span class="text-white font-bold">{{ totalItems() }}</span> resultados
+          </div>
+          <div class="flex gap-2">
+            <button (click)="prevPage()" [disabled]="page() === 1"
+              class="px-4 py-2 border border-white/10 rounded-lg text-xs font-bold uppercase tracking-widest text-gray-400 hover:text-white hover:bg-white/5 disabled:opacity-50 disabled:cursor-not-allowed transition-all">
+              Anterior
+            </button>
+            <button (click)="nextPage()" [disabled]="page() * pageSize() >= totalItems()"
+              class="px-4 py-2 border border-white/10 rounded-lg text-xs font-bold uppercase tracking-widest text-gray-400 hover:text-white hover:bg-white/5 disabled:opacity-50 disabled:cursor-not-allowed transition-all">
+              Seguinte
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  `,
+  styles: []
+})
+export class AdminRepertoireComponent implements OnInit {
+  supabaseService = inject(SupabaseService);
+
+  repertoire = signal<any[]>([]);
+  loading = signal<boolean>(false);
+  showForm = signal<boolean>(false);
+  editingId = signal<number | null>(null);
+
+  // Pagination & Search
+  page = signal(1);
+  pageSize = signal(10);
+  totalItems = signal(0);
+  searchQuery = signal('');
+  searchTimeout: any;
+
+  Math = Math; // Expose Math to template
+
+  itemForm = {
+    title: '',
+    artist: '',
+    category: '',
+    display_order: 0
+  };
+
+  async ngOnInit() {
+    await this.loadRepertoire();
+  }
+
+  async loadRepertoire() {
+    const { data, count } = await this.supabaseService.getRepertoire(
+      this.page(),
+      this.pageSize(),
+      this.searchQuery()
+    );
+
+    if (data) this.repertoire.set(data);
+    if (count !== null) this.totalItems.set(count);
+  }
+
+  onSearch() {
+    if (this.searchTimeout) clearTimeout(this.searchTimeout);
+    this.searchTimeout = setTimeout(() => {
+      this.page.set(1);
+      this.loadRepertoire();
+    }, 300);
+  }
+
+  nextPage() {
+    if (this.page() * this.pageSize() < this.totalItems()) {
+      this.page.update(p => p + 1);
+      this.loadRepertoire();
+    }
+  }
+
+  prevPage() {
+    if (this.page() > 1) {
+      this.page.update(p => p - 1);
+      this.loadRepertoire();
+    }
+  }
+
+  openNewForm() {
+    this.editingId.set(null);
+    this.itemForm = {
+      title: '',
+      artist: '',
+      category: '',
+      display_order: this.totalItems() + 1
+    };
+    this.showForm.set(true);
+  }
+
+  editItem(item: any) {
+    this.editingId.set(item.id);
+    this.itemForm = { ...item };
+    this.showForm.set(true);
+  }
+
+  cancelEdit() {
+    this.showForm.set(false);
+    this.editingId.set(null);
+  }
+
+  async saveItem() {
+    this.loading.set(true);
+    try {
+      if (this.editingId()) {
+        await this.supabaseService.updateRepertoireItem(this.editingId()!, this.itemForm);
+      } else {
+        await this.supabaseService.addRepertoireItem(this.itemForm);
+      }
+      await this.loadRepertoire();
+      this.cancelEdit();
+    } catch (error) {
+      console.error('Error saving repertoire item:', error);
+    } finally {
+      this.loading.set(false);
+    }
+  }
+
+  async deleteItem(id: number) {
+    if (confirm('Tem a certeza que deseja remover esta música?')) {
+      await this.supabaseService.deleteRepertoireItem(id);
+      await this.loadRepertoire();
+    }
+  }
+}

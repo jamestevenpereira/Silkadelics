@@ -1,0 +1,104 @@
+import { Component, inject, OnInit, signal, OnDestroy } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { LanguageService } from '../../../core/services/language.service';
+import { SupabaseService } from '../../../core/services/supabase.service';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+
+declare var YT: any;
+
+@Component({
+  selector: 'app-hero',
+  standalone: true,
+  imports: [CommonModule],
+  templateUrl: './hero.component.html',
+  styleUrl: './hero.component.css'
+})
+export class HeroComponent implements OnInit, OnDestroy {
+  langService = inject(LanguageService);
+  supabaseService = inject(SupabaseService);
+  sanitizer = inject(DomSanitizer);
+
+  content = this.langService.content;
+  videoUrl = signal<SafeResourceUrl | null>(null);
+  isMuted = signal<boolean>(true);
+  rawVideoUrl = '';
+  player: any;
+  videoId = '';
+
+  async ngOnInit() {
+    try {
+      const { data } = await this.supabaseService.getPromotionalVideo();
+      this.rawVideoUrl = data?.value || 'https://www.youtube.com/embed/dQw4w9WgXcQ';
+      this.videoId = this.extractVideoId(this.rawVideoUrl);
+      this.initYoutubeApi();
+    } catch (err) {
+      this.rawVideoUrl = 'https://www.youtube.com/embed/dQw4w9WgXcQ';
+      this.videoId = this.extractVideoId(this.rawVideoUrl);
+      this.initYoutubeApi();
+    }
+  }
+
+  initYoutubeApi() {
+    // Load the IFrame Player API code asynchronously.
+    if (!(window as any)['onYouTubeIframeAPIReady']) {
+      const tag = document.createElement('script');
+      tag.src = "https://www.youtube.com/iframe_api";
+      const firstScriptTag = document.getElementsByTagName('script')[0];
+      firstScriptTag.parentNode?.insertBefore(tag, firstScriptTag);
+
+      (window as any)['onYouTubeIframeAPIReady'] = () => this.createPlayer();
+    } else {
+      this.createPlayer();
+    }
+  }
+
+  createPlayer() {
+    this.player = new YT.Player('hero-video', {
+      videoId: this.videoId,
+      playerVars: {
+        autoplay: 1,
+        mute: 1,
+        controls: 0,
+        loop: 1,
+        playlist: this.videoId,
+        showinfo: 0,
+        rel: 0,
+        enablejsapi: 1,
+        start: 15
+      },
+      events: {
+        onReady: (event: any) => {
+          event.target.playVideo();
+        }
+      }
+    });
+  }
+
+  toggleAudio() {
+    this.isMuted.set(!this.isMuted());
+    if (this.player) {
+      if (this.isMuted()) {
+        this.player.mute();
+      } else {
+        this.player.unMute();
+        this.player.setVolume(50); // 50% volume as requested
+      }
+    }
+  }
+
+  private extractVideoId(url: string): string {
+    if (url.includes('embed/')) {
+      return url.split('embed/')[1].split('?')[0];
+    }
+    if (url.includes('watch?v=')) {
+      return url.split('watch?v=')[1].split('&')[0];
+    }
+    return url;
+  }
+
+  ngOnDestroy() {
+    if (this.player) {
+      this.player.destroy();
+    }
+  }
+}

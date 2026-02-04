@@ -1,0 +1,34 @@
+.calendar-container {
+    background: rgba(18, 18, 18, 0.4);
+    backdrop-filter: blur(20px);
+}
+
+.booked {
+    cursor: not-allowed !important;
+}
+
+.booked span {
+    text-decoration: line-through;
+    opacity: 0.5;
+}
+
+.selected {
+    transform: scale(0.95);
+}
+
+/* Animations */
+@keyframes fade-up {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fade-up {
+    animation: fade-up 0.8s ease-out forwards;
+}
