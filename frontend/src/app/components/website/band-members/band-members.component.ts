@@ -1,12 +1,12 @@
 import { Component, inject, OnInit, signal, computed } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { LanguageService } from '../../../core/services/language.service';
 import { SupabaseService } from '../../../core/services/supabase.service';
 
 @Component({
   selector: 'app-band-members',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './band-members.component.html',
   styleUrl: './band-members.component.css'
 })

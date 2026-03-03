@@ -1,12 +1,12 @@
 import { Component, inject, OnInit, signal, computed } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { LanguageService } from '../../../core/services/language.service';
 import { SupabaseService } from '../../../core/services/supabase.service';
 
 @Component({
   selector: 'app-partners',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './partners.component.html',
   styleUrl: './partners.component.css'
 })

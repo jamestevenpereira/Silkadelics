@@ -1,12 +1,12 @@
 import { Component, inject, OnInit, OnDestroy, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { SupabaseService } from '../../../core/services/supabase.service';
 import { LanguageService } from '../../../core/services/language.service';
 
 @Component({
   selector: 'app-testimonials',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './testimonials.component.html',
   styles: ``
 })

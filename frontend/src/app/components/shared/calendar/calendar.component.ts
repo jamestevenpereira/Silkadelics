@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter, OnInit, OnChanges, SimpleChanges } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 
 interface BookedDate {
     date: string;
@@ -9,7 +9,7 @@ interface BookedDate {
 @Component({
     selector: 'app-calendar',
     standalone: true,
-    imports: [CommonModule],
+    imports: [],
     templateUrl: './calendar.component.html',
     styleUrl: './calendar.component.css'
 })

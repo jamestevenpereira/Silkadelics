@@ -1,5 +1,5 @@
 import { Component, inject, computed, signal, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, FormArray, FormControl } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { LanguageService } from '../../../core/services/language.service';
@@ -9,7 +9,7 @@ import { CalendarComponent } from '../../shared/calendar/calendar.component';
 @Component({
   selector: 'app-booking-form',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, CalendarComponent],
+  imports: [ReactiveFormsModule, CalendarComponent],
   templateUrl: './booking-form.component.html',
   styleUrl: './booking-form.component.css'
 })

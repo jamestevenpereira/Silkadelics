@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { SupabaseService } from '../../../core/services/supabase.service';
@@ -14,7 +14,7 @@ import { AdminBookingsComponent } from '../admin-bookings/admin-bookings.compone
 @Component({
   selector: 'app-admin-dashboard',
   standalone: true,
-  imports: [CommonModule, FormsModule, AdminTeamComponent, AdminRepertoireComponent, AdminTestimonialsComponent, AdminPacksComponent, AdminBookingsComponent],
+  imports: [FormsModule, AdminTeamComponent, AdminRepertoireComponent, AdminTestimonialsComponent, AdminPacksComponent, AdminBookingsComponent],
   templateUrl: './admin-dashboard.component.html',
   styleUrl: './admin-dashboard.component.css'
 })

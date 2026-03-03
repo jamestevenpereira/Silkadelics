@@ -1,5 +1,5 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { SupabaseService } from '../../../../core/services/supabase.service';
 import { LanguageService } from '../../../../core/services/language.service';
 import { RouterLink } from '@angular/router';
@@ -8,7 +8,7 @@ import { SafePipe } from '../../../../shared/pipes/safe.pipe';
 @Component({
   selector: 'app-full-gallery',
   standalone: true,
-  imports: [CommonModule, RouterLink, SafePipe],
+  imports: [RouterLink, SafePipe],
   templateUrl: './full-gallery.component.html',
   styleUrl: './full-gallery.component.css'
 })

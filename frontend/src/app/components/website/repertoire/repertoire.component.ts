@@ -1,5 +1,5 @@
 import { Component, inject, OnInit, signal, computed } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { FormsModule } from '@angular/forms';
 import { SupabaseService } from '../../../core/services/supabase.service';
 import { LanguageService } from '../../../core/services/language.service';
@@ -7,7 +7,7 @@ import { LanguageService } from '../../../core/services/language.service';
 @Component({
   selector: 'app-repertoire',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [FormsModule],
   templateUrl: './repertoire.component.html',
   styles: [`
     :host { display: block; }

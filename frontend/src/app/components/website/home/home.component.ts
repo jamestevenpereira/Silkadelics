@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { NavbarComponent } from '../navbar/navbar.component';
 import { HeroComponent } from '../hero/hero.component';
 import { AboutComponent } from '../about/about.component';
@@ -18,7 +18,6 @@ import { RepertoireComponent } from '../repertoire/repertoire.component';
   selector: 'app-home',
   standalone: true,
   imports: [
-    CommonModule,
     NavbarComponent,
     HeroComponent,
     AboutComponent,
@@ -32,7 +31,7 @@ import { RepertoireComponent } from '../repertoire/repertoire.component';
     FooterComponent,
     PartnersComponent,
     RepertoireComponent
-  ],
+],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })

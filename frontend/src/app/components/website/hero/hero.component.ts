@@ -1,5 +1,5 @@
 import { Component, inject, OnInit, signal, OnDestroy } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { LanguageService } from '../../../core/services/language.service';
 import { SupabaseService } from '../../../core/services/supabase.service';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
@@ -9,7 +9,7 @@ declare var YT: any;
 @Component({
   selector: 'app-hero',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './hero.component.html',
   styleUrl: './hero.component.css'
 })
