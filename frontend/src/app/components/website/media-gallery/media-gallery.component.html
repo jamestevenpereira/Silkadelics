@@ -35,7 +35,7 @@
             <div
                 class="break-inside-avoid group relative rounded-3xl overflow-hidden bg-luxury-black border border-white/5 transition-all duration-700 hover:border-gold/30">
                 @if (item.type === 'image') {
-                <img [src]="item.url" [alt]="item.title"
+                <img [src]="item.url" [alt]="item.title" width="600" height="600" loading="lazy" fetchpriority="low"
                     class="w-full h-auto grayscale group-hover:grayscale-0 transition-all duration-1000 group-hover:scale-105">
                 } @else {
                 <div class="aspect-video bg-black flex items-center justify-center relative">
