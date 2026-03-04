@@ -10,10 +10,10 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div class="text-center mb-20">
             <h2 class="text-primary font-sans font-bold tracking-[0.2em] uppercase text-xs mb-4 animate-fade-up">
-                Packs
+                {{ content().packs.title }}
             </h2>
             <h3 class="text-4xl md:text-5xl font-serif font-bold text-white animate-fade-up delay-200">
-                Escolha a <span class="text-silk-gradient italic">experiência ideal</span>
+                {{ content().packs.subtitle }}
             </h3>
         </div>
 
@@ -29,7 +29,7 @@
                     @if (pack.highlight) {
                     <div
                         class="absolute top-0 right-0 bg-secondary text-black text-[10px] font-bold uppercase tracking-widest px-4 py-2 rounded-bl-xl shadow-[0_0_15px_rgba(0,243,255,0.5)]">
-                        Recomendado
+                        {{ content().packs.recommended }}
                     </div>
                     }
 
@@ -68,7 +68,7 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M13 10V3L4 14h7v7l9-11h-7z" />
                                 </svg>
-                                Escolhe 1 das 4 performances:
+                                {{ content().packs.bronzePerformanceTitle }}
                             </div>
                             <div class="space-y-2">
                                 @for (option of getBronzePerformanceOptions(); track option) {
@@ -82,9 +82,9 @@
                                 </div>
                                 }
                             </div>
-                            <p class="text-[10px] text-primary/60 mt-4 italic text-center">* Apenas uma opção incluída
-                                no
-                                pack</p>
+                            <p class="text-[10px] text-primary/60 mt-4 italic text-center">
+                                {{ content().packs.bronzePerformanceNote }}
+                            </p>
                         </div>
                     </div>
                     } @else {
@@ -111,7 +111,7 @@
                     <a href="#booking"
                         class="w-full py-4 rounded-xl font-sans font-bold text-xs tracking-widest uppercase text-center transition-all duration-300 border"
                         [ngClass]="pack.highlight ? 'bg-primary text-black border-primary hover:bg-white shadow-[0_0_20px_rgba(255,45,149,0.4)]' : 'bg-transparent text-secondary border-secondary/20 hover:bg-secondary/10 hover:border-secondary shadow-sm'">
-                        Reservar
+                        {{ content().packs.bookingLabel }}
                     </a>
                 </div>
             </div>
@@ -124,37 +124,19 @@
                 class="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700">
             </div>
             <h4 class="text-xl font-serif font-bold text-white mb-10 text-center relative z-10">
-                Personalize com <span class="text-secondary italic">Extras Exclusivos</span>
+                {{ content().packs.extrasTitle }}
             </h4>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 relative z-10">
+                @for (extra of content().packs.extras; track extra.name) {
                 <div
                     class="flex justify-between items-center p-5 bg-black/40 rounded-xl border border-white/5 hover:border-primary/30 transition-colors group/item">
                     <span class="font-sans font-medium text-gray-300 group-hover/item:text-white transition-colors">
-                        Violino Extra</span>
-                    <span class="text-primary font-bold font-sans">Sob Consulta</span>
+                        {{ extra.name }}</span>
+                    <span class="text-primary font-bold font-sans">{{ extra.price }}</span>
                 </div>
-                <div
-                    class="flex justify-between items-center p-5 bg-black/40 rounded-xl border border-white/5 hover:border-primary/30 transition-colors group/item">
-                    <span class="font-sans font-medium text-gray-300 group-hover/item:text-white transition-colors">
-                        Hora Extra</span>
-                    <span class="text-primary font-bold font-sans">Sob Consulta</span>
-                </div>
-                <div
-                    class="flex justify-between items-center p-5 bg-black/40 rounded-xl border border-white/5 hover:border-primary/30 transition-colors group/item">
-                    <span class="font-sans font-medium text-gray-300 group-hover/item:text-white transition-colors">
-                        Deslocação (>50km)</span>
-                    <span class="text-primary font-bold font-sans">0.40€/km</span>
-                </div>
+                }
             </div>
 
-            <!-- Prominent Note -->
-            <div
-                class="mt-12 p-6 bg-primary/10 border border-primary/30 rounded-2xl text-center relative z-10 shadow-[0_0_15px_rgba(255,45,149,0.1)]">
-                <p class="text-primary font-sans font-bold text-sm tracking-wide">
-                    <span class="mr-2">⚠️</span>
-                    Nota: Ao valor final podem ser acrescentadas as despesas de deslocação.
-                </p>
-            </div>
         </div>
     </div>
 </section>

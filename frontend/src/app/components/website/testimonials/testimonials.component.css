@@ -1,0 +1,45 @@
+.marquee-container {
+    display: flex;
+    overflow: hidden;
+    user-select: none;
+    gap: 2rem;
+    padding: 2rem 0;
+}
+
+.marquee-content {
+    flex-shrink: 0;
+    display: flex;
+    justify-content: space-around;
+    gap: 2rem;
+    min-width: 100%;
+    animation: scroll 40s linear infinite;
+}
+
+.marquee-container:hover .marquee-content {
+    animation-play-state: paused;
+}
+
+@keyframes scroll {
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(calc(-100% - 2rem));
+    }
+}
+
+.testimonial-card {
+    width: 400px;
+    flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+    .testimonial-card {
+        width: 300px;
+    }
+
+    .marquee-content {
+        animation-duration: 25s;
+    }
+}

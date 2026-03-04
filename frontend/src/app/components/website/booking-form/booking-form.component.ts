@@ -25,9 +25,9 @@ export class BookingFormComponent implements OnInit {
   selectedCalendarDate = signal<string | null>(null);
 
   bookingForm: FormGroup = this.fb.group({
-    name: ['', Validators.required],
-    email: ['', [Validators.required, Validators.email]],
-    phone: ['', Validators.required],
+    name: ['', [Validators.required, Validators.pattern(/^[a-zA-Z\sÀ-ÿ\-\']+$/)]],
+    email: ['', [Validators.required, Validators.email, Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)]],
+    phone: ['', [Validators.required, Validators.pattern(/^\+?[0-9\s\-]{7,20}$/)]],
     date: ['', Validators.required],
     eventType: ['', Validators.required],
     pack: [''], // Not required by default
@@ -39,7 +39,10 @@ export class BookingFormComponent implements OnInit {
   // Show pack field only for weddings
   showPackField = computed(() => {
     const eventType = this.selectedEventType();
-    return eventType === 'Casamentos' || eventType === 'Weddings';
+    // Use the localized title from the current content to match
+    return this.content().eventTypes.items.some(
+      type => type.title === eventType && (type.title === 'Casamentos' || type.title === 'Weddings')
+    );
   });
 
   isSubmitting = false;
@@ -83,6 +86,29 @@ export class BookingFormComponent implements OnInit {
       const index = extras.controls.findIndex(x => x.value === event.target.value);
       extras.removeAt(index);
     }
+  }
+
+  onNameInput(event: Event) {
+    const input = event.target as HTMLInputElement;
+    // Strip everything except letters, spaces, hyphens, and apostrophes
+    const sanitized = input.value.replace(/[^a-zA-Z\sÀ-ÿ\-\']/g, '');
+    if (sanitized !== input.value) {
+      this.bookingForm.patchValue({ name: sanitized }, { emitEvent: false });
+    }
+  }
+
+  onPhoneInput(event: Event) {
+    const input = event.target as HTMLInputElement;
+    // Strip everything except digits, +, spaces, and -
+    const sanitized = input.value.replace(/[^\d\s\-\+]/g, '');
+    if (sanitized !== input.value) {
+      this.bookingForm.patchValue({ phone: sanitized }, { emitEvent: false });
+    }
+  }
+
+  isFieldInvalid(fieldName: string): boolean {
+    const control = this.bookingForm.get(fieldName);
+    return !!(control && control.invalid && (control.dirty || control.touched));
   }
 
   onSubmit() {

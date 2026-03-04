@@ -1,6 +1,6 @@
-import { Component, signal } from '@angular/core';
-
+import { Component, signal, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { LanguageService } from '../../../core/services/language.service';
 
 @Component({
   selector: 'app-whatsapp-chat',
@@ -10,6 +10,9 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './whatsapp-chat.component.css'
 })
 export class WhatsAppChatComponent {
+  private langService = inject(LanguageService);
+  content = this.langService.content;
+
   phoneNumber = '351968464987';
   userMessage = '';
   isOpen = signal(false);
@@ -19,7 +22,7 @@ export class WhatsAppChatComponent {
   }
 
   sendWhatsApp() {
-    const finalMessage = this.userMessage.trim() || 'Olá! Gostaria de saber mais sobre Silkadelics.';
+    const finalMessage = this.userMessage.trim() || this.content().whatsapp.defaultMessage;
     const url = `https://wa.me/${this.phoneNumber}?text=${encodeURIComponent(finalMessage)}`;
     window.open(url, '_blank');
     this.isOpen.set(false);

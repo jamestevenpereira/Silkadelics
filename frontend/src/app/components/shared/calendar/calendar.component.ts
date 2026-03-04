@@ -1,5 +1,5 @@
-import { Component, Input, Output, EventEmitter, OnInit, OnChanges, SimpleChanges } from '@angular/core';
-
+import { Component, Input, Output, EventEmitter, OnInit, OnChanges, SimpleChanges, inject, effect } from '@angular/core';
+import { LanguageService } from '../../../core/services/language.service';
 
 interface BookedDate {
     date: string;
@@ -14,6 +14,9 @@ interface BookedDate {
     styleUrl: './calendar.component.css'
 })
 export class CalendarComponent implements OnInit, OnChanges {
+    private langService = inject(LanguageService);
+    content = this.langService.content;
+
     @Input() bookedDates: BookedDate[] = [];
     @Input() selectedDate: string | null = null;
     @Output() dateSelected = new EventEmitter<string>();
@@ -21,7 +24,15 @@ export class CalendarComponent implements OnInit, OnChanges {
     currentDate: Date = new Date();
     viewDate: Date = new Date();
     days: { date: Date; isCurrentMonth: boolean; status?: string; isSelected?: boolean; isPast?: boolean }[] = [];
-    weekDays = ['SU', 'MO', 'TU', 'WE', 'TH', 'FR', 'SA'];
+
+    weekDays: string[] = [];
+
+    constructor() {
+        // Automatically update weekDays when content changes
+        effect(() => {
+            this.weekDays = this.content().calendar.weekDays;
+        });
+    }
 
     ngOnInit() {
         this.generateCalendar();
@@ -129,6 +140,8 @@ export class CalendarComponent implements OnInit, OnChanges {
     }
 
     getMonthName(): string {
-        return this.viewDate.toLocaleString('default', { month: 'long', year: 'numeric' });
+        const monthIndex = this.viewDate.getMonth();
+        const year = this.viewDate.getFullYear();
+        return `${this.content().calendar.months[monthIndex]} ${year}`;
     }
 }

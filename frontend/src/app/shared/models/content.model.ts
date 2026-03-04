@@ -5,9 +5,25 @@ export interface Content {
         ctaPrimary: string;
         ctaSecondary: string;
     };
+    navbar: {
+        links: {
+            about: string;
+            events: string;
+            packs: string;
+            gallery: string;
+            repertoire: string;
+        };
+        bookNow: string;
+    };
     about: {
         title: string;
+        subtitle: string;
         description: string;
+        badge: string;
+        stats: {
+            events: string;
+            dedication: string;
+        };
         features: {
             title: string;
             description: string;
@@ -15,6 +31,8 @@ export interface Content {
     };
     eventTypes: {
         title: string;
+        subtitle: string;
+        requestQuote: string;
         items: {
             title: string;
             description: string;
@@ -22,6 +40,12 @@ export interface Content {
     };
     packs: {
         title: string;
+        subtitle: string;
+        recommended: string;
+        bronzePerformanceTitle: string;
+        bronzePerformanceNote: string;
+        bookingLabel: string;
+        extrasTitle: string;
         items: {
             name: string;
             price: string;
@@ -36,6 +60,7 @@ export interface Content {
     gallery: {
         title: string;
         subtitle: string;
+        description: string;
         backButton: string;
         loading: string;
         empty: string;
@@ -48,10 +73,13 @@ export interface Content {
             previous: string;
             next: string;
         };
+        followInstagram: string;
+        viewAll: string;
     };
     testimonials: {
         title: string;
         subtitle: string;
+        empty: string;
         items: {
             name: string;
             text: string;
@@ -72,21 +100,38 @@ export interface Content {
             message: string;
         };
         submit: string;
+        placeholders: {
+            message: string;
+        };
+        availability: string;
+        calendarNotice: string;
     };
     faq: {
         title: string;
+        subtitle: string;
         items: {
             question: string;
             answer: string;
         }[];
     };
     footer: {
+        description: string;
         contacts: string;
         socials: string;
+        navigation: string;
         rights: string;
+        privacy: string;
+        terms: string;
+        links: {
+            about: string;
+            events: string;
+            packs: string;
+            gallery: string;
+        };
     };
     bandMembers: {
         title: string;
+        subtitle: string;
         members: {
             id: number;
             name: string;
@@ -98,11 +143,48 @@ export interface Content {
     partners: {
         title: string;
         subtitle: string;
+        description: string;
+        viewInstagram: string;
         items: {
             id: number;
             name: string;
             role: string;
             instagram: string;
         }[];
+    };
+    repertoire: {
+        title: string;
+        searchPlaceholder: string;
+        filterAll: string;
+        pagination: {
+            previous: string;
+            next: string;
+            pageOf: string;
+        };
+        empty: string;
+    };
+    whatsapp: {
+        defaultMessage: string;
+        header: string;
+        button: string;
+    };
+    calendar: {
+        title: string;
+        weekDays: string[];
+        months: string[];
+        legend: {
+            booked: string;
+            pending: string;
+            selected: string;
+        };
+    };
+    shared: {
+        loading: string;
+        success: string;
+        error: string;
+        processing: string;
+        back: string;
+        select: string;
+        seeMore: string;
     };
 }

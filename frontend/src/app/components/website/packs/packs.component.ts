@@ -1,6 +1,7 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SupabaseService } from '../../../core/services/supabase.service';
+import { LanguageService } from '../../../core/services/language.service';
 
 @Component({
   selector: 'app-packs',
@@ -10,7 +11,9 @@ import { SupabaseService } from '../../../core/services/supabase.service';
   styles: ``
 })
 export class PacksComponent implements OnInit {
-  supabaseService = inject(SupabaseService);
+  private supabaseService = inject(SupabaseService);
+  langService = inject(LanguageService);
+  content = this.langService.content;
   packs = signal<any[]>([]);
 
   async ngOnInit() {
@@ -26,11 +29,8 @@ export class PacksComponent implements OnInit {
 
   // Get sub-options for Bronze pack
   getBronzePerformanceOptions(): string[] {
-    return [
-      'Cerimónia (Igreja ou Civil)',
-      'Receção dos Noivos',
-      'Concerto 2h',
-      'DJ Live Set'
-    ];
+    const bronzeItems = this.content().packs.items.find(i => i.name.toLowerCase() === 'bronze')?.features || [];
+    // Filter out the main description to get just the options (those starting with '-')
+    return bronzeItems.filter(f => f.startsWith('-')).map(f => f.substring(1).trim());
   }
 }

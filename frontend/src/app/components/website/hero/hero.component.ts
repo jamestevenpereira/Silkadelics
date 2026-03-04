@@ -1,5 +1,5 @@
-import { Component, inject, OnInit, signal, OnDestroy } from '@angular/core';
-
+import { Component, inject, OnInit, signal, OnDestroy, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { LanguageService } from '../../../core/services/language.service';
 import { SupabaseService } from '../../../core/services/supabase.service';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
@@ -14,6 +14,7 @@ declare var YT: any;
   styleUrl: './hero.component.css'
 })
 export class HeroComponent implements OnInit, OnDestroy {
+  private platformId = inject(PLATFORM_ID);
   langService = inject(LanguageService);
   supabaseService = inject(SupabaseService);
   sanitizer = inject(DomSanitizer);
@@ -30,21 +31,33 @@ export class HeroComponent implements OnInit, OnDestroy {
       const { data } = await this.supabaseService.getPromotionalVideo();
       this.rawVideoUrl = data?.value || 'https://www.youtube.com/embed/dQw4w9WgXcQ';
       this.videoId = this.extractVideoId(this.rawVideoUrl);
-      this.initYoutubeApi();
+
+      if (isPlatformBrowser(this.platformId)) {
+        this.initYoutubeApi();
+      }
     } catch (err) {
       this.rawVideoUrl = 'https://www.youtube.com/embed/dQw4w9WgXcQ';
       this.videoId = this.extractVideoId(this.rawVideoUrl);
-      this.initYoutubeApi();
+
+      if (isPlatformBrowser(this.platformId)) {
+        this.initYoutubeApi();
+      }
     }
   }
 
   initYoutubeApi() {
+    if (!isPlatformBrowser(this.platformId)) return;
+
     // Load the IFrame Player API code asynchronously.
     if (!(window as any)['onYouTubeIframeAPIReady']) {
       const tag = document.createElement('script');
       tag.src = "https://www.youtube.com/iframe_api";
       const firstScriptTag = document.getElementsByTagName('script')[0];
-      firstScriptTag.parentNode?.insertBefore(tag, firstScriptTag);
+      if (firstScriptTag && firstScriptTag.parentNode) {
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+      } else {
+        document.head.appendChild(tag);
+      }
 
       (window as any)['onYouTubeIframeAPIReady'] = () => this.createPlayer();
     } else {
@@ -53,6 +66,8 @@ export class HeroComponent implements OnInit, OnDestroy {
   }
 
   createPlayer() {
+    if (!isPlatformBrowser(this.platformId)) return;
+
     this.player = new YT.Player('hero-video', {
       videoId: this.videoId,
       playerVars: {

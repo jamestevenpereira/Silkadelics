@@ -12,17 +12,24 @@
             <!-- Desktop Menu -->
             <div class="hidden md:flex space-x-10 items-center">
                 <a href="#about"
-                    class="text-xs font-sans font-bold tracking-widest text-gray-300 hover:text-gold transition-colors uppercase">Sobre</a>
+                    class="text-xs font-sans font-bold tracking-widest text-gray-300 hover:text-gold transition-colors uppercase">{{
+                    content().navbar.links.about }}</a>
                 <a href="#events"
-                    class="text-xs font-sans font-bold tracking-widest text-gray-300 hover:text-gold transition-colors uppercase">Eventos</a>
+                    class="text-xs font-sans font-bold tracking-widest text-gray-300 hover:text-gold transition-colors uppercase">{{
+                    content().navbar.links.events }}</a>
                 <a href="#packs"
-                    class="text-xs font-sans font-bold tracking-widest text-gray-300 hover:text-gold transition-colors uppercase">Packs</a>
+                    class="text-xs font-sans font-bold tracking-widest text-gray-300 hover:text-gold transition-colors uppercase">{{
+                    content().navbar.links.packs }}</a>
                 <a href="#gallery"
-                    class="text-xs font-sans font-bold tracking-widest text-gray-300 hover:text-gold transition-colors uppercase">Galeria</a>
+                    class="text-xs font-sans font-bold tracking-widest text-gray-300 hover:text-gold transition-colors uppercase">{{
+                    content().navbar.links.gallery }}</a>
+                <a href="#repertoire"
+                    class="text-xs font-sans font-bold tracking-widest text-gray-300 hover:text-gold transition-colors uppercase">{{
+                    content().navbar.links.repertoire }}</a>
 
                 <a href="#booking"
                     class="px-8 py-3 bg-white/5 border border-white/10 text-gold text-xs font-bold tracking-widest uppercase hover:bg-gold hover:text-black hover:border-gold transition-all duration-300">
-                    Reservar
+                    {{ content().navbar.bookNow }}
                 </a>
 
                 <!-- Language Switcher -->
@@ -58,14 +65,22 @@
     <div class="md:hidden bg-black border-t border-white/10 h-screen animate-fade-in">
         <div class="flex flex-col items-center justify-center h-[80vh] space-y-8">
             <a href="#about" (click)="toggleMenu()"
-                class="text-2xl font-serif text-white hover:text-gold transition-colors">Sobre</a>
+                class="text-2xl font-serif text-white hover:text-gold transition-colors">{{ content().navbar.links.about
+                }}</a>
             <a href="#events" (click)="toggleMenu()"
-                class="text-2xl font-serif text-white hover:text-gold transition-colors">Eventos</a>
+                class="text-2xl font-serif text-white hover:text-gold transition-colors">{{
+                content().navbar.links.events }}</a>
             <a href="#packs" (click)="toggleMenu()"
-                class="text-2xl font-serif text-white hover:text-gold transition-colors">Packs</a>
+                class="text-2xl font-serif text-white hover:text-gold transition-colors">{{ content().navbar.links.packs
+                }}</a>
+            <a href="#repertoire" (click)="toggleMenu()"
+                class="text-2xl font-serif text-white hover:text-gold transition-colors">{{
+                content().navbar.links.repertoire }}</a>
             <a href="#gallery" (click)="toggleMenu()"
-                class="text-2xl font-serif text-white hover:text-gold transition-colors">Galeria</a>
-            <a href="#booking" (click)="toggleMenu()" class="text-2xl font-serif text-gold font-bold">Reservar Agora</a>
+                class="text-2xl font-serif text-white hover:text-gold transition-colors">{{
+                content().navbar.links.gallery }}</a>
+            <a href="#booking" (click)="toggleMenu()" class="text-2xl font-serif text-gold font-bold">{{
+                content().navbar.bookNow }}</a>
 
             <div class="flex space-x-6 mt-8">
                 <button (click)="setLanguage('pt')"

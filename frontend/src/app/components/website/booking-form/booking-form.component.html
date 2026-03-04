@@ -11,7 +11,7 @@
                     {{ content().booking.title }}
                 </h2>
                 <h3 class="text-4xl md:text-5xl font-serif font-bold text-white animate-fade-up delay-200">
-                    Vamos planear algo <span class="text-silk-gradient italic">inesquecível</span>
+                    {{ content().booking.subtitle }}
                 </h3>
             </div>
 
@@ -20,20 +20,42 @@
                     <!-- Name -->
                     <div class="group">
                         <label
-                            class="block text-[10px] font-sans font-bold text-gray-500 uppercase tracking-[0.2em] mb-3 group-focus-within:text-primary transition-colors">
+                            class="block text-[10px] font-sans font-bold uppercase tracking-[0.2em] mb-3 transition-colors"
+                            [class.text-primary]="!isFieldInvalid('name')"
+                            [class.text-red-500]="isFieldInvalid('name')">
                             {{ content().booking.fields.name }}
                         </label>
-                        <input type="text" formControlName="name"
-                            class="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-5 text-white focus:border-secondary focus:bg-white/10 transition-all outline-none font-sans font-light">
+                        <input type="text" formControlName="name" placeholder="John Doe" (input)="onNameInput($event)"
+                            class="w-full bg-white/5 border rounded-2xl px-6 py-5 text-white focus:bg-white/10 transition-all outline-none font-sans font-light"
+                            [class.border-white/10]="!isFieldInvalid('name')"
+                            [class.border-red-500/50]="isFieldInvalid('name')"
+                            [class.focus:border-secondary]="!isFieldInvalid('name')"
+                            [class.focus:border-red-500]="isFieldInvalid('name')">
+                        @if (isFieldInvalid('name')) {
+                        <p class="mt-2 text-[10px] text-red-500 font-sans font-medium animate-fade-in italic">
+                            * {{ content().shared.error }} (A-Z only)
+                        </p>
+                        }
                     </div>
                     <!-- Email -->
                     <div class="group">
                         <label
-                            class="block text-[10px] font-sans font-bold text-gray-500 uppercase tracking-[0.2em] mb-3 group-focus-within:text-primary transition-colors">
+                            class="block text-[10px] font-sans font-bold uppercase tracking-[0.2em] mb-3 transition-colors"
+                            [class.text-primary]="!isFieldInvalid('email')"
+                            [class.text-red-500]="isFieldInvalid('email')">
                             {{ content().booking.fields.email }}
                         </label>
-                        <input type="email" formControlName="email"
-                            class="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-5 text-white focus:border-secondary focus:bg-white/10 transition-all outline-none font-sans font-light">
+                        <input type="email" formControlName="email" placeholder="john@example.com"
+                            class="w-full bg-white/5 border rounded-2xl px-6 py-5 text-white focus:bg-white/10 transition-all outline-none font-sans font-light"
+                            [class.border-white/10]="!isFieldInvalid('email')"
+                            [class.border-red-500/50]="isFieldInvalid('email')"
+                            [class.focus:border-secondary]="!isFieldInvalid('email')"
+                            [class.focus:border-red-500]="isFieldInvalid('email')">
+                        @if (isFieldInvalid('email')) {
+                        <p class="mt-2 text-[10px] text-red-500 font-sans font-medium animate-fade-in italic">
+                            * {{ content().shared.error }} (example@domain.com)
+                        </p>
+                        }
                     </div>
                 </div>
 
@@ -41,11 +63,23 @@
                     <!-- Phone -->
                     <div class="group">
                         <label
-                            class="block text-[10px] font-sans font-bold text-gray-500 uppercase tracking-[0.2em] mb-3 group-focus-within:text-primary transition-colors">
+                            class="block text-[10px] font-sans font-bold uppercase tracking-[0.2em] mb-3 transition-colors"
+                            [class.text-primary]="!isFieldInvalid('phone')"
+                            [class.text-red-500]="isFieldInvalid('phone')">
                             {{ content().booking.fields.phone }}
                         </label>
-                        <input type="text" formControlName="phone"
-                            class="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-5 text-white focus:border-secondary focus:bg-white/10 transition-all outline-none font-sans font-light">
+                        <input type="text" formControlName="phone" placeholder="+1 234 567 890"
+                            (input)="onPhoneInput($event)"
+                            class="w-full bg-white/5 border rounded-2xl px-6 py-5 text-white focus:bg-white/10 transition-all outline-none font-sans font-light"
+                            [class.border-white/10]="!isFieldInvalid('phone')"
+                            [class.border-red-500/50]="isFieldInvalid('phone')"
+                            [class.focus:border-secondary]="!isFieldInvalid('phone')"
+                            [class.focus:border-red-500]="isFieldInvalid('phone')">
+                        @if (isFieldInvalid('phone')) {
+                        <p class="mt-2 text-[10px] text-red-500 font-sans font-medium animate-fade-in italic">
+                            * {{ content().shared.error }} (+, digits, spaces, -)
+                        </p>
+                        }
                     </div>
                     <!-- Date (Read Only or Sync) -->
                     <div class="group">
@@ -55,8 +89,8 @@
                         </label>
                         <input type="date" formControlName="date" readonly
                             class="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-5 text-white/50 focus:border-secondary transition-all outline-none font-sans font-light [color-scheme:dark] cursor-not-allowed">
-                        <p class="mt-2 text-[9px] text-gray-500 uppercase tracking-widest">* Selecione a data no
-                            calendário abaixo</p>
+                        <p class="mt-2 text-[9px] text-gray-500 uppercase tracking-widest">{{
+                            content().booking.calendarNotice }}</p>
                     </div>
                 </div>
 
@@ -64,7 +98,7 @@
                 <div class="mt-8">
                     <label
                         class="block text-[10px] font-sans font-bold text-gray-500 uppercase tracking-[0.2em] mb-6 text-center">
-                        Disponibilidade
+                        {{ content().booking.availability }}
                     </label>
                     <app-calendar [bookedDates]="bookedDates()" [selectedDate]="selectedCalendarDate()"
                         (dateSelected)="onDateSelected($event)"></app-calendar>
@@ -79,7 +113,7 @@
                         </label>
                         <select formControlName="eventType"
                             class="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-5 text-white focus:border-secondary focus:bg-white/10 transition-all outline-none appearance-none font-sans font-light">
-                            <option value="" disabled selected>Selecionar...</option>
+                            <option value="" disabled selected>{{ content().shared.select }}...</option>
                             @for (type of content().eventTypes.items; track type.title) {
                             <option [value]="type.title" class="bg-luxury-charcoal">{{ type.title }}</option>
                             }
@@ -100,7 +134,7 @@
                         </label>
                         <select formControlName="pack"
                             class="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-5 text-white focus:border-secondary focus:bg-white/10 transition-all outline-none appearance-none font-sans font-light">
-                            <option value="" disabled selected>Selecionar...</option>
+                            <option value="" disabled selected>{{ content().shared.select }}...</option>
                             @for (pack of content().packs.items; track pack.name) {
                             <option [value]="pack.name" class="bg-luxury-charcoal">{{ pack.name }}</option>
                             }
@@ -142,7 +176,7 @@
                     </label>
                     <textarea formControlName="message" rows="4"
                         class="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-5 text-white focus:border-secondary focus:bg-white/10 transition-all outline-none font-sans font-light resize-none"
-                        placeholder="Conte-nos mais sobre o seu evento..."></textarea>
+                        [placeholder]="content().booking.placeholders.message"></textarea>
                 </div>
 
                 <!-- Submit -->
@@ -162,7 +196,7 @@
                                         d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
                                     </path>
                                 </svg>
-                                Processando...
+                                {{ content().shared.processing }}
                             </span>
                             }
                         </span>
@@ -180,7 +214,21 @@
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                         </svg>
-                        Pedido enviado com sucesso! Entraremos em contacto em breve.
+                        {{ content().shared.success }}
+                    </div>
+                </div>
+                }
+
+                <!-- Error Message -->
+                @if (submitError) {
+                <div
+                    class="mt-8 p-6 bg-red-500/10 border border-red-500/30 rounded-2xl text-red-400 text-center font-sans font-medium animate-fade-up">
+                    <div class="flex items-center justify-center gap-3">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                        {{ content().shared.error }}
                     </div>
                 </div>
                 }

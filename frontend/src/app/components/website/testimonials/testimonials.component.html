@@ -1,32 +1,33 @@
 <section class="py-28 bg-luxury-black relative overflow-hidden">
     <!-- Background Elements -->
-    <div class="absolute top-0 right-0 w-96 h-96 bg-gold/5 rounded-full blur-[100px]"></div>
-    <div class="absolute bottom-0 left-0 w-96 h-96 bg-gold/5 rounded-full blur-[100px]"></div>
+    <div class="absolute top-0 right-0 w-96 h-96 bg-primary/5 rounded-full blur-[100px]"></div>
+    <div class="absolute bottom-0 left-0 w-96 h-96 bg-secondary/5 rounded-full blur-[100px]"></div>
 
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div class="text-center mb-16">
-            <h2 class="text-gold font-sans font-bold tracking-[0.2em] uppercase text-xs mb-4 animate-fade-up">
-                {{ content().testimonials.title }}</h2>
+            <h2 class="text-primary font-sans font-bold tracking-[0.2em] uppercase text-xs mb-4 animate-fade-up">
+                {{ content().testimonials.title }}
+            </h2>
             <h3 class="text-4xl md:text-5xl font-serif font-bold text-white animate-fade-up delay-200">
                 {{ content().testimonials.subtitle }}
             </h3>
         </div>
 
         @if (testimonials().length > 0) {
-        <!-- Featured Testimonial Card -->
-        <div class="relative" (mouseenter)="pauseAutoPlay()" (mouseleave)="resumeAutoPlay()">
-            <div class="glass-dark rounded-[40px] border border-white/10 p-10 md:p-16 relative overflow-hidden">
-                <!-- Giant Quote Icon -->
-                <div class="absolute top-8 left-10 text-[150px] font-serif text-gold/5 leading-none select-none">
-                    "
-                </div>
+        <div class="marquee-container" (mouseenter)="$any($event).target.classList.add('paused')"
+            (mouseleave)="$any($event).target.classList.remove('paused')">
+            <div class="marquee-content">
+                @for (t of displayTestimonials(); track $index) {
+                <div class="testimonial-card glass-dark rounded-3xl border border-white/10 p-8 md:p-10 relative">
+                    <!-- Subtle Quote Icon -->
+                    <div class="absolute top-6 right-8 text-4xl font-serif text-primary/10 select-none">
+                        "
+                    </div>
 
-                <!-- Content -->
-                <div class="relative z-10 text-center max-w-4xl mx-auto">
                     <!-- Stars -->
-                    <div class="flex justify-center text-gold mb-10 gap-1">
+                    <div class="flex text-primary mb-6 gap-1">
                         @for (s of [1,2,3,4,5]; track s) {
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                             <path
                                 d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                         </svg>
@@ -34,54 +35,37 @@
                     </div>
 
                     <!-- Testimonial Text -->
-                    <p
-                        class="text-xl md:text-2xl text-gray-300 font-serif italic leading-relaxed mb-12 transition-opacity duration-500">
-                        "{{ getVisibleTestimonials()[0]?.text }}"
+                    <p class="text-gray-300 font-sans font-light leading-relaxed mb-8 italic">
+                        "{{ t.text }}"
                     </p>
 
-                    <!-- Author -->
-                    <div class="flex items-center justify-center gap-4">
-                        <div class="w-16 h-[2px] bg-gold/30"></div>
-                        <div class="text-lg font-serif font-bold text-white tracking-wide">
-                            {{ getVisibleTestimonials()[0]?.name }}
+                    <!-- Author Info -->
+                    <div class="flex items-center gap-4">
+                        @if (t.img) {
+                        <img [src]="t.img" [alt]="t.name"
+                            class="w-12 h-12 rounded-full object-cover border-2 border-primary/20">
+                        } @else {
+                        <div
+                            class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold">
+                            {{ t.name.charAt(0) }}
                         </div>
-                        <div class="w-16 h-[2px] bg-gold/30"></div>
+                        }
+                        <div>
+                            <div class="text-sm font-bold text-white tracking-wide">
+                                {{ t.name }}
+                            </div>
+                            <div class="text-[10px] text-gray-500 uppercase tracking-widest">
+                                {{ t.role || (content().testimonials.title === 'Testemunhos' ? 'Cliente' : 'Client') }}
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-
-            <!-- Navigation -->
-            <div class="flex items-center justify-center gap-6 mt-10">
-                <!-- Previous -->
-                <button (click)="previous()"
-                    class="w-12 h-12 rounded-full bg-white/5 border border-white/10 text-white hover:bg-gold hover:text-black hover:border-gold transition-all flex items-center justify-center">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-                    </svg>
-                </button>
-
-                <!-- Dot Indicators -->
-                <div class="flex gap-3">
-                    @for (t of testimonials(); track t.id; let i = $index) {
-                    <button (click)="goToSlide(i)" [class.bg-gold]="i === currentIndex()"
-                        [class.w-10]="i === currentIndex()"
-                        class="h-2 w-2 rounded-full bg-white/20 hover:bg-white/40 transition-all duration-300">
-                    </button>
-                    }
-                </div>
-
-                <!-- Next -->
-                <button (click)="next()"
-                    class="w-12 h-12 rounded-full bg-white/5 border border-white/10 text-white hover:bg-gold hover:text-black hover:border-gold transition-all flex items-center justify-center">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                    </svg>
-                </button>
+                }
             </div>
         </div>
         } @else {
-        <div class="text-center py-20">
-            <p class="text-gray-500 font-sans font-light italic">Ainda não há testemunhos disponíveis.</p>
+        <div class="text-center py-20 bg-white/5 rounded-3xl border border-white/10">
+            <p class="text-gray-500 font-sans font-light italic">{{ content().testimonials.empty }}</p>
         </div>
         }
     </div>

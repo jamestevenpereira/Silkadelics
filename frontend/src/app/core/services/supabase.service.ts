@@ -1,4 +1,6 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject, PLATFORM_ID, signal } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { supabaseConfig } from '../config/supabase.config';
 
@@ -6,21 +8,80 @@ import { supabaseConfig } from '../config/supabase.config';
     providedIn: 'root'
 })
 export class SupabaseService {
-    private supabase: SupabaseClient;
+    private supabase!: SupabaseClient;
+    private platformId = inject(PLATFORM_ID);
+    private http = inject(HttpClient);
+    private apiUrl = 'http://localhost:3000/api';
+
+    // Signal to track if Supabase has finished its initial session check
+    isAuthReady = signal<boolean>(false);
+    private authReadyPromise!: Promise<void>;
+    private resolveAuthReady!: () => void;
 
     constructor() {
-        this.supabase = createClient(supabaseConfig.url, supabaseConfig.key, {
-            auth: {
-                persistSession: true,
-                autoRefreshToken: true,
-                detectSessionInUrl: true,
-                storageKey: 'woodplan-auth-token'
-            }
+        const isBrowser = isPlatformBrowser(this.platformId);
+
+        // Create the promise FIRST, BEFORE any try/catch, so it is always available
+        this.authReadyPromise = new Promise<void>((resolve) => {
+            this.resolveAuthReady = resolve;
         });
+
+        // Safety: always resolve after 3 seconds in case Supabase never fires
+        const timeout = setTimeout(() => {
+            if (!this.isAuthReady()) {
+                console.warn('Supabase auth timed out — proceeding anyway.');
+                this.isAuthReady.set(true);
+                this.resolveAuthReady();
+            }
+        }, 3000);
+
+        try {
+            this.supabase = createClient(supabaseConfig.url, supabaseConfig.key, {
+                auth: {
+                    persistSession: isBrowser,
+                    autoRefreshToken: isBrowser,
+                    detectSessionInUrl: isBrowser,
+                    // Uses Supabase default storage key (matches what was saved on login)
+                }
+            });
+
+            if (isBrowser) {
+                // onAuthStateChange fires INITIAL_SESSION once Supabase reads from localStorage
+                this.supabase.auth.onAuthStateChange((event) => {
+                    if (!this.isAuthReady()) {
+                        if (timeout) clearTimeout(timeout);
+                        this.isAuthReady.set(true);
+                        this.resolveAuthReady();
+                    }
+                });
+            } else {
+                // Server side: auth is always "ready" (empty)
+                if (timeout) clearTimeout(timeout);
+                this.isAuthReady.set(true);
+                this.resolveAuthReady();
+            }
+        } catch (err) {
+            console.error('Failed to initialize Supabase client:', err);
+            if (timeout) clearTimeout(timeout);
+            this.supabase = {} as any;
+            // Resolve anyway so guards don't hang forever
+            if (!this.isAuthReady()) {
+                this.isAuthReady.set(true);
+                this.resolveAuthReady();
+            }
+        }
     }
 
     get client() {
         return this.supabase;
+    }
+
+    /**
+     * Waits for Supabase to finish its internal session check from local storage.
+     * Prevents race conditions where guards check auth before it's loaded.
+     */
+    async waitForAuth(): Promise<void> {
+        return this.authReadyPromise;
     }
 
     // Auth
@@ -30,6 +91,10 @@ export class SupabaseService {
 
     async signOut() {
         return await this.supabase.auth.signOut();
+    }
+
+    async getSession() {
+        return await this.supabase.auth.getSession();
     }
 
     async getUser() {
@@ -44,6 +109,18 @@ export class SupabaseService {
 
     async getPublicUrl(bucket: string, path: string) {
         return this.supabase.storage.from(bucket).getPublicUrl(path).data.publicUrl;
+    }
+
+    getTransformedUrl(url: string, options: { width?: number, height?: number, quality?: number, format?: 'webp' | 'avif' | 'origin' } = {}) {
+        if (!url || !url.includes('supabase.co/storage/v1/object/public/')) return url;
+
+        const params = new URLSearchParams();
+        if (options.width) params.append('width', options.width.toString());
+        if (options.height) params.append('height', options.height.toString());
+        params.append('quality', (options.quality || 80).toString());
+        params.append('format', options.format || 'webp');
+
+        return `${url}?${params.toString()}`;
     }
 
     async deleteFile(bucket: string, path: string) {
@@ -187,5 +264,24 @@ export class SupabaseService {
         return await this.supabase
             .from('bookings')
             .insert([booking]);
+    }
+
+    // API methods
+    async getSongsCount(): Promise<number> {
+        return new Promise((resolve, reject) => {
+            this.http.get<{ count: number }>(`${this.apiUrl}/songs/count`).subscribe({
+                next: (res) => resolve(res.count),
+                error: (err) => reject(err)
+            });
+        });
+    }
+
+    async getTestimonialsApi(): Promise<any[]> {
+        return new Promise((resolve, reject) => {
+            this.http.get<any[]>(`${this.apiUrl}/testimonials`).subscribe({
+                next: (res) => resolve(res),
+                error: (err) => reject(err)
+            });
+        });
     }
 }

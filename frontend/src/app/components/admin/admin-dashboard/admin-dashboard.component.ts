@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { SupabaseService } from '../../../core/services/supabase.service';
-import imageCompression from 'browser-image-compression';
 
 import { AdminTeamComponent } from '../admin-team/admin-team.component';
 import { AdminRepertoireComponent } from '../admin-repertoire/admin-repertoire.component';
@@ -19,6 +19,7 @@ import { AdminBookingsComponent } from '../admin-bookings/admin-bookings.compone
   styleUrl: './admin-dashboard.component.css'
 })
 export class AdminDashboardComponent implements OnInit {
+  private platformId = inject(PLATFORM_ID);
   activeTab: 'general' | 'team' | 'repertoire' | 'testimonials' | 'packs' | 'bookings' = 'general';
   gallery: any[] = [];
   promoVideoUrl = '';
@@ -34,12 +35,17 @@ export class AdminDashboardComponent implements OnInit {
   constructor(private supabaseService: SupabaseService, private router: Router) { }
 
   async ngOnInit() {
-    const user = await this.supabaseService.getUser();
-    if (!user) {
-      this.router.navigate(['/admin']);
-      return;
+    if (isPlatformBrowser(this.platformId)) {
+      await this.supabaseService.waitForAuth();
+      const { data: { session } } = await this.supabaseService.getSession();
+      const user = session?.user || await this.supabaseService.getUser();
+
+      if (!user) {
+        this.router.navigate(['/admin']);
+        return;
+      }
+      await this.loadData();
     }
-    await this.loadData();
   }
 
   async loadData() {
@@ -60,6 +66,8 @@ export class AdminDashboardComponent implements OnInit {
   }
 
   async onUpload(event: any) {
+    if (!isPlatformBrowser(this.platformId)) return;
+
     const files = Array.from(event.target.files) as File[];
     if (!files || files.length === 0) return;
 
@@ -71,6 +79,9 @@ export class AdminDashboardComponent implements OnInit {
     let errorCount = 0;
 
     try {
+      // Dynamic import for browser-only library
+      const imageCompression = (await import('browser-image-compression')).default;
+
       // Get all existing gallery items to determine next number
       const { data: allGallery } = await this.supabaseService.getGallery();
       const existingNumbers = (allGallery || [])
@@ -103,10 +114,10 @@ export class AdminDashboardComponent implements OnInit {
           const newFileName = `woodplan${nextNumber}.${extension}`;
           const storageFileName = `${Date.now()}_${newFileName}`;
 
-          const { data, error } = await this.supabaseService.uploadFile('Gallery', storageFileName, fileToUpload);
+          const { data, error } = await this.supabaseService.uploadFile('gallery', storageFileName, fileToUpload);
           if (error) throw error;
 
-          const publicUrl = await this.supabaseService.getPublicUrl('Gallery', storageFileName);
+          const publicUrl = await this.supabaseService.getPublicUrl('gallery', storageFileName);
           await this.supabaseService.addToGallery({
             url: publicUrl,
             type: file.type.startsWith('video') ? 'video' : 'image',
@@ -143,7 +154,7 @@ export class AdminDashboardComponent implements OnInit {
     try {
       const path = item.url.split('/').pop();
       if (path) {
-        await this.supabaseService.deleteFile('Gallery', path);
+        await this.supabaseService.deleteFile('gallery', path);
       }
       await this.supabaseService.removeFromGallery(item.id);
       await this.loadData();

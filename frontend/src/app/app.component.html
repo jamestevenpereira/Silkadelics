@@ -4,12 +4,19 @@
   <app-hero id="home"></app-hero>
   <app-about id="about"></app-about>
   <app-event-types id="events"></app-event-types>
+
+  @defer (on viewport) {
   <app-packs id="packs"></app-packs>
   <app-media-gallery id="gallery"></app-media-gallery>
   <app-band-members id="band"></app-band-members>
   <app-testimonials id="testimonials"></app-testimonials>
   <app-faq id="faq"></app-faq>
   <app-booking-form id="booking"></app-booking-form>
+  } @placeholder {
+  <div class="h-64 flex items-center justify-center">
+    <div class="animate-pulse text-gray-400 font-medium">Carregando conteúdo...</div>
+  </div>
+  }
 </main>
 
 <app-footer></app-footer>

@@ -7,12 +7,12 @@
                     {{ content().gallery.title }}
                 </h2>
                 <h3 class="text-4xl md:text-5xl font-serif font-bold text-white">
-                    Momentos <span class="text-gold-gradient italic">Inesquecíveis</span>
+                    {{ content().gallery.subtitle }}
                 </h3>
             </div>
             <a href="https://instagram.com/woodplanofficial" target="_blank"
                 class="hidden md:flex items-center gap-2 text-white hover:text-gold transition-colors group">
-                <span class="text-xs font-bold tracking-widest uppercase">Siga-nos no Instagram</span>
+                <span class="text-xs font-bold tracking-widest uppercase">{{ content().gallery.followInstagram }}</span>
                 <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none"
                     stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -25,7 +25,8 @@
         @if (loading()) {
         <div class="flex flex-col items-center justify-center py-20">
             <div class="w-10 h-10 border-2 border-gold border-t-transparent rounded-full animate-spin mb-4"></div>
-            <p class="text-gold font-sans font-bold text-[10px] tracking-widest uppercase">A carregar...</p>
+            <p class="text-gold font-sans font-bold text-[10px] tracking-widest uppercase">{{ content().shared.loading
+                }}</p>
         </div>
         } @else {
         <!-- Gallery Grid (Masonry-like) -->
@@ -56,7 +57,7 @@
         <div class="mt-20 text-center">
             <a routerLink="/gallery"
                 class="group relative inline-flex items-center gap-4 px-12 py-5 border border-gold/30 text-gold font-sans font-bold text-xs tracking-[0.3em] uppercase overflow-hidden transition-all hover:text-black">
-                <span class="relative z-10">Ver Galeria Completa</span>
+                <span class="relative z-10">{{ content().gallery.viewAll }}</span>
                 <div
                     class="absolute inset-0 bg-gold transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-500 ease-out">
                 </div>

@@ -7,154 +7,8 @@ import { SupabaseService } from '../../../core/services/supabase.service';
   selector: 'app-admin-testimonials',
   standalone: true,
   imports: [FormsModule],
-  template: `
-    <div class="space-y-12 animate-fade-up">
-      <!-- Header -->
-      <div class="flex justify-between items-center">
-        <div>
-          <h2 class="text-3xl font-serif font-bold text-white mb-2">Testemunhos</h2>
-          <p class="text-gray-400 text-sm">Gere o feedback dos clientes.</p>
-        </div>
-        <button (click)="openNewForm()" 
-          class="px-6 py-3 bg-gold text-black font-sans font-bold text-xs tracking-widest uppercase rounded-xl hover:bg-white transition-colors">
-          Adicionar Testemunho
-        </button>
-      </div>
-
-      <!-- Testimonials List -->
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        @for (item of testimonials(); track item.id) {
-          <div class="bg-white/5 border border-white/10 rounded-3xl p-6 flex flex-col gap-4 group hover:border-gold/30 transition-all">
-            <div class="flex items-center gap-4">
-              <div class="w-12 h-12 rounded-full overflow-hidden bg-luxury-black border border-white/10 flex-shrink-0">
-                @if (item.img) {
-                  <img [src]="item.img" class="w-full h-full object-cover">
-                } @else {
-                  <div class="w-full h-full flex items-center justify-center text-gold/30 text-xs font-bold">
-                    {{ item.name.charAt(0) }}
-                  </div>
-                }
-              </div>
-              <div class="min-w-0">
-                <h4 class="text-white font-bold truncate">{{ item.name }}</h4>
-                <p class="text-gray-500 text-xs truncate">{{ item.role }}</p>
-              </div>
-            </div>
-            
-            <p class="text-gray-400 text-sm line-clamp-3 italic">"{{ item.text }}"</p>
-
-            <div class="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity mt-auto pt-4 border-t border-white/5">
-              <button (click)="editTestimonial(item)" class="p-2 text-gray-400 hover:text-gold transition-colors">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                </svg>
-              </button>
-              <button (click)="deleteTestimonial(item.id)" class="p-2 text-gray-400 hover:text-red-500 transition-colors">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-4v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                </svg>
-              </button>
-            </div>
-          </div>
-        }
-      </div>
-    </div>
-
-    <!-- Form Modal -->
-    @if (showForm()) {
-      <div class="fixed inset-0 z-[9999] overflow-y-auto bg-black/90 backdrop-blur-md">
-        <div class="flex min-h-full items-center justify-center p-4">
-          <div class="bg-luxury-charcoal border border-white/10 rounded-[32px] p-8 max-w-2xl w-full shadow-2xl relative animate-fade-up">
-            <button (click)="cancelEdit()" class="absolute top-6 right-6 text-gray-400 hover:text-white transition-colors z-10">
-              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button>
-
-            <h3 class="text-2xl font-serif font-bold text-white mb-8">
-              {{ editingId() ? 'Editar Testemunho' : 'Novo Testemunho' }}
-            </h3>
-            
-            <form (ngSubmit)="saveTestimonial()" class="space-y-8">
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <!-- Left Column: Info -->
-                <div class="space-y-6">
-                  <div class="space-y-2">
-                    <label class="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Nome</label>
-                    <input [(ngModel)]="form.name" name="name" type="text" required
-                      class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-gold outline-none transition-all">
-                  </div>
-
-                  <div class="space-y-2">
-                    <label class="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Cargo / Papel</label>
-                    <input [(ngModel)]="form.role" name="role" type="text" required placeholder="Ex: Noiva, Event Planner"
-                      class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-gold outline-none transition-all">
-                  </div>
-
-                  <div class="space-y-2">
-                    <label class="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Testemunho</label>
-                    <textarea [(ngModel)]="form.text" name="text" required rows="4"
-                      class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-gold outline-none transition-all"></textarea>
-                  </div>
-                </div>
-
-                <!-- Right Column: Image -->
-                <div class="space-y-6">
-                  <label class="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Foto (Opcional)</label>
-                  
-                  <div class="relative group aspect-square rounded-2xl overflow-hidden bg-white/5 border border-white/10 flex flex-col items-center justify-center text-center p-4">
-                    @if (form.img) {
-                      <img [src]="form.img" class="absolute inset-0 w-full h-full object-cover">
-                      <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                        <p class="text-[10px] font-bold text-white uppercase tracking-widest">Alterar Foto</p>
-                      </div>
-                    } @else {
-                      <svg class="w-12 h-12 text-gray-600 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                      </svg>
-                      <p class="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Upload de Imagem</p>
-                    }
-                    <input type="file" (change)="onImageUpload($event)" class="absolute inset-0 opacity-0 cursor-pointer z-10">
-                    
-                    @if (uploading()) {
-                      <div class="absolute inset-0 bg-black/80 flex items-center justify-center z-20">
-                        <div class="animate-spin h-8 w-8 border-b-2 border-gold rounded-full"></div>
-                      </div>
-                    }
-                  </div>
-                  
-                  <div class="space-y-2">
-                    <label class="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Ou URL Direta</label>
-                    <input [(ngModel)]="form.img" name="img" type="text"
-                      class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-xs text-white focus:border-gold outline-none transition-all"
-                      placeholder="https://...">
-                  </div>
-                </div>
-              </div>
-
-              <div class="flex gap-4 pt-4">
-                <button type="button" (click)="cancelEdit()"
-                  class="flex-1 py-4 border border-white/10 text-white font-sans font-bold text-xs tracking-widest uppercase rounded-xl hover:bg-white/5 transition-all">
-                  Cancelar
-                </button>
-                <button type="submit" [disabled]="loading() || uploading()"
-                  class="flex-1 py-4 bg-gold text-black font-sans font-bold text-xs tracking-widest uppercase rounded-xl hover:bg-white transition-all disabled:opacity-50">
-                  {{ loading() ? 'A guardar...' : 'Guardar' }}
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-    }
-  `,
-  styles: [`
-    :host { display: block; }
-    ::-webkit-scrollbar { width: 8px; }
-    ::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); }
-    ::-webkit-scrollbar-thumb { background: rgba(212,175,55,0.2); border-radius: 10px; }
-    ::-webkit-scrollbar-thumb:hover { background: rgba(212,175,55,0.4); }
-  `]
+  templateUrl: './admin-testimonials.component.html',
+  styleUrls: ['./admin-testimonials.component.css']
 })
 export class AdminTestimonialsComponent implements OnInit {
   supabaseService = inject(SupabaseService);
@@ -211,10 +65,10 @@ export class AdminTestimonialsComponent implements OnInit {
         .replace(/[^a-zA-Z0-9.-]/g, '_'); // Replace special chars with underscore
 
       const fileName = `${Date.now()}_${sanitizedName}`;
-      const { data, error } = await this.supabaseService.uploadFile('Testimonials', fileName, file);
+      const { data, error } = await this.supabaseService.uploadFile('testimonials', fileName, file);
       if (error) throw error;
 
-      const publicUrl = await this.supabaseService.getPublicUrl('Testimonials', fileName);
+      const publicUrl = await this.supabaseService.getPublicUrl('testimonials', fileName);
       this.form.img = publicUrl;
     } catch (err: any) {
       alert('Erro no upload: ' + err.message);

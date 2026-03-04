@@ -1,95 +1,35 @@
-import { Component, inject, OnInit, OnDestroy, signal } from '@angular/core';
-
+import { Component, inject, OnInit, signal } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { SupabaseService } from '../../../core/services/supabase.service';
 import { LanguageService } from '../../../core/services/language.service';
 
 @Component({
   selector: 'app-testimonials',
   standalone: true,
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './testimonials.component.html',
-  styles: ``
+  styleUrl: './testimonials.component.css'
 })
-export class TestimonialsComponent implements OnInit, OnDestroy {
-  supabaseService = inject(SupabaseService);
-  langService = inject(LanguageService);
+export class TestimonialsComponent implements OnInit {
+  private supabaseService = inject(SupabaseService);
+  private langService = inject(LanguageService);
 
   content = this.langService.content;
   testimonials = signal<any[]>([]);
 
-  // Carousel
-  currentIndex = signal<number>(0);
-  autoPlayInterval: any;
-  isPaused = false;
+  // Duplicate testimonials for seamless infinite scroll
+  displayTestimonials = signal<any[]>([]);
 
   async ngOnInit() {
-    const { data } = await this.supabaseService.getTestimonials();
-    console.log('Testimonials from database:', data);
-    if (data) {
-      this.testimonials.set(data);
-      this.startAutoPlay();
-    }
-  }
-
-  ngOnDestroy() {
-    this.stopAutoPlay();
-  }
-
-  startAutoPlay() {
-    this.autoPlayInterval = setInterval(() => {
-      if (!this.isPaused) {
-        this.next();
+    try {
+      const data = await this.supabaseService.getTestimonialsApi();
+      if (data) {
+        this.testimonials.set(data);
+        // Duplicate the list 3 times to ensure no gaps during animation
+        this.displayTestimonials.set([...data, ...data, ...data]);
       }
-    }, 5000); // Change slide every 5 seconds
-  }
-
-  stopAutoPlay() {
-    if (this.autoPlayInterval) {
-      clearInterval(this.autoPlayInterval);
+    } catch (error) {
+      console.error('Error fetching testimonials:', error);
     }
-  }
-
-  pauseAutoPlay() {
-    this.isPaused = true;
-  }
-
-  resumeAutoPlay() {
-    this.isPaused = false;
-  }
-
-  next() {
-    const total = this.testimonials().length;
-    if (total > 0) {
-      this.currentIndex.set((this.currentIndex() + 1) % total);
-    }
-  }
-
-  previous() {
-    const total = this.testimonials().length;
-    if (total > 0) {
-      this.currentIndex.set((this.currentIndex() - 1 + total) % total);
-    }
-  }
-
-  goToSlide(index: number) {
-    this.currentIndex.set(index);
-  }
-
-  getVisibleTestimonials() {
-    const total = this.testimonials().length;
-    if (total === 0) return [];
-
-    // Show up to 3 testimonials at a time on desktop, 1 on mobile
-    // But never more than the total available
-    const desiredItems = window.innerWidth >= 1024 ? 3 : 1;
-    const itemsToShow = Math.min(desiredItems, total);
-    const items = [];
-
-    for (let i = 0; i < itemsToShow; i++) {
-      const index = (this.currentIndex() + i) % total;
-      items.push(this.testimonials()[index]);
-    }
-
-    return items;
   }
 }

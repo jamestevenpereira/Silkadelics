@@ -28,8 +28,13 @@ export class MediaGalleryComponent implements OnInit {
     this.loading.set(true);
     const { data, error } = await this.supabaseService.getGallery();
     if (data) {
-      // Show only latest 8 items on home page
-      this.galleryItems.set(data.slice(0, 8));
+      // Show only latest 8 items on home page and transform URLs
+      this.galleryItems.set(data.slice(0, 8).map(item => ({
+        ...item,
+        url: item.type === 'image'
+          ? this.supabaseService.getTransformedUrl(item.url, { width: 600, quality: 75 })
+          : item.url
+      })));
     }
     this.loading.set(false);
   }

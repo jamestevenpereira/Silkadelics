@@ -25,19 +25,20 @@
         <div class="p-6 space-y-4">
             <div class="bg-white/5 rounded-2xl p-4 border border-white/10">
                 <p class="text-xs text-gray-400 leading-relaxed">
-                    Olá! Como podemos ajudar a tornar o vosso evento inesquecível?
+                    {{ content().whatsapp.defaultMessage }}
                 </p>
             </div>
 
             <div class="space-y-2">
-                <label class="text-[10px] font-bold text-gray-500 uppercase tracking-widest">A vossa mensagem</label>
-                <textarea [(ngModel)]="userMessage" placeholder="Escreva aqui..."
+                <label class="text-[10px] font-bold text-gray-500 uppercase tracking-widest">{{
+                    content().whatsapp.header }}</label>
+                <textarea [(ngModel)]="userMessage" [placeholder]="content().shared.processing + '...'"
                     class="w-full bg-white/5 border border-white/10 rounded-2xl px-4 py-3 text-sm text-white focus:border-gold outline-none transition-all resize-none h-24"></textarea>
             </div>
 
             <button (click)="sendWhatsApp()"
                 class="w-full py-4 bg-primary text-black font-bold text-[10px] uppercase tracking-[0.2em] rounded-xl hover:bg-white transition-all flex items-center justify-center gap-2">
-                Enviar Mensagem
+                {{ content().whatsapp.button }}
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M14 5l7 7m0 0l-7 7m7-7H3" />

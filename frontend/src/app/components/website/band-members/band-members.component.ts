@@ -24,7 +24,10 @@ export class BandMembersComponent implements OnInit {
   async ngOnInit() {
     const { data } = await this.supabaseService.getTeam();
     if (data && data.length > 0) {
-      this.team.set(data);
+      this.team.set(data.map(member => ({
+        ...member,
+        img: this.supabaseService.getTransformedUrl(member.img, { width: 400, quality: 80 })
+      })));
     }
   }
 }

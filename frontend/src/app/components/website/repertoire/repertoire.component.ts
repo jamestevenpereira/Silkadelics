@@ -1,31 +1,42 @@
 import { Component, inject, OnInit, signal, computed } from '@angular/core';
+import { CommonModule } from '@angular/common'; // Added CommonModule
 
 import { FormsModule } from '@angular/forms';
 import { SupabaseService } from '../../../core/services/supabase.service';
 import { LanguageService } from '../../../core/services/language.service';
 
+// Assuming Song interface exists or will be defined elsewhere
+interface Song {
+  id: string;
+  title: string;
+  artist: string;
+  category: string;
+  // Add other properties as needed
+}
+
 @Component({
   selector: 'app-repertoire',
   standalone: true,
-  imports: [FormsModule],
-  templateUrl: './repertoire.component.html',
-  styles: [`
-    :host { display: block; }
-    .glass-card {
-      background: rgba(255, 255, 255, 0.03);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.05);
-    }
-  `]
+  imports: [CommonModule, FormsModule],
+  templateUrl: './repertoire.component.html'
 })
 export class RepertoireComponent implements OnInit {
-  supabaseService = inject(SupabaseService);
-  langService = inject(LanguageService);
+  private supabaseService = inject(SupabaseService);
+  private langService = inject(LanguageService);
 
   content = this.langService.content;
   repertoire = signal<any[]>([]);
   searchQuery = signal<string>('');
   selectedCategory = signal<string>('');
+  totalCount = signal<number>(0);
+
+  // Translation helpers
+  get filterAllLabel() { return this.content().repertoire.filterAll; }
+  get pageOfText() {
+    return this.content().repertoire.pagination.pageOf
+      .replace('{current}', this.currentPage().toString())
+      .replace('{total}', this.totalPages().toString());
+  }
 
   // Pagination
   currentPage = signal<number>(1);
@@ -70,6 +81,13 @@ export class RepertoireComponent implements OnInit {
   async ngOnInit() {
     const { data } = await this.supabaseService.getRepertoire();
     if (data) this.repertoire.set(data);
+
+    try {
+      const count = await this.supabaseService.getSongsCount();
+      this.totalCount.set(count);
+    } catch (err) {
+      console.error('Error fetching song count:', err);
+    }
   }
 
   onSearchChange(query: string) {
