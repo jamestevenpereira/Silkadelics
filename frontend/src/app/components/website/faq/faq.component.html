@@ -10,7 +10,7 @@
         </div>
 
         <div class="space-y-6">
-            @for (item of content().faq.items; track item.question; let i = $index) {
+            @for (item of parsedItems(); track item.question; let i = $index) {
             <div class="group rounded-2xl overflow-hidden transition-all duration-500"
                 [class.bg-white_5]="openIndex !== i" [class.bg-gold_5]="openIndex === i"
                 [class.border-white_10]="openIndex !== i" [class.border-gold_30]="openIndex === i" class="border">
@@ -32,7 +32,7 @@
                 @if (openIndex === i) {
                 <div class="px-8 pb-8 text-gray-400 font-sans font-light leading-relaxed animate-fade-up">
                     <div class="w-full h-[1px] bg-gold/20 mb-6"></div>
-                    {{ item.answer }}
+                    <span [innerHTML]="item.answer"></span>
                 </div>
                 }
             </div>

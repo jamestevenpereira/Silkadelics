@@ -111,6 +111,12 @@ export class BookingFormComponent implements OnInit {
     return !!(control && control.invalid && (control.dirty || control.touched));
   }
 
+  get bookingExtras() {
+  return this.content().packs.extras.filter(
+    extra => extra.code !== 'extra_miles'
+  );
+}
+
   onSubmit() {
     if (this.bookingForm.valid) {
       this.isSubmitting = true;

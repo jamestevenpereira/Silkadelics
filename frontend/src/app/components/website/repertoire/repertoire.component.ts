@@ -31,6 +31,9 @@ export class RepertoireComponent implements OnInit {
   totalCount = signal<number>(0);
 
   // Translation helpers
+  get totalSongsText() {
+    return this.content().repertoire.totalSongs.replace('{count}', this.totalCount().toString());
+  }
   get filterAllLabel() { return this.content().repertoire.filterAll; }
   get pageOfText() {
     return this.content().repertoire.pagination.pageOf

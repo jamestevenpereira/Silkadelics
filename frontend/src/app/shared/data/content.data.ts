@@ -20,8 +20,10 @@ export const CONTENT_PT: Content = {
     about: {
         title: 'Sobre Nós',
         subtitle: 'Criamos a banda sonora dos vossos sonhos.',
-        description: 'Silkadelics são uma banda premium dedicada a fundir a energia vibrante dos anos 80 com a sofisticação moderna. Com uma estética synthwave única e um repertório contagiante, transformamos qualquer evento numa viagem inesquecível.',
+        description: 'Silkadelics é uma banda ao vivo premium, proporcionando uma experiência inesquecível com uma seleção de grandes sucessos de rock, pop, funk, soul e dance. O nosso repertório recomendado inclui artistas como Coldplay, Linkin Park, Bruno Mars, Oasis e Kings of Leon, garantindo a banda sonora perfeita para qualquer evento. Com energia, técnica e estilo, criamos momentos que os seus convidados nunca irão esquecer.',
         badge: 'Anos de Excelência',
+        ctaText: 'Já me conquistaram!',
+        ctaButton: 'Garantir a Minha Data',
         stats: {
             events: 'Eventos Realizados',
             dedication: 'Dedicação'
@@ -58,6 +60,7 @@ export const CONTENT_PT: Content = {
         extras: [
             { name: 'Violino (Músico Extra)', price: 'Sob Consulta' },
             { name: 'Hora Extra', price: '300€/h' },
+            { name: 'Quilómetros Extra', price: '0,40€/km', code: 'extra_miles' },
         ],
     },
     gallery: {
@@ -93,8 +96,8 @@ export const CONTENT_PT: Content = {
         subtitle: 'Esclareça as suas dúvidas',
         items: [
             { question: 'Com quanta antecedência devo reservar?', answer: 'Recomendamos pelo menos 6 a 12 meses de antecedência, especialmente para a época alta.' },
-            { question: 'A banda fornece o equipamento de som?', answer: 'Sim, fornecemos todo o equipamento de som e luz necessário para o evento.' },
-            { question: 'Como funciona a seleção do repertório?', answer: 'Temos mais de 60 músicas. Para 2h de concerto, selecionamos cerca de 28 músicas em conjunto convosco.' }
+            { question: 'A banda fornece equipamento de som?', answer: 'Sim, fornecemos todo o equipamento de som e luz necessário para atuar.' },
+            { question: 'Como funciona a escolha do repertório?', answer: 'Escolha entre <a href="#repertoire" class="text-gold hover:text-white transition-colors underline">as nossas {count} músicas</a>. Criamos um setlist personalizado para o seu evento. No pack Casamentos, há sempre espaço para adicionar 1 música especial à escolha do casal, criando um momento único na celebração.' }
         ],
     },
     booking: {
@@ -145,6 +148,7 @@ export const CONTENT_PT: Content = {
     },
     repertoire: {
         title: 'Repertório',
+        totalSongs: 'Seleciona a partir das nossas {count} músicas',
         searchPlaceholder: 'Pesquisar música ou artista...',
         filterAll: 'Todas as Categorias',
         pagination: {
@@ -187,6 +191,30 @@ export const CONTENT_PT: Content = {
             { id: 1, name: 'Livi', role: 'Fotógrafo', instagram: 'https://www.instagram.com/photo.by.livi/' },
             { id: 2, name: 'Tiago Pestana', role: 'Fotógrafo e Videógrafo', instagram: 'https://www.instagram.com/tiagopestana98/' },
         ]
+    },
+    roles: {
+        'Vocalista': 'Vocalista',
+        'Baixista': 'Baixista',
+        'Guitarrista': 'Guitarrista',
+        'Baterista': 'Baterista',
+        'Técnico de Som': 'Técnico de Som',
+        'Fotógrafo': 'Fotógrafo',
+        'Fotógrafo e Videógrafo': 'Fotógrafo e Videógrafo'
+    },
+    packFeatures: {
+        'Cerimónia (Igreja ou Civil)': 'Cerimónia (Igreja ou Civil)',
+        'Cocktail / Aperitivos': 'Cocktail / Aperitivos',
+        'Deslocação até 50km': 'Deslocação até 50km',
+        'Copo d\'água (2h Concerto)': 'Copo d\'água (2h Concerto)',
+        'DJ Set (Pós-concerto)': 'DJ Set (Pós-concerto)',
+        '- Cerimónia (Igreja ou Civil)': '- Cerimónia (Igreja ou Civil)',
+        '- Copo d\'água (2h Concerto)': '- Copo d\'água (2h Concerto)',
+        '- DJ Set (Pós-concerto)': '- DJ Set (Pós-concerto)',
+        '- Church': '- Church',
+        '- Reception + 2h Concert': '- Reception + 2h Concert',
+        '- DJ Live Set': '- DJ Live Set',
+        'Full Venue:': 'Full Venue:',
+        'All Inclusive:': 'All Inclusive:'
     }
 };
 
@@ -210,8 +238,10 @@ export const CONTENT_EN: Content = {
     about: {
         title: 'About Us',
         subtitle: 'We create the soundtrack to your dreams.',
-        description: 'Silkadelics are a premium band dedicated to merging the vibrant energy of the 80s with modern sophistication. With a unique synthwave aesthetic and a contagious repertoire, we transform any event into an unforgettable journey.',
+        description: 'Silkadelics are a premium live band, delivering an unforgettable performance with a mix of iconic hits from rock, pop, funk, soul, and dance. Our recommended repertoire features artists like Coldplay, Linkin Park, Bruno Mars, Oasis, and Kings of Leon, ensuring the perfect soundtrack for any event. With energy, precision, and style, we create moments your guests will remember forever.',
         badge: 'Years of Excellence',
+        ctaText: 'They’ve won me over!',
+        ctaButton: 'Secure My Date',
         stats: {
             events: 'Events Performed',
             dedication: 'Dedication'
@@ -236,18 +266,19 @@ export const CONTENT_EN: Content = {
         title: 'Packs',
         subtitle: 'Choose the ideal experience',
         recommended: 'Recommended',
-        bronzePerformanceTitle: 'Choose 1 of 4 performances:',
+        bronzePerformanceTitle: 'Choose 1 of 3 performances:',
         bronzePerformanceNote: '* Only one option included in the pack',
         bookingLabel: 'Book Now',
         extrasTitle: 'Customize with Exclusive Extras',
         items: [
             { name: 'Bronze', price: 'From 750€', features: ['One performance of your choice:', '- Church', '- Reception + 2h Concert', '- DJ Live Set'], cta: 'Choose Bronze' },
-            { name: 'Silver', price: 'From 1200€', features: ['Full Venue:', '- Reception', '- 2h Concert', '- DJ Live Set'], cta: 'Choose Silver' },
-            { name: 'Gold', price: 'From 1700€', features: ['All Inclusive:', '- Church', '- Reception', '- 2h Concert', '- DJ Live Set'], cta: 'Choose Gold' },
+            { name: 'Silver', price: 'From 1200€', features: ['Full Venue:', '- Reception + 2h Concert', '- DJ Live Set'], cta: 'Choose Silver' },
+            { name: 'Gold', price: 'From 1700€', features: ['All Inclusive:', '- Church', '- Reception + 2h Concert', '- DJ Live Set'], cta: 'Choose Gold' },
         ],
         extras: [
             { name: 'Violin (Extra Musician)', price: 'On Request' },
             { name: 'Extra Hour', price: '300€/h' },
+            { name: 'Extra Miles', price: '€0.40/km', code: 'extra_miles' },
         ],
     },
     gallery: {
@@ -284,7 +315,7 @@ export const CONTENT_EN: Content = {
         items: [
             { question: 'How far in advance should I book?', answer: 'We recommend at least 6 to 12 months in advance, especially for high season.' },
             { question: 'Does the band provide sound equipment?', answer: 'Yes, we provide all necessary sound and light equipment for the event.' },
-            { question: 'How does repertoire selection work?', answer: 'We have over 60 songs. For a 2h concert, we select about 28 songs together with you.' }
+            { question: 'How does repertoire selection work?', answer: 'Select from <a href="#repertoire" class="text-gold hover:text-white transition-colors underline">our {count} songs</a>. We create a tailored setlist for your event. For the Weddings pack, there is always room to include 1 special song of your choice, giving the couple a unique moment during their celebration.' }
         ],
     },
     booking: {
@@ -335,6 +366,7 @@ export const CONTENT_EN: Content = {
     },
     repertoire: {
         title: 'Repertoire',
+        totalSongs: 'Select from our {count} songs',
         searchPlaceholder: 'Search song or artist...',
         filterAll: 'All Categories',
         pagination: {
@@ -377,5 +409,29 @@ export const CONTENT_EN: Content = {
             { id: 1, name: 'Livi', role: 'Photographer', instagram: 'https://www.instagram.com/photo.by.livi/' },
             { id: 2, name: 'Tiago Pestana', role: 'Photographer and Videographer', instagram: 'https://www.instagram.com/tiagopestana98/' },
         ]
+    },
+    roles: {
+        'Vocalista': 'Vocalist',
+        'Baixista': 'Bassist',
+        'Guitarrista': 'Guitarist',
+        'Baterista': 'Drummer',
+        'Técnico de Som': 'Sound Technician',
+        'Fotógrafo': 'Photographer',
+        'Fotógrafo e Videógrafo': 'Photographer and Videographer'
+    },
+    packFeatures: {
+        'Cerimónia (Igreja ou Civil)': 'Ceremony (Church or Civil)',
+        'Cocktail / Aperitivos': 'Cocktail / Appetizers',
+        'Deslocação até 50km': 'Travel up to 50km',
+        'Copo d\'água (2h Concerto)': 'Reception (2h Concert)',
+        'DJ Set (Pós-concerto)': 'DJ Set (Post-concert)',
+        '- Cerimónia (Igreja ou Civil)': '- Ceremony (Church or Civil)',
+        '- Copo d\'água (2h Concerto)': '- Reception (2h Concert)',
+        '- DJ Set (Pós-concerto)': '- DJ Set (Post-concert)',
+        '- Church': '- Church',
+        '- Reception + 2h Concert': '- Reception + 2h Concert',
+        '- DJ Live Set': '- DJ Live Set',
+        'Full Venue:': 'Full Venue:',
+        'All Inclusive:': 'All Inclusive:'
     }
 };

@@ -1,6 +1,7 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 
 import { FormsModule } from '@angular/forms';
+import { LanguageService } from '../../../core/services/language.service';
 import { SupabaseService } from '../../../core/services/supabase.service';
 
 @Component({
@@ -11,8 +12,10 @@ import { SupabaseService } from '../../../core/services/supabase.service';
   styleUrls: ['./admin-team.component.css']
 })
 export class AdminTeamComponent implements OnInit {
+  languageService = inject(LanguageService);
   supabaseService = inject(SupabaseService);
 
+  content = this.languageService.content;
   team = signal<any[]>([]);
   loading = signal<boolean>(false);
   uploading = signal<boolean>(false);

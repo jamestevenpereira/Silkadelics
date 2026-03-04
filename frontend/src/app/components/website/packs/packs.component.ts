@@ -28,9 +28,13 @@ export class PacksComponent implements OnInit {
   }
 
   // Get sub-options for Bronze pack
-  getBronzePerformanceOptions(): string[] {
-    const bronzeItems = this.content().packs.items.find(i => i.name.toLowerCase() === 'bronze')?.features || [];
+  getBronzePerformanceOptions(pack: any): string[] {
+    const bronzeItems = pack.features || [];
     // Filter out the main description to get just the options (those starting with '-')
-    return bronzeItems.filter(f => f.startsWith('-')).map(f => f.substring(1).trim());
+    return bronzeItems.filter((f: string) => f.startsWith('-')).map((f: string) => {
+      // We translate the full string first, then strip the hyphen
+      const translated = this.content().packFeatures[f] || f;
+      return translated.startsWith('-') ? translated.substring(1).trim() : translated;
+    });
   }
 }

@@ -37,7 +37,7 @@
                         {{ member.category === 'member' ? 'Banda' : 'Parceiro' }}
                     </span>
                 </div>
-                <p class="text-gray-500 text-xs truncate">{{ member.role }}</p>
+                <p class="text-gray-500 text-xs truncate">{{ content().roles[member.role] || member.role }}</p>
             </div>
             <div class="flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0">
                 <button (click)="editMember(member)" class="p-2 text-gray-400 hover:text-gold transition-colors">

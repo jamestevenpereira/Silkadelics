@@ -68,7 +68,7 @@
                             [class.text-red-500]="isFieldInvalid('phone')">
                             {{ content().booking.fields.phone }}
                         </label>
-                        <input type="text" formControlName="phone" placeholder="+1 234 567 890"
+                        <input type="text" formControlName="phone" placeholder="+351 961 234 567"
                             (input)="onPhoneInput($event)"
                             class="w-full bg-white/5 border rounded-2xl px-6 py-5 text-white focus:bg-white/10 transition-all outline-none font-sans font-light"
                             [class.border-white/10]="!isFieldInvalid('phone')"
@@ -156,7 +156,7 @@
                         {{ content().booking.fields.extras }}
                     </label>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        @for (extra of content().packs.extras; track extra.name) {
+                        @for (extra of bookingExtras; track extra.name) {
                         <label
                             class="flex items-center gap-4 p-4 bg-white/5 border border-white/10 rounded-2xl cursor-pointer hover:bg-white/10 transition-all group/extra">
                             <input type="checkbox" [value]="extra.name" (change)="onExtraChange($event)"

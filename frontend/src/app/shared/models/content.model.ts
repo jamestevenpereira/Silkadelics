@@ -20,6 +20,8 @@ export interface Content {
         subtitle: string;
         description: string;
         badge: string;
+        ctaText: string;
+        ctaButton: string;
         stats: {
             events: string;
             dedication: string;
@@ -55,6 +57,7 @@ export interface Content {
         extras: {
             name: string;
             price: string;
+            code?: string;
         }[];
     };
     gallery: {
@@ -154,6 +157,7 @@ export interface Content {
     };
     repertoire: {
         title: string;
+        totalSongs: string;
         searchPlaceholder: string;
         filterAll: string;
         pagination: {
@@ -187,4 +191,6 @@ export interface Content {
         select: string;
         seeMore: string;
     };
+    roles: Record<string, string>;
+    packFeatures: Record<string, string>;
 }

@@ -1,5 +1,5 @@
 <section class="pb-28 bg-luxury-charcoal relative overflow-hidden">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+    <div class="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div class="text-center mb-20">
             <h2 class="text-gold font-sans font-bold tracking-[0.2em] uppercase text-xs mb-4 animate-fade-up">
                 {{ content().bandMembers.title }}
@@ -9,7 +9,7 @@
             </h3>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-10">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-10">
             @if (members().length > 0) {
             @for (member of members(); track member.id) {
             <div
@@ -37,7 +37,8 @@
                 <div class="p-8 text-center relative z-10">
                     <h4 class="text-xl font-serif font-bold text-white mb-2 group-hover:text-gold transition-colors">{{
                         member.name }}</h4>
-                    <p class="text-gold font-sans font-bold text-[10px] uppercase tracking-[0.2em]">{{ member.role }}
+                    <p class="text-gold font-sans font-bold text-[10px] uppercase tracking-[0.2em]">{{
+                        content().roles[member.role] || member.role }}
                     </p>
                 </div>
             </div>
