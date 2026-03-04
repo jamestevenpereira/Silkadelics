@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { LanguageService } from '../../../core/services/language.service';
 import { SupabaseService } from '../../../core/services/supabase.service';
 import { CalendarComponent } from '../../shared/calendar/calendar.component';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-booking-form',
@@ -112,10 +113,10 @@ export class BookingFormComponent implements OnInit {
   }
 
   get bookingExtras() {
-  return this.content().packs.extras.filter(
-    extra => extra.code !== 'extra_miles'
-  );
-}
+    return this.content().packs.extras.filter(
+      extra => extra.code !== 'extra_miles'
+    );
+  }
 
   onSubmit() {
     if (this.bookingForm.valid) {
@@ -129,7 +130,7 @@ export class BookingFormComponent implements OnInit {
         pack: this.showPackField() ? this.bookingForm.value.pack : 'N/A'
       };
 
-      this.http.post('http://localhost:3000/api/bookings', formData)
+      this.http.post(`${environment.apiUrl}/bookings`, formData)
         .subscribe({
           next: (response) => {
             console.log('Form submitted successfully:', response);

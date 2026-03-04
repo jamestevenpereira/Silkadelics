@@ -3,6 +3,7 @@ import { isPlatformBrowser } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { supabaseConfig } from '../config/supabase.config';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
     providedIn: 'root'
@@ -11,7 +12,7 @@ export class SupabaseService {
     private supabase!: SupabaseClient;
     private platformId = inject(PLATFORM_ID);
     private http = inject(HttpClient);
-    private apiUrl = 'http://localhost:3000/api';
+    private apiUrl = environment.apiUrl;
 
     // Signal to track if Supabase has finished its initial session check
     isAuthReady = signal<boolean>(false);
