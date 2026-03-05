@@ -133,7 +133,7 @@ export class SupabaseService {
         return await this.supabase.from('gallery').select('*').order('created_at', { ascending: false });
     }
 
-    async getGalleryPaginated(page: number = 1, pageSize: number = 9) {
+    async getGalleryPaginated(page: number = 1, pageSize: number = 10) {
         return await this.supabase
             .from('gallery')
             .select('*', { count: 'exact' })

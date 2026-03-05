@@ -2,6 +2,7 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 
 import { SupabaseService } from '../../../core/services/supabase.service';
 import { LanguageService } from '../../../core/services/language.service';
+import { LightboxService } from '../../../core/services/lightbox.service';
 import { RouterLink } from '@angular/router';
 import { SafePipe } from '../../../shared/pipes/safe.pipe';
 
@@ -15,27 +16,16 @@ import { SafePipe } from '../../../shared/pipes/safe.pipe';
 export class MediaGalleryComponent implements OnInit {
   supabaseService = inject(SupabaseService);
   langService = inject(LanguageService);
+  lightbox = inject(LightboxService);
 
   content = this.langService.content;
   galleryItems = signal<any[]>([]);
   loading = signal<boolean>(true);
 
-  // Lightbox
-  lightboxOpen = signal<boolean>(false);
-  lightboxItem = signal<any | null>(null);
-
   openLightbox(item: any) {
     if (item.type === 'image') {
-      this.lightboxItem.set(item);
-      this.lightboxOpen.set(true);
-      document.body.style.overflow = 'hidden';
+      this.lightbox.open(item.url, item.title);
     }
-  }
-
-  closeLightbox() {
-    this.lightboxOpen.set(false);
-    this.lightboxItem.set(null);
-    document.body.style.overflow = '';
   }
 
   async ngOnInit() {
@@ -46,11 +36,10 @@ export class MediaGalleryComponent implements OnInit {
     this.loading.set(true);
     const { data, error } = await this.supabaseService.getGallery();
     if (data) {
-      // Show only latest 8 items on home page and transform URLs
-      this.galleryItems.set(data.slice(0, 8).map(item => ({
+      this.galleryItems.set(data.slice(0, 10).map(item => ({
         ...item,
         url: item.type === 'image'
-          ? this.supabaseService.getTransformedUrl(item.url, { width: 600, quality: 75 })
+          ? this.supabaseService.getTransformedUrl(item.url, { width: 300, quality: 50 })
           : item.url
       })));
     }

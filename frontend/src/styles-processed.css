@@ -771,8 +771,8 @@
   .appearance-none {
     appearance: none;
   }
-  .columns-1 {
-    columns: 1;
+  .columns-2 {
+    columns: 2;
   }
   .break-inside-avoid {
     break-inside: avoid;
@@ -839,6 +839,13 @@
       --tw-space-y-reverse: 0;
       margin-block-start: calc(calc(var(--spacing) * 2) * var(--tw-space-y-reverse));
       margin-block-end: calc(calc(var(--spacing) * 2) * calc(1 - var(--tw-space-y-reverse)));
+    }
+  }
+  .space-y-3 {
+    :where(& > :not(:last-child)) {
+      --tw-space-y-reverse: 0;
+      margin-block-start: calc(calc(var(--spacing) * 3) * var(--tw-space-y-reverse));
+      margin-block-end: calc(calc(var(--spacing) * 3) * calc(1 - var(--tw-space-y-reverse)));
     }
   }
   .space-y-4 {
@@ -1324,6 +1331,13 @@
     --tw-gradient-from: color-mix(in srgb, #000 60%, transparent);
     @supports (color: color-mix(in lab, red, red)) {
       --tw-gradient-from: color-mix(in oklab, var(--color-black) 60%, transparent);
+    }
+    --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
+  }
+  .from-black\/70 {
+    --tw-gradient-from: color-mix(in srgb, #000 70%, transparent);
+    @supports (color: color-mix(in lab, red, red)) {
+      --tw-gradient-from: color-mix(in oklab, var(--color-black) 70%, transparent);
     }
     --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
   }
@@ -2415,9 +2429,9 @@
       }
     }
   }
-  .sm\:columns-2 {
+  .sm\:columns-3 {
     @media (width >= 40rem) {
-      columns: 2;
+      columns: 3;
     }
   }
   .sm\:grid-cols-2 {
@@ -2468,6 +2482,11 @@
   .md\:w-64 {
     @media (width >= 48rem) {
       width: calc(var(--spacing) * 64);
+    }
+  }
+  .md\:columns-4 {
+    @media (width >= 48rem) {
+      columns: 4;
     }
   }
   .md\:grid-cols-2 {
@@ -2581,9 +2600,9 @@
       grid-column: span 2 / span 2;
     }
   }
-  .lg\:columns-3 {
+  .lg\:columns-5 {
     @media (width >= 64rem) {
-      columns: 3;
+      columns: 5;
     }
   }
   .lg\:grid-cols-2 {

@@ -10,9 +10,13 @@
                     {{ content().gallery.subtitle }}
                 </h3>
             </div>
+
             <a href="https://instagram.com/silkadelics" target="_blank"
                 class="hidden md:flex items-center gap-2 text-white hover:text-gold transition-colors group">
-                <span class="text-xs font-bold tracking-widest uppercase">{{ content().gallery.followInstagram }}</span>
+                <span class="text-xs font-bold tracking-widest uppercase">
+                    {{ content().gallery.followInstagram }}
+                </span>
+
                 <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none"
                     stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -21,84 +25,90 @@
             </a>
         </div>
 
-        <!-- Loading State -->
+        <!-- Loading -->
         @if (loading()) {
         <div class="flex flex-col items-center justify-center py-20">
             <div class="w-10 h-10 border-2 border-gold border-t-transparent rounded-full animate-spin mb-4"></div>
-            <p class="text-gold font-sans font-bold text-[10px] tracking-widest uppercase">{{ content().shared.loading
-                }}</p>
+            <p class="text-gold font-sans font-bold text-[10px] tracking-widest uppercase">
+                {{ content().shared.loading }}
+            </p>
         </div>
         } @else {
 
         <!-- Masonry Collage -->
-        <div class="columns-1 sm:columns-2 lg:columns-3 gap-4 space-y-4">
+        <div class="columns-2 sm:columns-3 md:columns-4 lg:columns-5 gap-3 space-y-3">
             @for (item of galleryItems(); track item.id) {
+
             <div class="break-inside-avoid group relative overflow-hidden rounded-2xl bg-luxury-black border border-white/5 hover:border-gold/25 transition-all duration-500 cursor-pointer"
                 (click)="openLightbox(item)">
 
                 @if (item.type === 'image') {
-                <!-- Image tile - h-auto lets portrait/landscape breathe naturally -->
+
                 <div class="relative overflow-hidden">
-                    <img [src]="item.url" [alt]="item.title" width="600" height="600" loading="lazy" fetchpriority="low"
+                    <img [src]="item.url" [alt]="item.title" width="300" height="300" loading="lazy" fetchpriority="low"
                         class="w-full h-auto block grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 ease-out">
 
-                    <!-- Subtle Gold Overlay on Hover -->
+                    <!-- Hover overlay -->
                     <div
                         class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-4">
+
                         <div
                             class="flex items-center gap-2 translate-y-2 group-hover:translate-y-0 transition-transform duration-500">
+
                             <svg class="w-4 h-4 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
                             </svg>
-                            <span class="text-white text-[10px] font-bold uppercase tracking-widest">Ver</span>
+
+                            <span class="text-white text-[10px] font-bold uppercase tracking-widest">
+                                Ver
+                            </span>
+
                         </div>
                     </div>
                 </div>
 
                 } @else {
-                <!-- Video tile -->
+
+                <!-- Video -->
                 <div class="aspect-video bg-black relative overflow-hidden">
                     <iframe class="w-full h-full" [src]="item.url | safe" frameborder="0"
-                        allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                        allow="autoplay; encrypted-media" allowfullscreen>
+                    </iframe>
                 </div>
+
                 }
 
             </div>
+
             }
         </div>
 
-        <!-- Lightbox Overlay -->
-        @if (lightboxOpen() && lightboxItem()) {
-        <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-sm p-4 animate-fade-up"
-            (click)="closeLightbox()">
-            <button class="absolute top-6 right-6 text-white hover:text-gold transition-colors z-50"
-                (click)="closeLightbox()">
-                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-            </button>
-            <img [src]="lightboxItem()!.url" [alt]="lightboxItem()!.title"
-                class="max-h-[90vh] max-w-full object-contain rounded-2xl shadow-2xl"
-                (click)="$event.stopPropagation()">
-        </div>
-        }
-
-        <!-- View All Button -->
+        <!-- View All -->
         <div class="mt-16 text-center">
             <a routerLink="/gallery"
                 class="group relative inline-flex items-center gap-4 px-12 py-5 border border-gold/30 text-gold font-sans font-bold text-xs tracking-[0.3em] uppercase overflow-hidden transition-all hover:text-black">
-                <span class="relative z-10">{{ content().gallery.viewAll }}</span>
+
+                <span class="relative z-10">
+                    {{ content().gallery.viewAll }}
+                </span>
+
                 <div
                     class="absolute inset-0 bg-gold transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-500 ease-out">
                 </div>
+
                 <svg class="w-4 h-4 relative z-10 transform group-hover:translate-x-1 transition-transform" fill="none"
                     stroke="currentColor" viewBox="0 0 24 24">
+
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M17 8l4 4m0 0l-4 4m4-4H3" />
+
                 </svg>
+
             </a>
         </div>
+
         }
+
     </div>
 </section>

@@ -2,6 +2,7 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 
 import { SupabaseService } from '../../../../core/services/supabase.service';
 import { LanguageService } from '../../../../core/services/language.service';
+import { LightboxService } from '../../../../core/services/lightbox.service';
 import { RouterLink } from '@angular/router';
 import { SafePipe } from '../../../../shared/pipes/safe.pipe';
 
@@ -15,6 +16,7 @@ import { SafePipe } from '../../../../shared/pipes/safe.pipe';
 export class FullGalleryComponent implements OnInit {
   supabaseService = inject(SupabaseService);
   langService = inject(LanguageService);
+  lightbox = inject(LightboxService);
 
   content = this.langService.content;
   galleryItems = signal<any[]>([]);
@@ -22,9 +24,27 @@ export class FullGalleryComponent implements OnInit {
 
   // Pagination
   currentPage = signal<number>(1);
-  pageSize = 9;
+  pageSize = 10;
   totalItems = signal<number>(0);
   totalPages = signal<number>(0);
+
+  // Lightbox
+  lightboxOpen = signal<boolean>(false);
+  lightboxItem = signal<any | null>(null);
+
+  openLightbox(item: any) {
+    if (item.type === 'image') {
+      this.lightboxItem.set(item);
+      this.lightboxOpen.set(true);
+      document.body.style.overflow = 'hidden';
+    }
+  }
+
+  closeLightbox() {
+    this.lightboxOpen.set(false);
+    this.lightboxItem.set(null);
+    document.body.style.overflow = '';
+  }
 
   async ngOnInit() {
     await this.loadGallery();
