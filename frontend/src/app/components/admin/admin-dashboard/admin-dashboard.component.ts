@@ -95,32 +95,34 @@ export class AdminDashboardComponent implements OnInit {
 
       for (const file of filesToUpload) {
         try {
-          let fileToUpload = file;
+          let fileToUpload: File = file;
 
-          // Compress images larger than 50MB
-          if (file.type.startsWith('image') && file.size > 50 * 1024 * 1024) {
+          // Compress ALL images — enforce max 1200px and ~80% quality
+          if (file.type.startsWith('image/')) {
             const options = {
-              maxSizeMB: 50,
-              maxWidthOrHeight: 4096,
+              maxSizeMB: 0.8,           // Target ~800KB max output
+              maxWidthOrHeight: 1200,   // Resize longest side to max 1200px
               useWebWorker: true,
-              fileType: file.type
+              initialQuality: 0.80,     // 80% quality
+              fileType: 'image/webp'    // Always output as WebP for best compression
             };
             fileToUpload = await imageCompression(file, options);
-            console.log(`Compressed ${file.name} from ${(file.size / 1024 / 1024).toFixed(2)}MB to ${(fileToUpload.size / 1024 / 1024).toFixed(2)}MB`);
+            console.log(`✅ Compressed ${file.name}: ${(file.size / 1024).toFixed(0)}KB → ${(fileToUpload.size / 1024).toFixed(0)}KB (WebP, 1200px max)`);
           }
 
-          // Get file extension
-          const extension = file.name.split('.').pop() || 'jpg';
-          const newFileName = `woodplan${nextNumber}.${extension}`;
+          // Always save as .webp for images, keep original extension for videos
+          const isImage = file.type.startsWith('image/');
+          const extension = isImage ? 'webp' : (file.name.split('.').pop() || 'mp4');
+          const newFileName = `silkadelics${nextNumber}.${extension}`;
           const storageFileName = `${Date.now()}_${newFileName}`;
 
-          const { data, error } = await this.supabaseService.uploadFile('gallery', storageFileName, fileToUpload);
+          const { error } = await this.supabaseService.uploadFile('gallery', storageFileName, fileToUpload);
           if (error) throw error;
 
           const publicUrl = await this.supabaseService.getPublicUrl('gallery', storageFileName);
           await this.supabaseService.addToGallery({
             url: publicUrl,
-            type: file.type.startsWith('video') ? 'video' : 'image',
+            type: isImage ? 'image' : 'video',
             title: newFileName
           });
 

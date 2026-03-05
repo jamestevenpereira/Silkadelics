@@ -415,9 +415,6 @@
   .mt-16 {
     margin-top: calc(var(--spacing) * 16);
   }
-  .mt-20 {
-    margin-top: calc(var(--spacing) * 20);
-  }
   .mt-24 {
     margin-top: calc(var(--spacing) * 24);
   }
@@ -565,6 +562,9 @@
   .h-screen {
     height: 100vh;
   }
+  .max-h-\[90vh\] {
+    max-height: 90vh;
+  }
   .min-h-\[600px\] {
     min-height: 600px;
   }
@@ -649,6 +649,9 @@
   .max-w-7xl {
     max-width: var(--container-7xl);
   }
+  .max-w-full {
+    max-width: 100%;
+  }
   .max-w-lg {
     max-width: var(--container-lg);
   }
@@ -695,6 +698,10 @@
   }
   .-translate-y-1\/2 {
     --tw-translate-y: calc(calc(1 / 2 * 100%) * -1);
+    translate: var(--tw-translate-x) var(--tw-translate-y);
+  }
+  .translate-y-2 {
+    --tw-translate-y: calc(var(--spacing) * 2);
     translate: var(--tw-translate-x) var(--tw-translate-y);
   }
   .translate-y-4 {
@@ -1311,6 +1318,13 @@
   }
   .from-black {
     --tw-gradient-from: var(--color-black);
+    --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
+  }
+  .from-black\/60 {
+    --tw-gradient-from: color-mix(in srgb, #000 60%, transparent);
+    @supports (color: color-mix(in lab, red, red)) {
+      --tw-gradient-from: color-mix(in oklab, var(--color-black) 60%, transparent);
+    }
     --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
   }
   .from-primary\/0 {
@@ -2147,6 +2161,16 @@
       }
     }
   }
+  .hover\:border-gold\/25 {
+    &:hover {
+      @media (hover: hover) {
+        border-color: color-mix(in srgb, #ff2d95 25%, transparent);
+        @supports (color: color-mix(in lab, red, red)) {
+          border-color: color-mix(in oklab, var(--color-gold) 25%, transparent);
+        }
+      }
+    }
+  }
   .hover\:border-gold\/30 {
     &:hover {
       @media (hover: hover) {
@@ -2557,9 +2581,9 @@
       grid-column: span 2 / span 2;
     }
   }
-  .lg\:columns-4 {
+  .lg\:columns-3 {
     @media (width >= 64rem) {
-      columns: 4;
+      columns: 3;
     }
   }
   .lg\:grid-cols-2 {

@@ -20,6 +20,24 @@ export class MediaGalleryComponent implements OnInit {
   galleryItems = signal<any[]>([]);
   loading = signal<boolean>(true);
 
+  // Lightbox
+  lightboxOpen = signal<boolean>(false);
+  lightboxItem = signal<any | null>(null);
+
+  openLightbox(item: any) {
+    if (item.type === 'image') {
+      this.lightboxItem.set(item);
+      this.lightboxOpen.set(true);
+      document.body.style.overflow = 'hidden';
+    }
+  }
+
+  closeLightbox() {
+    this.lightboxOpen.set(false);
+    this.lightboxItem.set(null);
+    document.body.style.overflow = '';
+  }
+
   async ngOnInit() {
     await this.loadGallery();
   }
