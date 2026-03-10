@@ -9,8 +9,8 @@
         <div class="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-20 animate-fade-up">
             <div>
                 <a routerLink="/"
-                    class="inline-flex items-center gap-2 text-gold text-xs font-bold tracking-widest uppercase mb-8 hover:text-white transition-colors group">
-                    <svg class="w-4 h-4 transform group-hover:-translate-x-1 transition-transform" fill="none"
+                    class="inline-flex items-center gap-2 text-gold text-xs font-bold tracking-widest uppercase mb-8 transition-colors group active:scale-95 md:hover:text-white">
+                    <svg class="w-4 h-4 transform transition-transform md:group-hover:-translate-x-1" fill="none"
                         stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M10 19l-7-7m0 0l7-7m-7 7h18" />
@@ -44,19 +44,19 @@
                 @if (item.type === 'image') {
                 <div class="relative overflow-hidden">
                     <img [src]="item.url" [alt]="item.title" width="400" height="400" loading="lazy" fetchpriority="low"
-                        class="w-full h-auto block grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 ease-out">
+                        class="w-full h-auto block transition-all duration-700 ease-out grayscale-0 md:grayscale md:group-hover:grayscale-0 md:group-hover:scale-105">
 
                     <!-- Hover Overlay with Download -->
                     <div
-                        class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-3">
+                        class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent transition-opacity duration-500 flex items-end p-3 opacity-100 md:opacity-0 md:group-hover:opacity-100">
                         <div
-                            class="flex items-center gap-2 w-full translate-y-2 group-hover:translate-y-0 transition-transform duration-500">
+                            class="flex items-center gap-2 w-full transition-transform duration-500 translate-y-0 md:translate-y-2 md:group-hover:translate-y-0">
                             <button (click)="downloadImage(item.url, item.title); $event.stopPropagation()"
-                                class="flex-grow py-2 bg-gold text-black font-sans font-bold text-[9px] tracking-widest uppercase rounded-lg hover:bg-white transition-colors">
+                                class="flex-grow py-2 bg-gold text-black font-sans font-bold text-[9px] tracking-widest uppercase rounded-lg transition-colors active:scale-95 md:hover:bg-white">
                                 {{ content().gallery.downloadButton }}
                             </button>
                             <a [href]="item.url" target="_blank" (click)="$event.stopPropagation()"
-                                class="w-8 h-8 bg-white/10 backdrop-blur-md rounded-lg flex items-center justify-center text-white hover:bg-white hover:text-black transition-colors flex-shrink-0">
+                                class="w-8 h-8 bg-white/10 backdrop-blur-md rounded-lg flex items-center justify-center text-white transition-colors flex-shrink-0 active:scale-90 md:hover:bg-white md:hover:text-black">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
@@ -97,7 +97,7 @@
         @if (totalPages() > 1) {
         <div class="flex items-center justify-center gap-8 mt-16 animate-fade-up">
             <button (click)="previousPage()" [disabled]="currentPage() === 1"
-                class="px-8 py-4 bg-white/5 border border-white/10 rounded-xl text-sm font-bold uppercase tracking-widest text-white hover:bg-gold hover:text-black hover:border-gold transition-all disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-white/5 disabled:hover:text-white disabled:hover:border-white/10">
+                class="px-8 py-4 bg-white/5 border border-white/10 rounded-xl text-sm font-bold uppercase tracking-widest text-white transition-all disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-white/5 disabled:hover:text-white disabled:hover:border-white/10 active:scale-95 md:hover:bg-gold md:hover:text-black md:hover:border-gold">
                 ← {{ content().gallery.pagination.previous }}
             </button>
 
@@ -113,7 +113,7 @@
             </div>
 
             <button (click)="nextPage()" [disabled]="currentPage() === totalPages()"
-                class="px-8 py-4 bg-white/5 border border-white/10 rounded-xl text-sm font-bold uppercase tracking-widest text-white hover:bg-gold hover:text-black hover:border-gold transition-all disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-white/5 disabled:hover:text-white disabled:hover:border-white/10">
+                class="px-8 py-4 bg-white/5 border border-white/10 rounded-xl text-sm font-bold uppercase tracking-widest text-white transition-all disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-white/5 disabled:hover:text-white disabled:hover:border-white/10 active:scale-95 md:hover:bg-gold md:hover:text-black md:hover:border-gold">
                 {{ content().gallery.pagination.next }} →
             </button>
         </div>

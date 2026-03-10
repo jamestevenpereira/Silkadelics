@@ -13,6 +13,7 @@ import { LightboxService } from './core/services/lightbox.service';
 
     <!-- Global Lightbox — rendered at root level to escape all stacking contexts -->
     @if (lightbox.isOpen()) {
+
     <div class="fixed inset-0 z-[9999] flex items-center justify-center bg-black/90 backdrop-blur-sm p-4"
       (click)="lightbox.close()">
       <button class="absolute top-6 right-6 text-white hover:text-gold transition-colors"

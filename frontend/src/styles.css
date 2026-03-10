@@ -1,6 +1,17 @@
 @import "tailwindcss";
 
 @theme {
+  --font-sans: "Montserrat", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Playfair Display", ui-serif, Georgia, serif;
+
+  --animate-fade-up: fadeUp 0.8s ease-out forwards;
+  --animate-scale-in: scaleIn 1.2s ease-out forwards;
+  --animate-slide-in-right: slideInRight 0.8s ease-out forwards;
+  --animate-slide-in-left: slideInLeft 0.8s ease-out forwards;
+}
+
+:root {
+  /* 0. Default Theme (Current Cyberpunk/Dark) */
   --color-primary: #ff2d95;
   --color-secondary: #00f3ff;
   --color-accent: #ff8d33;
@@ -14,13 +25,71 @@
   --color-luxury-charcoal: #120422;
   --color-luxury-white: #f5f5f5;
 
-  --font-sans: "Montserrat", ui-sans-serif, system-ui, sans-serif;
-  --font-serif: "Playfair Display", ui-serif, Georgia, serif;
+  --color-white: #ffffff;
+  --color-black: #000000;
+}
 
-  --animate-fade-up: fadeUp 0.8s ease-out forwards;
-  --animate-scale-in: scaleIn 1.2s ease-out forwards;
-  --animate-slide-in-right: slideInRight 0.8s ease-out forwards;
-  --animate-slide-in-left: slideInLeft 0.8s ease-out forwards;
+.theme-pearl {
+  --color-primary: #D4AF37;
+  /* Champagne Gold */
+  --color-secondary: #F3E5AB;
+  /* Vanilla */
+  --color-accent: #D4AF37;
+  --color-purple-neon: #C5A059;
+  /* Darker Gold */
+
+  --color-luxury-black: #FAFAF7;
+  /* Pearl background */
+  --color-luxury-charcoal: #F2F1E8;
+  /* Slightly darker pearl */
+  --color-luxury-white: #1A1A1A;
+  /* Dark text where it used to be white */
+
+  --color-white: #1A1A1A;
+  /* Inverse text-white to dark */
+  --color-black: #FFFFFF;
+  /* Inverse bg-black to white */
+
+  /* Glass overrides for light theme */
+  --glass-bg: rgba(255, 255, 255, 0.7);
+  --glass-border: rgba(212, 175, 55, 0.2);
+}
+
+.theme-navy {
+  --color-primary: #B76E79;
+  /* Rose Gold */
+  --color-secondary: #E0BFB8;
+  /* Light Rose Gold */
+  --color-accent: #B76E79;
+  --color-purple-neon: #9E5B65;
+
+  --color-luxury-black: #0A192F;
+  /* Deep Navy */
+  --color-luxury-charcoal: #112240;
+  /* Lighter navy */
+  --color-luxury-white: #F8F9FA;
+  /* White text */
+
+  --color-white: #ffffff;
+  --color-black: #020C1B;
+}
+
+.theme-emerald {
+  --color-primary: #D4AF37;
+  /* Classic Gold */
+  --color-secondary: #F9E596;
+  /* Light Gold */
+  --color-accent: #D4AF37;
+  --color-purple-neon: #B5952F;
+
+  --color-luxury-black: #022B22;
+  /* Dark emerald */
+  --color-luxury-charcoal: #033C30;
+  /* Lighter emerald */
+  --color-luxury-white: #F8F9FA;
+
+  --color-white: #ffffff;
+  --color-black: #011E18;
 }
 
 /* Global Reset & Base Styles */
@@ -72,16 +141,16 @@ h6 {
 }
 
 .glass {
-  background: rgba(13, 2, 33, 0.7);
+  background: var(--glass-bg, rgba(13, 2, 33, 0.7));
   backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 45, 149, 0.2);
+  border: 1px solid var(--glass-border, rgba(255, 45, 149, 0.2));
   box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
 }
 
 .glass-dark {
-  background: rgba(5, 1, 13, 0.85);
+  background: var(--glass-bg, rgba(5, 1, 13, 0.85));
   backdrop-filter: blur(16px);
-  border-bottom: 1px solid rgba(0, 243, 255, 0.1);
+  border-bottom: 1px solid var(--color-secondary, rgba(0, 243, 255, 0.1));
 }
 
 .neon-border {

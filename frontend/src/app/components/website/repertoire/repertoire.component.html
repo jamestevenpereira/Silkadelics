@@ -89,7 +89,7 @@
                 </thead>
                 <tbody class="divide-y divide-white/5">
                     @for (song of paginatedRepertoire(); track song.id) {
-                    <tr class="hover:bg-gold/[0.03] transition-all duration-300 group">
+                    <tr class="transition-all duration-300 group md:hover:bg-gold/[0.03] active:bg-gold/[0.06]">
                         <td class="px-8 py-5">
                             <span
                                 class="text-white text-lg font-serif tracking-wide block group-hover:text-gold transition-colors">
@@ -112,7 +112,7 @@
         @if (totalPages() > 1) {
         <div class="flex items-center justify-center gap-10 mt-12 animate-fade-up">
             <button (click)="previousPage()" [disabled]="currentPage() === 1"
-                class="w-12 h-12 rounded-full bg-white/5 border border-white/10 text-white hover:bg-gold hover:text-black hover:border-gold transition-all flex items-center justify-center disabled:opacity-20 disabled:cursor-not-allowed group">
+                class="w-12 h-12 rounded-full bg-white/5 border border-white/10 text-white transition-all flex items-center justify-center disabled:opacity-20 disabled:cursor-not-allowed group active:scale-95 md:hover:bg-gold md:hover:text-black md:hover:border-gold">
                 <svg class="w-5 h-5 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor"
                     viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
@@ -124,7 +124,7 @@
             </div>
 
             <button (click)="nextPage()" [disabled]="currentPage() === totalPages()"
-                class="w-12 h-12 rounded-full bg-white/5 border border-white/10 text-white hover:bg-gold hover:text-black hover:border-gold transition-all flex items-center justify-center disabled:opacity-20 disabled:cursor-not-allowed group">
+                class="w-12 h-12 rounded-full bg-white/5 border border-white/10 text-white transition-all flex items-center justify-center disabled:opacity-20 disabled:cursor-not-allowed group active:scale-95 md:hover:bg-gold md:hover:text-black md:hover:border-gold">
                 <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor"
                     viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
@@ -148,7 +148,7 @@
         <div class="mt-24 text-center animate-fade-up">
             <p class="text-gray-500 text-sm mb-8 font-sans font-light">{{ content().faq.items[2].question }}</p>
             <a href="#booking"
-                class="inline-block px-12 py-5 bg-gold text-black font-sans font-bold text-xs tracking-[0.3em] uppercase rounded-xl hover:bg-white transition-all duration-300 shadow-xl">
+                class="inline-block px-12 py-5 bg-gold text-black font-sans font-bold text-xs tracking-[0.3em] uppercase rounded-xl transition-all duration-300 shadow-xl active:scale-95 hover:bg-white">
                 {{ content().hero.ctaPrimary }}
             </a>
         </div>

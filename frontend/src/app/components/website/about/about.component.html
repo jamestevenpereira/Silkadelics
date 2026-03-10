@@ -11,11 +11,11 @@
 
                 <!-- Main Image -->
                 <div
-                    class="relative z-10 transform group-hover:scale-[1.02] transition-transform duration-700 ease-out">
+                    class="relative z-10 transform transition-transform duration-700 ease-out md:group-hover:scale-[1.02]">
                     <div class="absolute inset-0 border border-secondary/30 translate-x-4 translate-y-4 z-0"></div>
                     <img src="assets/images/about-band.webp" alt="Band Performance" width="800" height="1200"
                         fetchpriority="high" loading="eager"
-                        class="relative z-10 w-full h-auto object-cover grayscale hover:grayscale-0 transition-all duration-700 shadow-2xl">
+                        class="relative z-10 w-full h-auto object-cover transition-all duration-700 shadow-2xl grayscale-0 md:grayscale md:hover:grayscale-0">
 
                     <!-- Floating Badge -->
                     <div
@@ -69,7 +69,7 @@
                             {{ content().about.ctaText }}
                         </p>
                         <a href="#booking"
-                            class="px-8 py-4 bg-gold text-black font-sans font-bold text-xs tracking-[0.2em] uppercase hover:bg-white transition-all duration-300 shadow-[0_0_20px_rgba(234,179,8,0.2)] hover:shadow-[0_0_30px_rgba(255,255,255,0.4)]">
+                            class="px-8 py-4 bg-gold text-black font-sans font-bold text-xs tracking-[0.2em] uppercase transition-all duration-300 shadow-[0_0_20px_rgba(234,179,8,0.2)] active:scale-95 hover:bg-white hover:shadow-[0_0_30px_rgba(255,255,255,0.4)]">
                             {{ content().about.ctaButton }}
                         </a>
                     </div>
