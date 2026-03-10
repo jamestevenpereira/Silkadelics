@@ -46,14 +46,14 @@
 
                 <div class="relative overflow-hidden">
                     <img [src]="item.url" [alt]="item.title" width="300" height="300" loading="lazy" fetchpriority="low"
-                        class="w-full h-auto block transition-all duration-700 ease-out grayscale-0 md:grayscale md:group-hover:grayscale-0 md:group-hover:scale-105">
+                        class="w-full h-auto block grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 ease-out">
 
                     <!-- Hover overlay -->
                     <div
-                        class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent transition-opacity duration-500 flex items-end p-4 opacity-100 md:opacity-0 md:group-hover:opacity-100">
+                        class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end p-4">
 
                         <div
-                            class="flex items-center gap-2 transition-transform duration-500 translate-y-0 md:translate-y-2 md:group-hover:translate-y-0">
+                            class="flex items-center gap-2 translate-y-2 group-hover:translate-y-0 transition-transform duration-500">
 
                             <svg class="w-4 h-4 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -87,7 +87,7 @@
         <!-- View All -->
         <div class="mt-16 text-center">
             <a routerLink="/gallery"
-                class="group relative inline-flex items-center gap-4 px-12 py-5 border border-gold/30 text-gold font-sans font-bold text-xs tracking-[0.3em] uppercase overflow-hidden transition-all active:scale-95 hover:text-black">
+                class="group relative inline-flex items-center gap-4 px-12 py-5 border border-gold/30 text-gold font-sans font-bold text-xs tracking-[0.3em] uppercase overflow-hidden transition-all hover:text-black">
 
                 <span class="relative z-10">
                     {{ content().gallery.viewAll }}

@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, HostListener, inject, OnInit, signal } from '@angular/core';
 
 import { SupabaseService } from '../../../../core/services/supabase.service';
 import { LanguageService } from '../../../../core/services/language.service';
@@ -32,11 +32,35 @@ export class FullGalleryComponent implements OnInit {
   lightboxOpen = signal<boolean>(false);
   lightboxItem = signal<any | null>(null);
 
+  // Mobile Interaction
+  activeItemId = signal<string | null>(null);
+
+  @HostListener('document:touchstart', ['$event'])
+  onDocumentTouch(event: TouchEvent) {
+    const target = event.target as HTMLElement;
+    if (!target.closest('.interactive-gallery-card')) {
+      this.activeItemId.set(null);
+    }
+  }
+
   openLightbox(item: any) {
     if (item.type === 'image') {
-      this.lightboxItem.set(item);
-      this.lightboxOpen.set(true);
-      document.body.style.overflow = 'hidden';
+      if (window.matchMedia('(hover: none)').matches) {
+        // Touch device logic: first tap activates overlay, second tap opens lightbox
+        if (this.activeItemId() === item.id) {
+          this.lightboxItem.set(item);
+          this.lightboxOpen.set(true);
+          document.body.style.overflow = 'hidden';
+          this.activeItemId.set(null); // Optional: reset active state when opening lightbox
+        } else {
+          this.activeItemId.set(item.id);
+        }
+      } else {
+        // Desktop logic: open lightbox immediately
+        this.lightboxItem.set(item);
+        this.lightboxOpen.set(true);
+        document.body.style.overflow = 'hidden';
+      }
     }
   }
 

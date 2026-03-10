@@ -36,9 +36,9 @@ export interface Content {
         subtitle: string;
         requestQuote: string;
         items: {
-            type: 'weddings' | 'corporate' | 'private';
             title: string;
             description: string;
+            type: string;
         }[];
     };
     packs: {

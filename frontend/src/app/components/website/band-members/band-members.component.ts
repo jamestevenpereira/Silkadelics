@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal, computed } from '@angular/core';
+import { Component, HostListener, inject, OnInit, signal, computed } from '@angular/core';
 
 import { LanguageService } from '../../../core/services/language.service';
 import { SupabaseService } from '../../../core/services/supabase.service';
@@ -20,6 +20,26 @@ export class BandMembersComponent implements OnInit {
   members = computed(() =>
     this.team().filter(m => m.category === 'member')
   );
+
+  activeMemberId = signal<string | null>(null);
+
+  @HostListener('document:touchstart', ['$event'])
+  onDocumentTouch(event: TouchEvent) {
+    const target = event.target as HTMLElement;
+    if (!target.closest('.interactive-member-card')) {
+      this.activeMemberId.set(null);
+    }
+  }
+
+  onMemberClick(id: string) {
+    if (window.matchMedia('(hover: none)').matches) {
+      if (this.activeMemberId() === id) {
+        this.activeMemberId.set(null); // Optional: toggle off on second tap if desired, or keep open.
+      } else {
+        this.activeMemberId.set(id);
+      }
+    }
+  }
 
   async ngOnInit() {
     const { data } = await this.supabaseService.getTeam();

@@ -4,32 +4,31 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-24 items-center">
             <!-- Logo -->
-            <div class="flex-shrink-0 flex items-center group cursor-pointer active:scale-[0.98] transition-transform duration-300"
-                (click)="scrollToTop()">
+            <div class="flex-shrink-0 flex items-center group cursor-pointer" (click)="scrollToTop()">
                 <img src="assets/images/logo.png" alt="Silkadelics"
-                    class="h-16 w-auto object-contain transition-transform duration-500 md:group-hover:scale-110 drop-shadow-[0_0_8px_rgba(255,45,149,0.5)]">
+                    class="h-16 w-auto object-contain transition-transform duration-500 group-hover:scale-110 drop-shadow-[0_0_8px_rgba(255,45,149,0.5)]">
             </div>
 
             <!-- Desktop Menu -->
             <div class="hidden md:flex space-x-10 items-center">
                 <a href="#about"
-                    class="text-xs font-sans font-bold tracking-widest text-gray-300 transition-colors uppercase active:text-gold md:hover:text-gold">{{
+                    class="text-xs font-sans font-bold tracking-widest text-gray-300 hover:text-gold transition-colors uppercase">{{
                     content().navbar.links.about }}</a>
                 <a href="#events"
-                    class="text-xs font-sans font-bold tracking-widest text-gray-300 transition-colors uppercase active:text-gold md:hover:text-gold">{{
+                    class="text-xs font-sans font-bold tracking-widest text-gray-300 hover:text-gold transition-colors uppercase">{{
                     content().navbar.links.events }}</a>
                 <a href="#packs"
-                    class="text-xs font-sans font-bold tracking-widest text-gray-300 transition-colors uppercase active:text-gold md:hover:text-gold">{{
+                    class="text-xs font-sans font-bold tracking-widest text-gray-300 hover:text-gold transition-colors uppercase">{{
                     content().navbar.links.packs }}</a>
                 <a href="#gallery"
-                    class="text-xs font-sans font-bold tracking-widest text-gray-300 transition-colors uppercase active:text-gold md:hover:text-gold">{{
+                    class="text-xs font-sans font-bold tracking-widest text-gray-300 hover:text-gold transition-colors uppercase">{{
                     content().navbar.links.gallery }}</a>
                 <a href="#repertoire"
-                    class="text-xs font-sans font-bold tracking-widest text-gray-300 transition-colors uppercase active:text-gold md:hover:text-gold">{{
+                    class="text-xs font-sans font-bold tracking-widest text-gray-300 hover:text-gold transition-colors uppercase">{{
                     content().navbar.links.repertoire }}</a>
 
                 <a href="#booking"
-                    class="px-8 py-3 bg-white/5 border border-white/10 text-gold text-xs font-bold tracking-widest uppercase transition-all duration-300 active:scale-95 md:hover:bg-gold md:hover:text-black md:hover:border-gold">
+                    class="px-8 py-3 bg-white/5 border border-white/10 text-gold text-xs font-bold tracking-widest uppercase hover:bg-gold hover:text-black hover:border-gold transition-all duration-300">
                     {{ content().navbar.bookNow }}
                 </a>
 
@@ -80,8 +79,7 @@
             <a href="#gallery" (click)="toggleMenu()"
                 class="text-2xl font-serif text-white hover:text-gold transition-colors">{{
                 content().navbar.links.gallery }}</a>
-            <a href="#booking" (click)="toggleMenu()"
-                class="text-2xl font-serif text-gold font-bold active:scale-95 transition-transform">{{
+            <a href="#booking" (click)="toggleMenu()" class="text-2xl font-serif text-gold font-bold">{{
                 content().navbar.bookNow }}</a>
 
             <div class="flex space-x-6 mt-8">

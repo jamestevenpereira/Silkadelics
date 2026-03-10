@@ -39,9 +39,9 @@ export const CONTENT_PT: Content = {
         subtitle: 'Versatilidade para cada momento especial',
         requestQuote: 'Pedir Orçamento',
         items: [
-            { type: 'weddings', title: 'Casamentos', description: 'Desde a cerimónia até à festa, música para cada momento.' },
-            { type: 'corporate', title: 'Corporativos', description: 'Elegância e animação para a sua empresa.' },
-            { type: 'private', title: 'Festas Privadas', description: 'Aniversários e celebrações exclusivas.' },
+            { title: 'Casamentos', description: 'Desde a cerimónia até à festa, música para cada momento.', type: 'weddings' },
+            { title: 'Corporativos', description: 'Elegância e animação para a sua empresa.', type: 'corporate' },
+            { title: 'Festas Privadas', description: 'Aniversários e celebrações exclusivas.', type: 'private' },
         ],
     },
     packs: {
@@ -257,9 +257,9 @@ export const CONTENT_EN: Content = {
         subtitle: 'Versatility for every special moment',
         requestQuote: 'Request Quote',
         items: [
-            { type: 'weddings', title: 'Weddings', description: 'From the ceremony to the party, music for every moment.' },
-            { type: 'corporate', title: 'Corporate', description: 'Elegance and animation for your company.' },
-            { type: 'private', title: 'Private Parties', description: 'Birthdays and exclusive celebrations.' },
+            { title: 'Weddings', description: 'From the ceremony to the party, music for every moment.', type: 'weddings' },
+            { title: 'Corporate', description: 'Elegance and animation for your company.', type: 'corporate' },
+            { title: 'Private Parties', description: 'Birthdays and exclusive celebrations.', type: 'private' },
         ],
     },
     packs: {

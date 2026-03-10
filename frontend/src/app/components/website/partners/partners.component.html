@@ -22,10 +22,10 @@
             @if (partners().length > 0) {
             @for (partner of partners(); track partner.id) {
             <div
-                class="glass-dark rounded-[40px] p-10 border border-white/5 transition-all duration-500 md:hover:border-gold/30 active:scale-[0.98] group">
+                class="glass-dark rounded-[40px] p-10 border border-white/5 transition-all duration-500 hover:border-gold/30 group">
                 <div class="flex flex-col md:flex-row items-center gap-8">
                     <div
-                        class="w-20 h-20 rounded-full flex items-center justify-center transition-all duration-500 overflow-hidden bg-gold/20 md:bg-gold/10 md:group-hover:bg-gold text-gold md:group-hover:text-black">
+                        class="w-20 h-20 rounded-full bg-gold/10 flex items-center justify-center text-gold group-hover:bg-gold group-hover:text-black transition-all duration-500 overflow-hidden">
                         @if (partner.img) {
                         <img [src]="partner.img" class="w-full h-full object-cover">
                         } @else {
@@ -44,7 +44,7 @@
                             content().roles[partner.role] || partner.role }}</p>
 
                         <a [href]="partner.instagram" target="_blank"
-                            class="inline-flex items-center gap-3 text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] transition-colors active:scale-95 md:hover:text-white">
+                            class="inline-flex items-center gap-3 text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] hover:text-white transition-colors">
                             {{ content().partners.viewInstagram }}
                             <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                                 <path

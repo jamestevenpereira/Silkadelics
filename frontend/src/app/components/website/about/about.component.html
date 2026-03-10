@@ -2,7 +2,8 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
             <!-- Image Side (Asymmetrical) -->
-            <div class="relative group">
+            <div class="relative group interactive-about-image" (click)="onImageClick()"
+                [class.is-active]="isImageActive">
                 <!-- Decorative Elements -->
                 <div
                     class="absolute -top-10 -left-10 w-40 h-40 border border-primary/20 rounded-full animate-spin-slow">
@@ -11,11 +12,11 @@
 
                 <!-- Main Image -->
                 <div
-                    class="relative z-10 transform transition-transform duration-700 ease-out md:group-hover:scale-[1.02]">
+                    class="relative z-10 transform group-hover:scale-[1.02] group-[.is-active]:scale-[1.02] transition-transform duration-700 ease-out">
                     <div class="absolute inset-0 border border-secondary/30 translate-x-4 translate-y-4 z-0"></div>
                     <img src="assets/images/about-band.webp" alt="Band Performance" width="800" height="1200"
                         fetchpriority="high" loading="eager"
-                        class="relative z-10 w-full h-auto object-cover transition-all duration-700 shadow-2xl grayscale-0 md:grayscale md:hover:grayscale-0">
+                        class="relative z-10 w-full h-auto object-cover grayscale hover:grayscale-0 group-hover:grayscale-0 group-[.is-active]:grayscale-0 transition-all duration-700 shadow-2xl">
 
                     <!-- Floating Badge -->
                     <div
@@ -69,7 +70,7 @@
                             {{ content().about.ctaText }}
                         </p>
                         <a href="#booking"
-                            class="px-8 py-4 bg-gold text-black font-sans font-bold text-xs tracking-[0.2em] uppercase transition-all duration-300 shadow-[0_0_20px_rgba(234,179,8,0.2)] active:scale-95 hover:bg-white hover:shadow-[0_0_30px_rgba(255,255,255,0.4)]">
+                            class="px-8 py-4 bg-gold text-black font-sans font-bold text-xs tracking-[0.2em] uppercase hover:bg-white transition-all duration-300 shadow-[0_0_20px_rgba(234,179,8,0.2)] hover:shadow-[0_0_30px_rgba(255,255,255,0.4)]">
                             {{ content().about.ctaButton }}
                         </a>
                     </div>
