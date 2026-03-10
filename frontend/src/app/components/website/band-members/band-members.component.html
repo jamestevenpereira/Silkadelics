@@ -12,8 +12,8 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-10">
             @if (members().length > 0) {
             @for (member of members(); track member.id) {
-            <div class="interactive-member-card group relative overflow-hidden rounded-3xl bg-luxury-black border transition-all duration-700 hover:border-gold/30 {{ activeMemberId() === member.id ? 'border-gold/30' : 'border-white/5' }}"
-                (click)="onMemberClick(member.id)">
+            <div #memberCard [attr.data-id]="member.id"
+                class="group relative overflow-hidden rounded-3xl bg-luxury-black border transition-all duration-700 hover:border-gold/30 {{ activeMemberId() === member.id ? 'border-gold/30' : 'border-white/5' }}">
                 <div class="relative aspect-[3/4] overflow-hidden">
                     <img [src]="member.img" [alt]="member.name" width="400" height="533" loading="lazy"
                         fetchpriority="low"

@@ -1,4 +1,6 @@
-import { Component, HostListener, inject, OnInit, signal, computed } from '@angular/core';
+import { Component, ElementRef, AfterViewInit, OnDestroy, ViewChildren, QueryList, inject, OnInit, signal, computed, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { Subscription } from 'rxjs';
 
 import { LanguageService } from '../../../core/services/language.service';
 import { SupabaseService } from '../../../core/services/supabase.service';
@@ -10,9 +12,10 @@ import { SupabaseService } from '../../../core/services/supabase.service';
   templateUrl: './band-members.component.html',
   styleUrl: './band-members.component.css'
 })
-export class BandMembersComponent implements OnInit {
+export class BandMembersComponent implements OnInit, AfterViewInit, OnDestroy {
   languageService = inject(LanguageService);
   supabaseService = inject(SupabaseService);
+  platformId = inject(PLATFORM_ID);
 
   content = this.languageService.content;
   team = signal<any[]>([]);
@@ -23,21 +26,57 @@ export class BandMembersComponent implements OnInit {
 
   activeMemberId = signal<string | null>(null);
 
-  @HostListener('document:touchstart', ['$event'])
-  onDocumentTouch(event: TouchEvent) {
-    const target = event.target as HTMLElement;
-    if (!target.closest('.interactive-member-card')) {
-      this.activeMemberId.set(null);
+  @ViewChildren('memberCard') memberCards!: QueryList<ElementRef>;
+  private observer: IntersectionObserver | null = null;
+  private sub?: Subscription;
+
+  ngAfterViewInit() {
+    if (isPlatformBrowser(this.platformId)) {
+      this.initIntersectionObserver();
+
+      // Since data is loaded asynchronously, we must wait for changes
+      this.sub = this.memberCards.changes.subscribe(() => {
+        this.observer?.disconnect();
+        this.memberCards.forEach(card => {
+          this.observer?.observe(card.nativeElement);
+        });
+      });
     }
   }
 
-  onMemberClick(id: string) {
-    if (window.matchMedia('(hover: none)').matches) {
-      if (this.activeMemberId() === id) {
-        this.activeMemberId.set(null); // Optional: toggle off on second tap if desired, or keep open.
+  private initIntersectionObserver() {
+    const options = {
+      root: null,
+      rootMargin: '-30% 0px -30% 0px',
+      threshold: 0
+    };
+
+    this.observer = new IntersectionObserver((entries) => {
+      if (window.innerWidth < 1024) {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const memberId = (entry.target as HTMLElement).getAttribute('data-id');
+            if (memberId) {
+              this.activeMemberId.set(memberId);
+            }
+          }
+        });
       } else {
-        this.activeMemberId.set(id);
+        this.activeMemberId.set(null);
       }
+    }, options);
+
+    this.memberCards.forEach(card => {
+      this.observer?.observe(card.nativeElement);
+    });
+  }
+
+  ngOnDestroy() {
+    if (this.sub) {
+      this.sub.unsubscribe();
+    }
+    if (this.observer) {
+      this.observer.disconnect();
     }
   }
 
