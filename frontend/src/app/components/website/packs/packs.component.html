@@ -34,16 +34,16 @@
                     </div>
                     }
 
-                    <h4 class="text-2xl font-serif font-bold text-white mb-2">{{ pack.title }}</h4>
+                    <h4 class="text-2xl font-serif font-bold text-white mb-2">{{ content().packs.packNames[pack.title] || pack.title }}</h4>
                     <div class="text-4xl font-sans font-bold text-primary mb-8">{{ pack.price }}</div>
 
                     <div
                         class="w-full h-[1px] bg-white/10 mb-8 group-hover:bg-primary/30 group-[.is-active]:bg-primary/30 transition-colors">
                     </div>
 
-                    <!-- Render normal features OR Bronze special -->
-                    @if (isBronzePack(pack)) {
-                    <!-- Bronze Pack Special Display -->
+                    <!-- Render normal features OR Bronze/Silver special -->
+                    @if (isBronzePack(pack) || isSilverPack(pack)) {
+                    <!-- Bronze/Silver Pack Special Display -->
                     <div class="mb-8 flex-grow">
                         <!-- Regular features first -->
                         @for (feature of pack.features; track feature) {
@@ -67,10 +67,10 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M13 10V3L4 14h7v7l9-11h-7z" />
                                 </svg>
-                                {{ content().packs.bronzePerformanceTitle }}
+                                {{ isBronzePack(pack) ? content().packs.bronzePerformanceTitle : content().packs.silverPerformanceTitle }}
                             </div>
                             <div class="space-y-2">
-                                @for (option of getBronzePerformanceOptions(pack); track option) {
+                                @for (option of getPerformanceOptions(pack); track option) {
                                 <div
                                     class="flex items-center gap-3 text-sm text-gray-300 p-2 rounded-lg hover:bg-white/5 transition-colors">
                                     <div
@@ -82,7 +82,7 @@
                                 }
                             </div>
                             <p class="text-[10px] text-primary/60 mt-4 italic text-center">
-                                {{ content().packs.bronzePerformanceNote }}
+                                {{ isBronzePack(pack) ? content().packs.bronzePerformanceNote : content().packs.silverPerformanceNote }}
                             </p>
                         </div>
                     </div>

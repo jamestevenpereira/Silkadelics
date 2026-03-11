@@ -50,13 +50,15 @@ export const CONTENT_PT: Content = {
         recommended: 'Recomendado',
         bronzePerformanceTitle: 'Escolhe 1 das 4 performances:',
         bronzePerformanceNote: '* Apenas uma opção incluída no pack',
+        silverPerformanceTitle: 'Escolhe 2 das 4 performances:',
+        silverPerformanceNote: '* Apenas duas opções incluídas no pack',
         bookingLabel: 'Reservar',
         extrasTitle: 'Personalize com Extras Exclusivos',
-        items: [
-            { name: 'Bronze', price: 'Desde 750€', features: ['Uma performance à escolha:', '- Igreja', '- Receção dos noivos + Concerto 2h', '- DJ Live Set'], cta: 'Escolher Bronze' },
-            { name: 'Prata', price: 'Desde 1200€', features: ['Full Venue:', '- Receção dos noivos', '- Concerto 2h', '- DJ Live Set'], cta: 'Escolher Prata' },
-            { name: 'Ouro', price: 'Desde 1700€', features: ['All Inclusive:', '- Igreja', '- Receção dos noivos', '- Concerto 2h', '- DJ Live Set'], cta: 'Escolher Ouro' },
-        ],
+        packNames: {
+            'Bronze': 'Bronze',
+            'Prata': 'Prata',
+            'Ouro': 'Ouro'
+        },
         extras: [
             { name: 'Violino (Músico Extra)', price: 'Sob Consulta' },
             { name: 'Hora Extra', price: '300€/h' },
@@ -208,6 +210,7 @@ export const CONTENT_PT: Content = {
         'Copo d\'água (2h Concerto)': 'Copo d\'água (2h Concerto)',
         'DJ Set (Pós-concerto)': 'DJ Set (Pós-concerto)',
         '- Cerimónia (Igreja ou Civil)': '- Cerimónia (Igreja ou Civil)',
+        '- Cocktail / Aperitivos': '- Cocktail / Aperitivos',
         '- Copo d\'água (2h Concerto)': '- Copo d\'água (2h Concerto)',
         '- DJ Set (Pós-concerto)': '- DJ Set (Pós-concerto)',
         '- Church': '- Church',
@@ -266,15 +269,17 @@ export const CONTENT_EN: Content = {
         title: 'Packs',
         subtitle: 'Choose the ideal experience',
         recommended: 'Recommended',
-        bronzePerformanceTitle: 'Choose 1 of 3 performances:',
+        bronzePerformanceTitle: 'Choose 1 of 4 performances:',
         bronzePerformanceNote: '* Only one option included in the pack',
+        silverPerformanceTitle: 'Choose 2 of 4 performances:',
+        silverPerformanceNote: '* Only two options included in the pack',
         bookingLabel: 'Book Now',
         extrasTitle: 'Customize with Exclusive Extras',
-        items: [
-            { name: 'Bronze', price: 'From 750€', features: ['One performance of your choice:', '- Church', '- Reception + 2h Concert', '- DJ Live Set'], cta: 'Choose Bronze' },
-            { name: 'Silver', price: 'From 1200€', features: ['Full Venue:', '- Reception + 2h Concert', '- DJ Live Set'], cta: 'Choose Silver' },
-            { name: 'Gold', price: 'From 1700€', features: ['All Inclusive:', '- Church', '- Reception + 2h Concert', '- DJ Live Set'], cta: 'Choose Gold' },
-        ],
+        packNames: {
+            'Bronze': 'Bronze',
+            'Prata': 'Silver',
+            'Ouro': 'Gold'
+        },
         extras: [
             { name: 'Violin (Extra Musician)', price: 'On Request' },
             { name: 'Extra Hour', price: '300€/h' },
@@ -426,6 +431,7 @@ export const CONTENT_EN: Content = {
         'Copo d\'água (2h Concerto)': 'Reception (2h Concert)',
         'DJ Set (Pós-concerto)': 'DJ Set (Post-concert)',
         '- Cerimónia (Igreja ou Civil)': '- Ceremony (Church or Civil)',
+        '- Cocktail / Aperitivos': '- Cocktail / Appetizers',
         '- Copo d\'água (2h Concerto)': '- Reception (2h Concert)',
         '- DJ Set (Pós-concerto)': '- DJ Set (Post-concert)',
         '- Church': '- Church',

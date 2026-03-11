@@ -47,9 +47,12 @@ export interface Content {
         recommended: string;
         bronzePerformanceTitle: string;
         bronzePerformanceNote: string;
+        silverPerformanceTitle: string;
+        silverPerformanceNote: string;
         bookingLabel: string;
         extrasTitle: string;
-        items: {
+        packNames: Record<string, string>;
+        items?: {
             name: string;
             price: string;
             features: string[];

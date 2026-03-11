@@ -13,7 +13,7 @@ export class WhatsAppChatComponent {
   private langService = inject(LanguageService);
   content = this.langService.content;
 
-  phoneNumber = '351968464987';
+  phoneNumber = '351927245662';
   userMessage = '';
   isOpen = signal(false);
 

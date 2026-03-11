@@ -2238,9 +2238,43 @@
       }
     }
   }
+  .group-\[\.is-active\]\:border-secondary {
+    &:is(:where(.group):is(.is-active) *) {
+      border-color: var(--color-secondary);
+    }
+  }
   .group-\[\.is-active\]\:bg-primary {
     &:is(:where(.group):is(.is-active) *) {
       background-color: var(--color-primary);
+    }
+  }
+  .group-\[\.is-active\]\:bg-primary\/10 {
+    &:is(:where(.group):is(.is-active) *) {
+      background-color: color-mix(in srgb, #ff2d95 10%, transparent);
+      @supports (color: color-mix(in lab, red, red)) {
+        background-color: color-mix(in oklab, var(--color-primary) 10%, transparent);
+      }
+    }
+  }
+  .group-\[\.is-active\]\:bg-primary\/30 {
+    &:is(:where(.group):is(.is-active) *) {
+      background-color: color-mix(in srgb, #ff2d95 30%, transparent);
+      @supports (color: color-mix(in lab, red, red)) {
+        background-color: color-mix(in oklab, var(--color-primary) 30%, transparent);
+      }
+    }
+  }
+  .group-\[\.is-active\]\:bg-secondary\/10 {
+    &:is(:where(.group):is(.is-active) *) {
+      background-color: color-mix(in srgb, #00f3ff 10%, transparent);
+      @supports (color: color-mix(in lab, red, red)) {
+        background-color: color-mix(in oklab, var(--color-secondary) 10%, transparent);
+      }
+    }
+  }
+  .group-\[\.is-active\]\:bg-white {
+    &:is(:where(.group):is(.is-active) *) {
+      background-color: var(--color-white);
     }
   }
   .group-\[\.is-active\]\:text-black {
@@ -2261,6 +2295,18 @@
   .group-\[\.is-active\]\:opacity-100 {
     &:is(:where(.group):is(.is-active) *) {
       opacity: 100%;
+    }
+  }
+  .group-\[\.is-active\]\:shadow-\[0_0_20px_rgba\(255\,45\,149\,0\.4\)\] {
+    &:is(:where(.group):is(.is-active) *) {
+      --tw-shadow: 0 0 20px var(--tw-shadow-color, rgba(255,45,149,0.4));
+      box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+    }
+  }
+  .group-\[\.is-active\]\:shadow-\[0_0_30px_rgba\(255\,45\,149\,0\.1\)\] {
+    &:is(:where(.group):is(.is-active) *) {
+      --tw-shadow: 0 0 30px var(--tw-shadow-color, rgba(255,45,149,0.1));
+      box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
     }
   }
   .group-\[\.is-active\]\:grayscale-0 {
@@ -2771,6 +2817,12 @@
   .lg\:px-8 {
     @media (width >= 64rem) {
       padding-inline: calc(var(--spacing) * 8);
+    }
+  }
+  .\[\.is-active\]\:-translate-y-2 {
+    &:is(.is-active) {
+      --tw-translate-y: calc(var(--spacing) * -2);
+      translate: var(--tw-translate-x) var(--tw-translate-y);
     }
   }
 }
