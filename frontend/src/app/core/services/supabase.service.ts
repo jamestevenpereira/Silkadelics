@@ -119,7 +119,7 @@ export class SupabaseService {
         if (options.width) params.append('width', options.width.toString());
         if (options.height) params.append('height', options.height.toString());
         params.append('quality', (options.quality || 80).toString());
-        params.append('format', options.format || 'webp');
+        if (options.format) params.append('format', options.format);
 
         return `${url}?${params.toString()}`;
     }
