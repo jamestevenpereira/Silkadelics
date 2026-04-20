@@ -107,7 +107,7 @@
           "options": {
             "browserTarget": "frontend:build",
             "serverTarget": "frontend:server",
-            "routes": ["/","/pt","/en"]
+            "routes": ["/"]
           }
         },
         "extract-i18n": {
