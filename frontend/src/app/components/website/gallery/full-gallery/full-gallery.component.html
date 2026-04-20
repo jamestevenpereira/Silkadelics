@@ -15,14 +15,14 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                     </svg>
-                    {{ content().gallery.backButton }}
+                    {{ content().gallery?.backButton }}
                 </a>
                 <h1 class="text-5xl md:text-7xl font-serif font-bold text-white mb-4">
-                    {{ content().gallery.title }} <span class="text-gold-gradient italic">{{ content().gallery.subtitle
+                    {{ content().gallery?.title }} <span class="text-gold-gradient italic">{{ content().gallery?.subtitle
                         }}</span>
                 </h1>
                 <p class="text-gray-400 font-sans font-light text-lg max-w-2xl">
-                    {{ content().gallery.description }}
+                    {{ content().gallery?.description }}
                 </p>
             </div>
         </div>
@@ -31,7 +31,7 @@
         @if (loading()) {
         <div class="flex flex-col items-center justify-center py-40">
             <div class="w-12 h-12 border-2 border-gold border-t-transparent rounded-full animate-spin mb-4"></div>
-            <p class="text-gold font-sans font-bold text-xs tracking-widest uppercase">{{ content().gallery.loading }}
+            <p class="text-gold font-sans font-bold text-xs tracking-widest uppercase">{{ content().gallery?.loading }}
             </p>
         </div>
         } @else {
@@ -53,7 +53,7 @@
                             class="flex items-center gap-2 w-full group-hover:translate-y-0 transition-transform duration-500 {{ activeItemId() === item.id ? 'translate-y-0' : 'translate-y-2' }}">
                             <button (click)="downloadImage(item.url, item.title); $event.stopPropagation()"
                                 class="flex-grow py-2 bg-gold text-black font-sans font-bold text-[9px] tracking-widest uppercase rounded-lg hover:bg-white transition-colors">
-                                {{ content().gallery.downloadButton }}
+                                {{ content()?.gallery?.downloadButton }}
                             </button>
                             <a [href]="item.url" target="_blank" (click)="$event.stopPropagation()"
                                 class="w-8 h-8 bg-white/10 backdrop-blur-md rounded-lg flex items-center justify-center text-white hover:bg-white hover:text-black transition-colors flex-shrink-0">
@@ -98,30 +98,30 @@
         <div class="flex items-center justify-center gap-8 mt-16 animate-fade-up">
             <button (click)="previousPage()" [disabled]="currentPage() === 1"
                 class="px-8 py-4 bg-white/5 border border-white/10 rounded-xl text-sm font-bold uppercase tracking-widest text-white hover:bg-gold hover:text-black hover:border-gold transition-all disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-white/5 disabled:hover:text-white disabled:hover:border-white/10">
-                ← {{ content().gallery.pagination.previous }}
+                ← {{ content()?.gallery?.pagination?.previous }}
             </button>
 
             <div class="flex flex-col items-center gap-2">
                 <span class="text-sm text-gray-400">
-                    {{ content().gallery.pagination.page }} <span class="text-gold font-bold text-lg">{{ currentPage()
-                        }}</span> {{ content().gallery.pagination.of }} <span class="text-white font-bold">{{
+                    {{ content()?.gallery?.pagination?.page }} <span class="text-gold font-bold text-lg">{{ currentPage()
+                        }}</span> {{ content()?.gallery?.pagination?.of }} <span class="text-white font-bold">{{
                         totalPages() }}</span>
                 </span>
                 <span class="text-xs text-gray-600">
-                    {{ totalItems() }} {{ content().gallery.pagination.items }}
+                    {{ totalItems() }} {{ content()?.gallery?.pagination?.items }}
                 </span>
             </div>
 
             <button (click)="nextPage()" [disabled]="currentPage() === totalPages()"
                 class="px-8 py-4 bg-white/5 border border-white/10 rounded-xl text-sm font-bold uppercase tracking-widest text-white hover:bg-gold hover:text-black hover:border-gold transition-all disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-white/5 disabled:hover:text-white disabled:hover:border-white/10">
-                {{ content().gallery.pagination.next }} →
+                {{ content()?.gallery?.pagination?.next }} →
             </button>
         </div>
         }
 
         @if (galleryItems().length === 0) {
         <div class="text-center py-40">
-            <p class="text-gray-500 font-sans font-light italic">{{ content().gallery.empty }}</p>
+            <p class="text-gray-500 font-sans font-light italic">{{ content()?.gallery?.empty }}</p>
         </div>
         }
         }

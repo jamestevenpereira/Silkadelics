@@ -12,7 +12,7 @@
             </div>
             <div>
                 <h4 class="text-black font-bold text-sm">Silkadelics</h4>
-                <p class="text-black/60 text-[10px] uppercase tracking-widest font-bold">Online agora</p>
+                <p class="text-black/60 text-[10px] uppercase tracking-widest font-bold">{{ content().shared.onlineNow }}</p>
             </div>
             <button (click)="toggleChat()" class="ml-auto text-black/40 hover:text-black transition-colors">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -32,7 +32,7 @@
             <div class="space-y-2">
                 <label class="text-[10px] font-bold text-gray-500 uppercase tracking-widest">{{
                     content().whatsapp.header }}</label>
-                <textarea [(ngModel)]="userMessage" [placeholder]="content().shared.processing + '...'"
+                <textarea [(ngModel)]="userMessage" [placeholder]="content().whatsapp.defaultMessage"
                     class="w-full bg-white/5 border border-white/10 rounded-2xl px-4 py-3 text-sm text-white focus:border-gold outline-none transition-all resize-none h-24"></textarea>
             </div>
 

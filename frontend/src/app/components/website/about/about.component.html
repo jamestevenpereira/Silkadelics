@@ -22,7 +22,7 @@
                         class="absolute -bottom-8 -left-8 z-20 bg-primary p-8 shadow-xl shadow-primary/20 animate-fade-up delay-500">
                         <span class="block text-4xl font-serif font-bold text-black">4+</span>
                         <span class="block text-xs font-sans font-bold tracking-widest uppercase text-black/80 mt-1">
-                            {{ content().about.badge }}
+                            {{ content().about?.badge }}
                         </span>
                     </div>
                 </div>
@@ -39,38 +39,38 @@
                     <h2
                         class="text-primary font-sans font-bold tracking-[0.2em] uppercase text-xs mb-6 flex items-center gap-4">
                         <span class="w-12 h-[1px] bg-primary"></span>
-                        {{ content().about.title }}
+                        {{ content().about?.title }}
                     </h2>
 
                     <h3 class="text-4xl md:text-6xl font-serif font-bold text-white leading-tight mb-8">
-                        {{ content().about.subtitle }}
+                        {{ content().about?.subtitle }}
                     </h3>
 
                     <p class="text-lg text-gray-400 leading-relaxed font-light mb-8 border-l-2 border-primary/30 pl-6">
-                        {{ content().about.description }}
+                        {{ content().about?.description }}
                     </p>
 
                     <div class="grid grid-cols-2 gap-12 pt-8 border-t border-white/10">
                         <div>
                             <span class="block text-4xl font-serif font-bold text-white mb-2">160+</span>
                             <span class="text-xs text-gray-500 font-sans font-bold uppercase tracking-widest">{{
-                                content().about.stats.events }}</span>
+                                content().about?.stats?.events }}</span>
                         </div>
                         <div>
                             <span class="block text-4xl font-serif font-bold text-white mb-2">100%</span>
                             <span class="text-xs text-gray-500 font-sans font-bold uppercase tracking-widest">{{
-                                content().about.stats.dedication }}</span>
+                                content().about?.stats?.dedication }}</span>
                         </div>
                     </div>
 
                     <!-- Call to Action -->
                     <div class="mt-12 flex items-center gap-6 animate-fade-up delay-200">
                         <p class="text-gray-300 font-sans font-light italic text-lg">
-                            {{ content().about.ctaText }}
+                            {{ content().about?.ctaText }}
                         </p>
                         <a href="#booking"
                             class="px-8 py-4 bg-gold text-black font-sans font-bold text-xs tracking-[0.2em] uppercase hover:bg-white transition-all duration-300 shadow-[0_0_20px_rgba(234,179,8,0.2)] hover:shadow-[0_0_30px_rgba(255,255,255,0.4)]">
-                            {{ content().about.ctaButton }}
+                            {{ content().about?.ctaButton }}
                         </a>
                     </div>
                 </div>

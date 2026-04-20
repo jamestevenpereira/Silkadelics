@@ -2,10 +2,10 @@
     <div class="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div class="text-center mb-20">
             <h2 class="text-gold font-sans font-bold tracking-[0.2em] uppercase text-xs mb-4 animate-fade-up">
-                {{ content().bandMembers.title }}
+                {{ content().bandMembers?.title }}
             </h2>
             <h3 class="text-4xl md:text-5xl font-serif font-bold text-white animate-fade-up delay-200">
-                {{ content().bandMembers.subtitle }}
+                {{ content().bandMembers?.subtitle }}
             </h3>
         </div>
 
@@ -41,7 +41,7 @@
                         {{
                         member.name }}</h4>
                     <p class="text-gold font-sans font-bold text-[10px] uppercase tracking-[0.2em]">{{
-                        content().roles[member.role] || member.role }}
+                        content().roles?.[member.role] || member.role }}
                     </p>
                 </div>
             </div>

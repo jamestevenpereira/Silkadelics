@@ -4,17 +4,17 @@
         <div class="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16 animate-fade-up">
             <div>
                 <h2 class="text-gold font-sans font-bold tracking-[0.2em] uppercase text-xs mb-4">
-                    {{ content().gallery.title }}
+                    {{ content().gallery?.title }}
                 </h2>
                 <h3 class="text-4xl md:text-5xl font-serif font-bold text-white">
-                    {{ content().gallery.subtitle }}
+                    {{ content().gallery?.subtitle }}
                 </h3>
             </div>
 
             <a href="https://instagram.com/silkadelics" target="_blank"
                 class="hidden md:flex items-center gap-2 text-white hover:text-gold transition-colors group">
                 <span class="text-xs font-bold tracking-widest uppercase">
-                    {{ content().gallery.followInstagram }}
+                    {{ content().gallery?.followInstagram }}
                 </span>
 
                 <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none"
@@ -30,7 +30,7 @@
         <div class="flex flex-col items-center justify-center py-20">
             <div class="w-10 h-10 border-2 border-gold border-t-transparent rounded-full animate-spin mb-4"></div>
             <p class="text-gold font-sans font-bold text-[10px] tracking-widest uppercase">
-                {{ content().shared.loading }}
+                {{ content().shared?.loading }}
             </p>
         </div>
         } @else {
@@ -90,7 +90,7 @@
                 class="group relative inline-flex items-center gap-4 px-12 py-5 border border-gold/30 text-gold font-sans font-bold text-xs tracking-[0.3em] uppercase overflow-hidden transition-all hover:text-black">
 
                 <span class="relative z-10">
-                    {{ content().gallery.viewAll }}
+                    {{ content().gallery?.viewAll }}
                 </span>
 
                 <div

@@ -172,6 +172,7 @@ export interface Content {
         empty: string;
     };
     whatsapp: {
+        status: string;
         defaultMessage: string;
         header: string;
         button: string;
@@ -190,10 +191,14 @@ export interface Content {
         loading: string;
         success: string;
         error: string;
+        nameValidation: string;
+        emailValidation: string;
+        phoneValidation: string;
         processing: string;
         back: string;
         select: string;
         seeMore: string;
+        onlineNow: string;
     };
     roles: Record<string, string>;
     packFeatures: Record<string, string>;

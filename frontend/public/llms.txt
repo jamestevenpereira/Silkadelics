@@ -1,0 +1,27 @@
+# Silkadelics
+
+Premium live cover band for weddings, corporate events, and private parties. We deliver and high-energy performances with a versatile repertoire of rock, pop, funk, soul, and dance.
+
+## Core Services
+- **Weddings:** Ceremony music, cocktail/reception sets, and full-venue party concerts.
+- **Corporate Events:** Sophisticated background music or high-energy gala entertainment.
+- **Private Parties:** Customizable sets for birthdays and exclusive celebrations.
+
+## Repertoire Insights
+Our setlist includes iconic hits from artists such as Coldplay, Linkin Park, Bruno Mars, Oasis, Kings of Leon, and many more.
+
+## Quick Links
+- **Website:** https://silkadelics.pt
+- **Gallery:** https://silkadelics.pt/gallery
+- **Booking:** https://silkadelics.pt/#booking
+- **Sitemap:** https://silkadelics.pt/sitemap.xml
+
+## Contact Information
+- **Email:** thesilkadelics@gmail.com
+- **Instagram:** https://www.instagram.com/silkadelics_
+- **YouTube:** https://www.youtube.com/@TheSilkadelics
+
+## Technical & AI Permissions
+- **AI Crawling:** Permitted for indexing and citation purposes.
+- **Content Usage:** Descriptive text and public repertoire data may be used for event planning AI assistants.
+- **Entity Identity:** Silkadelics is a MusicGroup and Organization.

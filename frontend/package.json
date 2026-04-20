@@ -6,6 +6,8 @@
     "tailwind:build": "npx @tailwindcss/cli -i src/styles.css -o src/styles-processed.css",
     "start": "npm run tailwind:build && ng serve",
     "build": "npm run tailwind:build && ng build",
+    "postbuild": "curl -s \"https://api.indexnow.org/indexnow?url=https://silkadelics.pt&key=7c2bd5e3-84f9-42b7-a3cd-b96c8a514d02\" || exit 0",
+    "prerender": "npm run tailwind:build && ng run frontend:prerender",
     "watch": "npm run tailwind:build && ng build --watch --configuration development",
     "test": "ng test"
   },
@@ -19,6 +21,9 @@
     "@angular/platform-browser": "^21.2.0",
     "@angular/platform-browser-dynamic": "^21.2.0",
     "@angular/router": "^21.2.0",
+    "@angular/ssr": "^21.2.7",
+    "@fontsource/montserrat": "^5.2.8",
+    "@fontsource/playfair-display": "^5.2.8",
     "@supabase/supabase-js": "^2.88.0",
     "browser-image-compression": "^2.0.2",
     "lucide-angular": "^0.562.0",

@@ -41,9 +41,9 @@ export class BookingFormComponent implements OnInit {
   showPackField = computed(() => {
     const eventType = this.selectedEventType();
     // Use the localized title from the current content to match
-    return this.content().eventTypes.items.some(
-      type => type.title === eventType && (type.title === 'Casamentos' || type.title === 'Weddings')
-    );
+    return this.content().eventTypes?.items?.some(
+      (type: any) => type.title === eventType && (type.title === 'Casamentos' || type.title === 'Weddings')
+    ) || false;
   });
 
   isSubmitting = false;
@@ -113,9 +113,9 @@ export class BookingFormComponent implements OnInit {
   }
 
   get bookingExtras() {
-    return this.content().packs.extras.filter(
-      extra => extra.code !== 'extra_miles'
-    );
+    return this.content().packs?.extras?.filter(
+      (extra: any) => extra.code !== 'extra_miles'
+    ) || [];
   }
 
   onSubmit() {

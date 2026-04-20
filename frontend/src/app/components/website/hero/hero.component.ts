@@ -22,6 +22,9 @@ export class HeroComponent implements OnInit, OnDestroy {
   content = this.langService.content;
   videoUrl = signal<SafeResourceUrl | null>(null);
   isMuted = signal<boolean>(true);
+  videoLoaded = signal<boolean>(false);
+  posterShown = true;
+  posterUrl = signal<string>('https://silkadelics.pt/assets/images/about-band.jpg'); // Default poster
   rawVideoUrl = '';
   player: any;
   videoId = '';
@@ -31,17 +34,18 @@ export class HeroComponent implements OnInit, OnDestroy {
       const { data } = await this.supabaseService.getPromotionalVideo();
       this.rawVideoUrl = data?.value || 'https://www.youtube.com/embed/dQw4w9WgXcQ';
       this.videoId = this.extractVideoId(this.rawVideoUrl);
-
-      if (isPlatformBrowser(this.platformId)) {
-        this.initYoutubeApi();
-      }
     } catch (err) {
       this.rawVideoUrl = 'https://www.youtube.com/embed/dQw4w9WgXcQ';
       this.videoId = this.extractVideoId(this.rawVideoUrl);
+    }
+    this.setPosterImage();
+  }
 
-      if (isPlatformBrowser(this.platformId)) {
-        this.initYoutubeApi();
-      }
+  setPosterImage(): void {
+    if (this.videoId) {
+      this.posterUrl.set(`https://img.youtube.com/vi/${this.videoId}/maxresdefault.jpg`);
+    } else {
+      this.posterUrl.set('https://silkadelics.pt/assets/images/about-band.jpg');
     }
   }
 
@@ -89,7 +93,18 @@ export class HeroComponent implements OnInit, OnDestroy {
     });
   }
 
+  loadVideo(): void {
+    if (this.videoLoaded() || !isPlatformBrowser(this.platformId)) return;
+    this.posterShown = false;
+    this.videoLoaded.set(true);
+    this.initYoutubeApi();
+  }
+
   toggleAudio() {
+    if (!this.videoLoaded()) {
+      this.loadVideo();
+      return;
+    }
     this.isMuted.set(!this.isMuted());
     if (this.player) {
       if (this.isMuted()) {

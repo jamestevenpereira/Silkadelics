@@ -16,6 +16,8 @@
             "outputPath": "dist/frontend",
             "index": "src/index.html",
             "browser": "src/main.ts",
+            "server": "src/main.server.ts",
+            "prerender": false,
             "polyfills": [
               "zone.js"
             ],
@@ -24,9 +26,19 @@
               {
                 "glob": "**/*",
                 "input": "public"
-              }
+              },
+              "src/assets"
             ],
             "styles": [
+              "@fontsource/montserrat/300.css",
+              "@fontsource/montserrat/400.css",
+              "@fontsource/montserrat/500.css",
+              "@fontsource/montserrat/600.css",
+              "@fontsource/montserrat/700.css",
+              "@fontsource/playfair-display/400.css",
+              "@fontsource/playfair-display/600.css",
+              "@fontsource/playfair-display/700.css",
+              "@fontsource/playfair-display/400-italic.css",
               "src/styles-processed.css"
             ],
             "scripts": [],
@@ -76,6 +88,28 @@
           },
           "defaultConfiguration": "development"
         },
+        "server": {
+          "builder": "@angular-devkit/build-angular:server",
+          "options": {
+            "outputPath": "dist/frontend-server",
+            "main": "src/main.server.ts",
+            "tsConfig": "tsconfig.server.json"
+          },
+          "configurations": {
+            "production": {
+              "outputHashing": "media"
+            },
+            "development": {}
+          }
+        },
+        "prerender": {
+          "builder": "@angular-devkit/build-angular:prerender",
+          "options": {
+            "browserTarget": "frontend:build",
+            "serverTarget": "frontend:server",
+            "routes": ["/","/pt","/en"]
+          }
+        },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n"
         },
@@ -94,6 +128,15 @@
               }
             ],
             "styles": [
+              "@fontsource/montserrat/300.css",
+              "@fontsource/montserrat/400.css",
+              "@fontsource/montserrat/500.css",
+              "@fontsource/montserrat/600.css",
+              "@fontsource/montserrat/700.css",
+              "@fontsource/playfair-display/400.css",
+              "@fontsource/playfair-display/600.css",
+              "@fontsource/playfair-display/700.css",
+              "@fontsource/playfair-display/400-italic.css",
               "src/styles-processed.css"
             ],
             "scripts": []

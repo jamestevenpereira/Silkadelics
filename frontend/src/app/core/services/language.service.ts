@@ -1,38 +1,55 @@
-import { Injectable, signal, inject, PLATFORM_ID, computed } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
+import { Injectable, signal, inject, PLATFORM_ID, computed, effect } from '@angular/core';
+import { isPlatformBrowser, DOCUMENT } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
+import { firstValueFrom } from 'rxjs';
 import { Content } from '../../shared/models/content.model';
-import { CONTENT_PT, CONTENT_EN } from '../../shared/data/content.data';
 
 @Injectable({
     providedIn: 'root'
 })
 export class LanguageService {
     private platformId = inject(PLATFORM_ID);
-    private language = signal<'pt' | 'en'>('en');
+    private document = inject(DOCUMENT);
+    private http = inject(HttpClient);
+    
+    private language = signal<'pt' | 'en'>('pt');
+    private contentData = signal<Content | null>(null);
 
-    content = computed(() => this.language() === 'pt' ? CONTENT_PT : CONTENT_EN);
+    content = computed(() => this.contentData() || {} as any);
 
     constructor() {
         if (isPlatformBrowser(this.platformId)) {
-            // Load preference from localStorage if available
             const savedLang = localStorage.getItem('selectedLanguage') as 'pt' | 'en';
             if (savedLang) {
                 this.language.set(savedLang);
-            } else {
-                // If no language is saved, default to 'en' and save it
-                localStorage.setItem('selectedLanguage', 'en');
             }
-            this.updateHtmlLang(this.language());
         }
     }
 
-    setLanguage(lang: 'pt' | 'en') {
+    async init() {
+        await this.loadTranslations(this.language());
+    }
+
+    private async loadTranslations(lang: 'pt' | 'en') {
+        try {
+            const data = await firstValueFrom(
+                this.http.get<Content>(`/assets/i18n/${lang}.json`)
+            );
+            this.contentData.set(data);
+        } catch (error) {
+            console.error(`Failed to load translations for ${lang}`, error);
+        }
+    }
+
+    async setLanguage(lang: 'pt' | 'en') {
         this.language.set(lang);
+        await this.loadTranslations(lang);
 
         if (isPlatformBrowser(this.platformId)) {
             localStorage.setItem('selectedLanguage', lang);
             this.updateHtmlLang(lang);
         }
+        // Metadata is now handled by components calling SeoService which uses the content() signal
     }
 
     getLanguage() {
@@ -41,7 +58,7 @@ export class LanguageService {
 
     public updateHtmlLang(lang: 'pt' | 'en') {
         if (isPlatformBrowser(this.platformId)) {
-            document.documentElement.lang = lang === 'pt' ? 'pt-PT' : 'en';
+            this.document.documentElement.lang = lang === 'pt' ? 'pt-PT' : 'en';
         }
     }
 }

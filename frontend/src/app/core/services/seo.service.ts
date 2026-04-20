@@ -3,6 +3,7 @@ import { isPlatformBrowser } from '@angular/common';
 import { Title, Meta } from '@angular/platform-browser';
 import { Router, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
+import { DOCUMENT } from '@angular/common';
 import { LanguageService } from './language.service';
 
 @Injectable({
@@ -14,6 +15,7 @@ export class SeoService {
     private meta = inject(Meta);
     private router = inject(Router);
     private langService = inject(LanguageService);
+    private document = inject(DOCUMENT);
 
     constructor() {
         this.router.events.pipe(
@@ -38,17 +40,17 @@ export class SeoService {
 
         // Localized default description
         const defaultDesc = lang === 'pt'
-            ? 'A experiência synthwave definitiva para o seu evento. Silkadelics traz a energia dos anos 80 com sofisticação moderna.'
-            : 'The ultimate synthwave experience for your event. Silkadelics brings the energy of the 80s with modern sophistication.';
+            ? 'Banda ao vivo premium para casamentos, eventos corporativos e festas privadas. Repertório versátil de rock, pop, funk, soul e dance.'
+            : 'Premium live band for weddings, corporate events, and private parties. Versatile repertoire of rock, pop, funk, soul, and dance.';
 
         const description = config.description || defaultDesc;
-        const image = config.image || 'assets/og-image.jpg';
+        const image = config.image || 'https://silkadelics.pt/assets/images/about-band.jpg';
 
         let url = config.url;
         if (!url && isBrowser) {
             url = window.location.href;
         } else if (!url) {
-            url = 'https://silkadelics.com'; // Fallback for SSR
+            url = 'https://silkadelics.pt'; // Fallback for SSR
         }
 
         const type = config.type || 'website';
@@ -57,6 +59,7 @@ export class SeoService {
 
         // Standard Meta Tags
         this.meta.updateTag({ name: 'description', content: description });
+        this.meta.removeTag('name="keywords"'); // Explicitly remove keywords if present
 
         // Open Graph
         this.meta.updateTag({ property: 'og:title', content: finalTitle });
@@ -70,18 +73,39 @@ export class SeoService {
         this.meta.updateTag({ name: 'twitter:title', content: finalTitle });
         this.meta.updateTag({ name: 'twitter:description', content: description });
         this.meta.updateTag({ name: 'twitter:image', content: image });
+
+        // Canonical URL
+        this.setCanonical(url);
+    }
+
+    setCanonical(url: string): void {
+        const doc = this.document;
+        const existing = doc.querySelector("link[rel='canonical']");
+        if (existing) {
+            existing.setAttribute('href', url);
+        } else {
+            const link = doc.createElement('link');
+            link.setAttribute('rel', 'canonical');
+            link.setAttribute('href', url);
+            doc.head.appendChild(link);
+        }
     }
 
     resetMeta() {
         this.updateMeta({});
     }
 
-    setJsonLd(data: any) {
-        if (isPlatformBrowser(this.platformId)) {
-            const script = document.createElement('script');
-            script.type = 'application/ld+json';
-            script.text = JSON.stringify(data);
-            document.head.appendChild(script);
-        }
+    setJsonLd(data: any, id?: string) {
+        const doc = this.document;
+        const scriptId = id ?? 'ld-json-default';
+
+        const existing = doc.getElementById(scriptId);
+        if (existing) existing.remove();
+
+        const script = doc.createElement('script');
+        script.type = 'application/ld+json';
+        script.id = scriptId;
+        script.text = JSON.stringify(data);
+        doc.head.appendChild(script);
     }
 }

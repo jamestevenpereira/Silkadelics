@@ -3,6 +3,7 @@ import { Component, HostListener, inject, OnInit, signal } from '@angular/core';
 import { SupabaseService } from '../../../../core/services/supabase.service';
 import { LanguageService } from '../../../../core/services/language.service';
 import { LightboxService } from '../../../../core/services/lightbox.service';
+import { SeoService } from '../../../../core/services/seo.service';
 import { RouterLink } from '@angular/router';
 import { SafePipe } from '../../../../shared/pipes/safe.pipe';
 
@@ -17,6 +18,7 @@ export class FullGalleryComponent implements OnInit {
   supabaseService = inject(SupabaseService);
   langService = inject(LanguageService);
   lightbox = inject(LightboxService);
+  seoService = inject(SeoService);
 
   content = this.langService.content;
   galleryItems = signal<any[]>([]);
@@ -70,7 +72,13 @@ export class FullGalleryComponent implements OnInit {
     document.body.style.overflow = '';
   }
 
-  async ngOnInit() {
+    async ngOnInit() {
+    this.seoService.updateMeta({
+      title: this.langService.getLanguage() === 'pt' ? 'Galeria' : 'Gallery',
+      description: this.langService.getLanguage() === 'pt'
+        ? 'Galeria de fotos e vídeos dos eventos e atuações da Silkadelics'
+        : 'Photo and video gallery of Silkadelics\' live performances and events'
+    });
     await this.loadGallery();
   }
 

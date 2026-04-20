@@ -2,26 +2,48 @@
     <!-- Video Background -->
     <div class="absolute inset-0 z-0">
         <div class="absolute inset-0 bg-black/60 z-10"></div>
+        <!-- Poster Image (shown until video loads) -->
+        <img
+            [src]="posterUrl()"
+            fetchpriority="high"
+            class="poster-image absolute inset-0 w-full h-full object-cover"
+            [class.hidden]="!posterShown"
+            alt="Silkadelics Live Band">
+        <div 
+            class="absolute inset-0 bg-black/60 z-[5]"
+            [class.hidden]="!posterShown"></div>
         <!-- YouTube IFrame Container -->
         <div id="hero-video" class="w-full h-full scale-150 pointer-events-none"></div>
     </div>
 
+    <!-- Play Overlay (shown when poster visible) -->
+    @if (posterShown) {
+    <div class="absolute inset-0 z-25 flex items-center justify-center cursor-pointer" (click)="loadVideo()">
+        <div
+            class="w-20 h-20 rounded-full bg-white/10 backdrop-blur-md border border-white/30 flex items-center justify-center text-white hover:bg-primary/80 hover:border-primary transition-all duration-500 group">
+            <svg class="w-8 h-8 ml-1" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M8 5v14l11-7z" />
+            </svg>
+        </div>
+    </div>
+    }
+
     <!-- Content -->
     <div class="relative z-20 h-full flex flex-col items-center justify-center text-center px-4 sm:px-6 lg:px-8">
         <h1 class="text-5xl md:text-8xl font-serif font-bold text-white mb-6 animate-fade-up neon-text">
-            {{ content().hero.headline }}
+            {{ content().hero?.headline }}
         </h1>
         <p class="text-lg md:text-2xl text-gray-300 font-sans font-light max-w-3xl mb-12 animate-fade-up delay-200">
-            {{ content().hero.subheadline }}
+            {{ content().hero?.subheadline }}
         </p>
         <div class="flex flex-col sm:flex-row gap-6 animate-fade-up delay-500">
             <a href="#booking"
                 class="px-12 py-5 bg-primary text-black font-sans font-bold text-xs tracking-[0.3em] uppercase rounded-xl hover:bg-white transition-all duration-300 shadow-[0_0_20px_rgba(255,45,149,0.5)]">
-                {{ content().hero.ctaPrimary }}
+                {{ content().hero?.ctaPrimary }}
             </a>
             <a href="#packs"
                 class="px-12 py-5 border border-secondary text-secondary font-sans font-bold text-xs tracking-[0.3em] uppercase rounded-xl hover:bg-secondary hover:text-black transition-all duration-300 shadow-[0_0_15px_rgba(0,243,255,0.3)]">
-                {{ content().hero.ctaSecondary }}
+                {{ content().hero?.ctaSecondary }}
             </a>
         </div>
     </div>

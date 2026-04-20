@@ -32,11 +32,11 @@ export class RepertoireComponent implements OnInit {
 
   // Translation helpers
   get totalSongsText() {
-    return this.content().repertoire.totalSongs.replace('{count}', this.totalCount().toString());
+    return this.content().repertoire?.totalSongs?.replace('{count}', this.totalCount().toString()) || '';
   }
-  get filterAllLabel() { return this.content().repertoire.filterAll; }
+  get filterAllLabel() { return this.content().repertoire?.filterAll || ''; }
   get pageOfText() {
-    return this.content().repertoire.pagination.pageOf
+    return (this.content().repertoire?.pagination?.pageOf || '')
       .replace('{current}', this.currentPage().toString())
       .replace('{total}', this.totalPages().toString());
   }

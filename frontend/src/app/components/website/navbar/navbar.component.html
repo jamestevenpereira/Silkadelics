@@ -11,25 +11,25 @@
 
             <!-- Desktop Menu -->
             <div class="hidden md:flex space-x-10 items-center">
-                <a href="#about"
+                <a [routerLink]="['/']" fragment="about"
                     class="text-xs font-sans font-bold tracking-widest text-gray-300 hover:text-gold transition-colors uppercase">{{
-                    content().navbar.links.about }}</a>
-                <a href="#events"
+                    content().navbar?.links?.about }}</a>
+                <a [routerLink]="['/']" fragment="events"
                     class="text-xs font-sans font-bold tracking-widest text-gray-300 hover:text-gold transition-colors uppercase">{{
-                    content().navbar.links.events }}</a>
-                <a href="#packs"
+                    content().navbar?.links?.events }}</a>
+                <a [routerLink]="['/']" fragment="packs"
                     class="text-xs font-sans font-bold tracking-widest text-gray-300 hover:text-gold transition-colors uppercase">{{
-                    content().navbar.links.packs }}</a>
-                <a href="#gallery"
+                    content().navbar?.links?.packs }}</a>
+                <a [routerLink]="['/']" fragment="gallery"
                     class="text-xs font-sans font-bold tracking-widest text-gray-300 hover:text-gold transition-colors uppercase">{{
-                    content().navbar.links.gallery }}</a>
-                <a href="#repertoire"
+                    content().navbar?.links?.gallery }}</a>
+                <a [routerLink]="['/']" fragment="repertoire"
                     class="text-xs font-sans font-bold tracking-widest text-gray-300 hover:text-gold transition-colors uppercase">{{
-                    content().navbar.links.repertoire }}</a>
+                    content().navbar?.links?.repertoire }}</a>
 
-                <a href="#booking"
+                <a [routerLink]="['/']" fragment="booking"
                     class="px-8 py-3 bg-white/5 border border-white/10 text-gold text-xs font-bold tracking-widest uppercase hover:bg-gold hover:text-black hover:border-gold transition-all duration-300">
-                    {{ content().navbar.bookNow }}
+                    {{ content().navbar?.bookNow }}
                 </a>
 
                 <!-- Language Switcher -->
@@ -64,23 +64,23 @@
     @if (isMenuOpen) {
     <div class="md:hidden bg-black border-t border-white/10 h-screen animate-fade-in">
         <div class="flex flex-col items-center justify-center h-[80vh] space-y-8">
-            <a href="#about" (click)="toggleMenu()"
-                class="text-2xl font-serif text-white hover:text-gold transition-colors">{{ content().navbar.links.about
+            <a [routerLink]="['/']" fragment="about" (click)="toggleMenu()"
+                class="text-2xl font-serif text-white hover:text-gold transition-colors">{{ content().navbar?.links?.about
                 }}</a>
-            <a href="#events" (click)="toggleMenu()"
+            <a [routerLink]="['/']" fragment="events" (click)="toggleMenu()"
                 class="text-2xl font-serif text-white hover:text-gold transition-colors">{{
-                content().navbar.links.events }}</a>
-            <a href="#packs" (click)="toggleMenu()"
-                class="text-2xl font-serif text-white hover:text-gold transition-colors">{{ content().navbar.links.packs
+                content().navbar?.links?.events }}</a>
+            <a [routerLink]="['/']" fragment="packs" (click)="toggleMenu()"
+                class="text-2xl font-serif text-white hover:text-gold transition-colors">{{ content().navbar?.links?.packs
                 }}</a>
-            <a href="#repertoire" (click)="toggleMenu()"
+            <a [routerLink]="['/']" fragment="repertoire" (click)="toggleMenu()"
                 class="text-2xl font-serif text-white hover:text-gold transition-colors">{{
-                content().navbar.links.repertoire }}</a>
-            <a href="#gallery" (click)="toggleMenu()"
+                content().navbar?.links?.repertoire }}</a>
+            <a [routerLink]="['/']" fragment="gallery" (click)="toggleMenu()"
                 class="text-2xl font-serif text-white hover:text-gold transition-colors">{{
-                content().navbar.links.gallery }}</a>
-            <a href="#booking" (click)="toggleMenu()" class="text-2xl font-serif text-gold font-bold">{{
-                content().navbar.bookNow }}</a>
+                content().navbar?.links?.gallery }}</a>
+            <a [routerLink]="['/']" fragment="booking" (click)="toggleMenu()" class="text-2xl font-serif text-gold font-bold">{{
+                content().navbar?.bookNow }}</a>
 
             <div class="flex space-x-6 mt-8">
                 <button (click)="setLanguage('pt')"
@@ -91,4 +91,4 @@
         </div>
     </div>
     }
-</nav>
+</nav>
