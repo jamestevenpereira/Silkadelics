@@ -1,5 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
+import { ViewportScroller } from '@angular/common';
 import { NavbarComponent } from '../../navbar/navbar.component';
 import { FooterComponent } from '../../footer/footer.component';
 import { CarouselComponent } from '../../../../shared/components/carousel/carousel.component';
@@ -15,6 +16,8 @@ import { LanguageService } from '../../../../core/services/language.service';
 export class RecommendationsComponent implements OnInit {
   private imageService = inject(RepertoireImageService);
   private langService = inject(LanguageService);
+  private router = inject(Router);
+  private scroller = inject(ViewportScroller);
 
   content = this.langService.content;
   images = this.imageService.recommendations;
@@ -22,5 +25,11 @@ export class RecommendationsComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     await this.imageService.loadRecommendations();
+  }
+
+  goToBooking(): void {
+    this.router.navigate(['/'], { fragment: 'booking' }).then(() => {
+      setTimeout(() => this.scroller.scrollToAnchor('booking'), 300);
+    });
   }
 }

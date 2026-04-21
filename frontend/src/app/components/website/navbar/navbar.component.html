@@ -27,10 +27,10 @@
                     class="text-xs font-sans font-bold tracking-widest text-gray-300 hover:text-gold transition-colors uppercase">{{
                     content().navbar?.links?.repertoire }}</a>
 
-                <a [routerLink]="['/']" fragment="booking"
+                <button (click)="goToBooking()"
                     class="px-8 py-3 bg-white/5 border border-white/10 text-gold text-xs font-bold tracking-widest uppercase hover:bg-gold hover:text-black hover:border-gold transition-all duration-300">
                     {{ content().navbar?.bookNow }}
-                </a>
+                </button>
 
                 <!-- Language Switcher -->
                 <div class="flex items-center space-x-3 border-l pl-8 border-white/10">
@@ -79,8 +79,8 @@
             <a [routerLink]="['/']" fragment="gallery" (click)="toggleMenu()"
                 class="text-2xl font-serif text-white hover:text-gold transition-colors">{{
                 content().navbar?.links?.gallery }}</a>
-            <a [routerLink]="['/']" fragment="booking" (click)="toggleMenu()" class="text-2xl font-serif text-gold font-bold">{{
-                content().navbar?.bookNow }}</a>
+            <button (click)="goToBooking()" class="text-2xl font-serif text-gold font-bold">{{
+                content().navbar?.bookNow }}</button>
 
             <div class="flex space-x-6 mt-8">
                 <button (click)="setLanguage('pt')"

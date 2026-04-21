@@ -1,5 +1,6 @@
 import { Component, inject, OnInit, signal, computed } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
+import { ViewportScroller } from '@angular/common';
 import { NavbarComponent } from '../../navbar/navbar.component';
 import { FooterComponent } from '../../footer/footer.component';
 import { CarouselComponent } from '../../../../shared/components/carousel/carousel.component';
@@ -8,7 +9,7 @@ import { LanguageService } from '../../../../core/services/language.service';
 
 interface EraTab {
   id: RepertoireEra;
-  label: string;
+  labelKey: string;
 }
 
 @Component({
@@ -20,16 +21,19 @@ interface EraTab {
 export class LibraryComponent implements OnInit {
   private imageService = inject(RepertoireImageService);
   private langService = inject(LanguageService);
+  private router = inject(Router);
+  private scroller = inject(ViewportScroller);
 
   content = this.langService.content;
   loading = this.imageService.loading;
 
   activeEra = signal<RepertoireEra>('70-90');
 
+  // Tab definitions — label resolved via content() in template
   tabs: EraTab[] = [
-    { id: '70-90', label: '70s – 90s' },
-    { id: '2000+', label: '2000+' },
-    { id: '2010+', label: '2010+' },
+    { id: '70-90', labelKey: '70-90' },
+    { id: '2000+', labelKey: '2000+' },
+    { id: '2010+', labelKey: '2010+' },
   ];
 
   activeImages = computed(() => {
@@ -56,5 +60,11 @@ export class LibraryComponent implements OnInit {
 
   isActive(era: RepertoireEra): boolean {
     return this.activeEra() === era;
+  }
+
+  goToBooking(): void {
+    this.router.navigate(['/'], { fragment: 'booking' }).then(() => {
+      setTimeout(() => this.scroller.scrollToAnchor('booking'), 300);
+    });
   }
 }

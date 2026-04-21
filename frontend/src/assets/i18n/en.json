@@ -249,6 +249,39 @@
     "empty": "No songs found.",
     "artistLabel": "Artist"
   },
+  "recommendations": {
+    "eyebrow": "Our Repertoire",
+    "title": "Our",
+    "titleHighlight": "Recommendations",
+    "subtitle": "A curated selection of songs we love to perform \u2014 the soundtrack to unforgettable moments.",
+    "backLabel": "Repertoire",
+    "ctaEyebrow": "Feel the Energy",
+    "ctaTitle": "Like this",
+    "ctaTitleHighlight": "vibe?",
+    "ctaBody": "We can bring this exact energy to your event.",
+    "ctaBodySub": "Every set is crafted for the room \u2014 curated, live, unforgettable.",
+    "ctaButton": "Book Us Now",
+    "loading": "Loading..."
+  },
+  "library": {
+    "eyebrow": "Our Repertoire",
+    "title": "Full",
+    "titleHighlight": "Library",
+    "subtitle": "Explore our full repertoire across eras \u2014 from timeless classics to modern hits.",
+    "backLabel": "Repertoire",
+    "tabs": {
+      "70-90": "70s \u2013 90s",
+      "2000+": "2000+",
+      "2010+": "2010+"
+    },
+    "loading": "Loading...",
+    "ctaEyebrow": "Sound Like You?",
+    "ctaTitle": "Ready to set the",
+    "ctaTitleHighlight": "stage?",
+    "ctaBody": "Whatever the era, whatever the vibe \u2014 we'll match it.",
+    "ctaBodySub": "Tell us about your event and let's build the perfect setlist.",
+    "ctaButton": "Book Us Now"
+  },
   "whatsapp": {
     "status": "Online now",
     "defaultMessage": "Hello! I would like to know more about Silkadelics.",

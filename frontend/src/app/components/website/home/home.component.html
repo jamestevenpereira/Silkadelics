@@ -53,8 +53,10 @@
     <div class="min-h-[600px] bg-luxury-black"></div>
     }
 
+    <!-- Scroll anchor for fragment navigation — must exist outside @defer -->
+    <div id="booking" class="scroll-mt-24"></div>
     @defer (on viewport; prefetch on idle) {
-    <app-booking-form id="booking"></app-booking-form>
+    <app-booking-form></app-booking-form>
     } @placeholder {
     <div class="min-h-[700px] bg-luxury-black"></div>
     }

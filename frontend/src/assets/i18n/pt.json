@@ -249,6 +249,39 @@
     "empty": "Nenhuma música encontrada.",
     "artistLabel": "Artista"
   },
+  "recommendations": {
+    "eyebrow": "O Nosso Repertório",
+    "title": "As Nossas",
+    "titleHighlight": "Recomendações",
+    "subtitle": "Uma seleção curada das músicas que mais gostamos de interpretar — a banda sonora dos momentos inesquecíveis.",
+    "backLabel": "Repertório",
+    "ctaEyebrow": "Sente a Energia",
+    "ctaTitle": "Gostaste",
+    "ctaTitleHighlight": "desta vibração?",
+    "ctaBody": "Podemos trazer exatamente esta energia para o teu evento.",
+    "ctaBodySub": "Cada set é feito à medida — curado, ao vivo, inesquecível.",
+    "ctaButton": "Reservar Agora",
+    "loading": "A carregar..."
+  },
+  "library": {
+    "eyebrow": "O Nosso Repertório",
+    "title": "Biblioteca",
+    "titleHighlight": "Completa",
+    "subtitle": "Explora o nosso repertório completo ao longo das décadas — de clássicos atemporais a sucessos modernos.",
+    "backLabel": "Repertório",
+    "tabs": {
+      "70-90": "Anos 70 – 90",
+      "2000+": "Anos 2000+",
+      "2010+": "Anos 2010+"
+    },
+    "loading": "A carregar...",
+    "ctaEyebrow": "Parece-te familiar?",
+    "ctaTitle": "Prontos para",
+    "ctaTitleHighlight": "subir ao palco?",
+    "ctaBody": "Qualquer época, qualquer vibe — nós adaptamo-nos.",
+    "ctaBodySub": "Conta-nos o teu evento e criamos a setlist perfeita.",
+    "ctaButton": "Reservar Agora"
+  },
   "whatsapp": {
     "status": "Online agora",
     "defaultMessage": "Olá! Gostaria de saber mais sobre Silkadelics.",

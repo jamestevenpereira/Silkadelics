@@ -1,5 +1,5 @@
 import { Component, inject, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, ViewportScroller } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 
 import { LanguageService } from '../../../core/services/language.service';
@@ -14,6 +14,7 @@ import { LanguageService } from '../../../core/services/language.service';
 export class NavbarComponent {
   langService = inject(LanguageService);
   router = inject(Router);
+  scroller = inject(ViewportScroller);
   content = this.langService.content;
 
   isMenuOpen = false;
@@ -32,5 +33,14 @@ export class NavbarComponent {
 
   scrollToTop() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  goToBooking(): void {
+    if (this.isMenuOpen) {
+      this.isMenuOpen = false;
+    }
+    this.router.navigate(['/'], { fragment: 'booking' }).then(() => {
+      setTimeout(() => this.scroller.scrollToAnchor('booking'), 300);
+    });
   }
 }
