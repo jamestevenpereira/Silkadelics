@@ -1,0 +1,94 @@
+<div class="relative w-full" (mouseenter)="onMouseEnter()" (mouseleave)="onMouseLeave()">
+
+  <!-- Slides container -->
+  <div class="relative overflow-hidden rounded-3xl" style="aspect-ratio: 16/9;">
+
+    @for (image of images(); track trackByIndex($index)) {
+    <div
+      class="absolute inset-0 transition-all duration-500 ease-in-out"
+      [class.opacity-100]="currentIndex() === $index"
+      [class.opacity-0]="currentIndex() !== $index"
+      [class.scale-100]="currentIndex() === $index"
+      [class.scale-105]="currentIndex() !== $index">
+
+      <div class="w-full h-full group overflow-hidden rounded-3xl cursor-pointer
+                  border border-white/10 hover:border-gold/30 transition-all duration-500">
+        <img
+          [src]="image.url"
+          [alt]="image.alt"
+          loading="lazy"
+          class="w-full h-full object-cover transition-transform duration-700 ease-out
+                 group-hover:scale-105
+                 drop-shadow-[0_0_30px_rgba(212,175,55,0.15)]">
+        <!-- Subtle gradient overlay on hover -->
+        <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent
+                    opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl"></div>
+      </div>
+    </div>
+    }
+
+    <!-- Empty state -->
+    @if (images().length === 0) {
+    <div class="absolute inset-0 flex items-center justify-center bg-white/5 rounded-3xl border border-white/10">
+      <div class="text-center">
+        <div class="w-12 h-12 border-2 border-gold border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+        <p class="text-gray-500 font-sans text-sm tracking-widest uppercase">Loading...</p>
+      </div>
+    </div>
+    }
+
+    <!-- Navigation arrows -->
+    @if (images().length > 1) {
+    <button
+      (click)="goToPrev()"
+      aria-label="Previous slide"
+      class="absolute left-4 top-1/2 -translate-y-1/2 z-20
+             w-11 h-11 rounded-full bg-black/40 backdrop-blur-md border border-white/20
+             text-white hover:bg-gold hover:text-black hover:border-gold
+             transition-all duration-300 flex items-center justify-center group
+             focus:outline-none focus:ring-2 focus:ring-gold/50">
+      <svg class="w-5 h-5 group-hover:-translate-x-0.5 transition-transform"
+           fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+      </svg>
+    </button>
+
+    <button
+      (click)="goToNext()"
+      aria-label="Next slide"
+      class="absolute right-4 top-1/2 -translate-y-1/2 z-20
+             w-11 h-11 rounded-full bg-black/40 backdrop-blur-md border border-white/20
+             text-white hover:bg-gold hover:text-black hover:border-gold
+             transition-all duration-300 flex items-center justify-center group
+             focus:outline-none focus:ring-2 focus:ring-gold/50">
+      <svg class="w-5 h-5 group-hover:translate-x-0.5 transition-transform"
+           fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+      </svg>
+    </button>
+    }
+  </div>
+
+  <!-- Dot indicators -->
+  @if (images().length > 1) {
+  <div class="flex items-center justify-center gap-2 mt-6" role="tablist" aria-label="Carousel navigation">
+    @for (image of images(); track trackByIndex($index)) {
+    <button
+      (click)="goTo($index)"
+      [attr.aria-selected]="currentIndex() === $index"
+      [attr.aria-label]="'Go to slide ' + ($index + 1)"
+      role="tab"
+      class="transition-all duration-300 rounded-full focus:outline-none focus:ring-1 focus:ring-gold/50"
+      [class.w-6]="currentIndex() === $index"
+      [class.h-2]="currentIndex() === $index"
+      [class.bg-gold]="currentIndex() === $index"
+      [class.w-2]="currentIndex() !== $index"
+      [class.h-2]="currentIndex() !== $index"
+      [class.bg-white]="currentIndex() !== $index"
+      [class.opacity-30]="currentIndex() !== $index"
+      [class.hover:opacity-70]="currentIndex() !== $index">
+    </button>
+    }
+  </div>
+  }
+</div>
