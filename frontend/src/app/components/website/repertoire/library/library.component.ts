@@ -1,11 +1,13 @@
 import { Component, inject, OnInit, signal, computed } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { ViewportScroller } from '@angular/common';
 import { NavbarComponent } from '../../navbar/navbar.component';
 import { FooterComponent } from '../../footer/footer.component';
 import { CarouselComponent } from '../../../../shared/components/carousel/carousel.component';
 import { RepertoireImageService, RepertoireEra } from '../../../../core/services/repertoire-image.service';
 import { LanguageService } from '../../../../core/services/language.service';
+
+const VALID_ERAS: RepertoireEra[] = ['70-90', '2000+', '2010+'];
 
 interface EraTab {
   id: RepertoireEra;
@@ -21,6 +23,7 @@ interface EraTab {
 export class LibraryComponent implements OnInit {
   private imageService = inject(RepertoireImageService);
   private langService = inject(LanguageService);
+  private route = inject(ActivatedRoute);
   private router = inject(Router);
   private scroller = inject(ViewportScroller);
 
@@ -29,7 +32,6 @@ export class LibraryComponent implements OnInit {
 
   activeEra = signal<RepertoireEra>('70-90');
 
-  // Tab definitions — label resolved via content() in template
   tabs: EraTab[] = [
     { id: '70-90', labelKey: '70-90' },
     { id: '2000+', labelKey: '2000+' },
@@ -43,11 +45,14 @@ export class LibraryComponent implements OnInit {
     return this.imageService.library2010s();
   });
 
-  loadedEras = signal<Set<RepertoireEra>>(new Set(['70-90']));
+  loadedEras = signal<Set<RepertoireEra>>(new Set());
 
   async ngOnInit(): Promise<void> {
-    await this.imageService.loadLibraryEra('70-90');
-    this.loadedEras.update(s => new Set([...s, '70-90']));
+    const eraParam = this.route.snapshot.queryParamMap.get('era') as RepertoireEra;
+    const initialEra: RepertoireEra = VALID_ERAS.includes(eraParam) ? eraParam : '70-90';
+    this.activeEra.set(initialEra);
+    await this.imageService.loadLibraryEra(initialEra);
+    this.loadedEras.update(s => new Set([...s, initialEra]));
   }
 
   async selectEra(era: RepertoireEra): Promise<void> {

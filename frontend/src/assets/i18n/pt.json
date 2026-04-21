@@ -247,7 +247,43 @@
       "pageOf": "Página {current} de {total}"
     },
     "empty": "Nenhuma música encontrada.",
-    "artistLabel": "Artista"
+    "artistLabel": "Artista",
+    "homepage": {
+      "headingPrefix": "O Nosso",
+      "subtitle": "Cada Música Escolhida para Emocionar.",
+      "featured": {
+        "badge": "Setlist Destaque",
+        "headlinePrefix": "As Escolhas",
+        "headlineHighlight": "da Banda",
+        "body": "Deixa-nos facilitar a tua escolha. Estas são as músicas que selecionámos — as que nunca falham em animar a sala, encher a pista de dança e tornar a noite inesquecível.",
+        "tagCrowdFavourites": "Favoritas do Público",
+        "tagEveryEra": "Todas as Épocas",
+        "tagAllGenres": "Todos os Géneros",
+        "cta": "Explorar as Nossas Escolhas",
+        "curatedLine1": "Curado pela",
+        "curatedLine2": "banda"
+      },
+      "browseByDecade": "Pesquisar por Década",
+      "decades": {
+        "7090s": "70–90s",
+        "2000s": "2000s",
+        "2010s": "2010s+"
+      },
+      "genreTags": {
+        "classics": "Clássicos",
+        "anthems": "Hinos",
+        "popPunk": "Pop Punk",
+        "rb": "R&B",
+        "modernPop": "Pop Moderno",
+        "electronic": "Eletrónico"
+      },
+      "viewSongs": "Ver Músicas",
+      "fullLibrary": {
+        "title": "Biblioteca Completa",
+        "subtitle": "A coleção completa — todas as épocas, todos os géneros, organizados por década.",
+        "cta": "Ver Tudo"
+      }
+    }
   },
   "recommendations": {
     "eyebrow": "O Nosso Repertório",

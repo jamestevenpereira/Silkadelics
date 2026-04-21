@@ -25,15 +25,33 @@ export class RepertoireImageService {
   error = signal<string | null>(null);
 
   async loadRecommendations(): Promise<void> {
-    const images = await this.fetchFolder('our-recommendations');
-    this.recommendations.set(images);
+    if (!isPlatformBrowser(this.platformId)) return;
+    this.loading.set(true);
+    this.error.set(null);
+    try {
+      const images = await this.fetchFolder('our-recommendations');
+      this.recommendations.set(images);
+    } catch (err: any) {
+      this.error.set(err?.message ?? 'Failed to load recommendations');
+    } finally {
+      this.loading.set(false);
+    }
   }
 
   async loadLibraryEra(era: RepertoireEra): Promise<void> {
-    const images = await this.fetchFolder(era);
-    if (era === '70-90') this.library70s90s.set(images);
-    else if (era === '2000+') this.library2000s.set(images);
-    else this.library2010s.set(images);
+    if (!isPlatformBrowser(this.platformId)) return;
+    this.loading.set(true);
+    this.error.set(null);
+    try {
+      const images = await this.fetchFolder(era);
+      if (era === '70-90') this.library70s90s.set(images);
+      else if (era === '2000+') this.library2000s.set(images);
+      else this.library2010s.set(images);
+    } catch (err: any) {
+      this.error.set(err?.message ?? `Failed to load ${era} library`);
+    } finally {
+      this.loading.set(false);
+    }
   }
 
   async loadAll(): Promise<void> {
@@ -42,10 +60,10 @@ export class RepertoireImageService {
     this.error.set(null);
     try {
       await Promise.all([
-        this.loadRecommendations(),
-        this.loadLibraryEra('70-90'),
-        this.loadLibraryEra('2000+'),
-        this.loadLibraryEra('2010+'),
+        this.fetchFolder('our-recommendations').then(i => this.recommendations.set(i)),
+        this.fetchFolder('70-90').then(i => this.library70s90s.set(i)),
+        this.fetchFolder('2000+').then(i => this.library2000s.set(i)),
+        this.fetchFolder('2010+').then(i => this.library2010s.set(i)),
       ]);
     } catch (err: any) {
       this.error.set(err?.message ?? 'Failed to load repertoire images');

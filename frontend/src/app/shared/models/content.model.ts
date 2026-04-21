@@ -170,6 +170,42 @@ export interface Content {
             pageOf: string;
         };
         empty: string;
+        homepage: {
+            headingPrefix: string;
+            subtitle: string;
+            featured: {
+                badge: string;
+                headlinePrefix: string;
+                headlineHighlight: string;
+                body: string;
+                tagCrowdFavourites: string;
+                tagEveryEra: string;
+                tagAllGenres: string;
+                cta: string;
+                curatedLine1: string;
+                curatedLine2: string;
+            };
+            browseByDecade: string;
+            decades: {
+                '7090s': string;
+                '2000s': string;
+                '2010s': string;
+            };
+            genreTags: {
+                classics: string;
+                anthems: string;
+                popPunk: string;
+                rb: string;
+                modernPop: string;
+                electronic: string;
+            };
+            viewSongs: string;
+            fullLibrary: {
+                title: string;
+                subtitle: string;
+                cta: string;
+            };
+        };
     };
     whatsapp: {
         status: string;

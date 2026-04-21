@@ -247,7 +247,43 @@
       "pageOf": "Page {current} of {total}"
     },
     "empty": "No songs found.",
-    "artistLabel": "Artist"
+    "artistLabel": "Artist",
+    "homepage": {
+      "headingPrefix": "Our",
+      "subtitle": "Every Song Chosen to Move People.",
+      "featured": {
+        "badge": "Featured Setlist",
+        "headlinePrefix": "Band's",
+        "headlineHighlight": "Top Picks",
+        "body": "Let us take the guesswork out. These are the songs we've handpicked — the ones that never fail to move a room, start a dance floor, and make a night unforgettable.",
+        "tagCrowdFavourites": "Crowd Favourites",
+        "tagEveryEra": "Every Era",
+        "tagAllGenres": "All Genres",
+        "cta": "Explore Our Choices",
+        "curatedLine1": "Curated by",
+        "curatedLine2": "the band"
+      },
+      "browseByDecade": "Browse By Decade",
+      "decades": {
+        "7090s": "70–90s",
+        "2000s": "2000s",
+        "2010s": "2010s+"
+      },
+      "genreTags": {
+        "classics": "Classics",
+        "anthems": "Anthems",
+        "popPunk": "Pop Punk",
+        "rb": "R&B",
+        "modernPop": "Modern Pop",
+        "electronic": "Electronic"
+      },
+      "viewSongs": "View Songs",
+      "fullLibrary": {
+        "title": "Full Library",
+        "subtitle": "The complete collection — every era, every genre, organised by decade.",
+        "cta": "Browse All"
+      }
+    }
   },
   "recommendations": {
     "eyebrow": "Our Repertoire",
