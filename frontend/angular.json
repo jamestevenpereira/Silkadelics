@@ -17,7 +17,7 @@
             "index": "src/index.html",
             "browser": "src/main.ts",
             "server": "src/main.server.ts",
-            "prerender": false,
+            "prerender": true,
             "polyfills": [
               "zone.js"
             ],
@@ -33,10 +33,8 @@
               "@fontsource/montserrat/300.css",
               "@fontsource/montserrat/400.css",
               "@fontsource/montserrat/500.css",
-              "@fontsource/montserrat/600.css",
               "@fontsource/montserrat/700.css",
               "@fontsource/playfair-display/400.css",
-              "@fontsource/playfair-display/600.css",
               "@fontsource/playfair-display/700.css",
               "@fontsource/playfair-display/400-italic.css",
               "src/styles-processed.css"
@@ -51,7 +49,7 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kB",
+                  "maximumWarning": "700kB",
                   "maximumError": "1MB"
                 },
                 {

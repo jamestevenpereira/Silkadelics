@@ -44,7 +44,7 @@ export class SeoService {
             : 'Premium live band for weddings, corporate events, and private parties. Versatile repertoire of rock, pop, funk, soul, and dance.';
 
         const description = config.description || defaultDesc;
-        const image = config.image || 'https://silkadelics.pt/assets/images/about-band.jpg';
+        const image = config.image || 'https://silkadelics.pt/assets/images/about-band.webp';
 
         let url = config.url;
         if (!url && isBrowser) {

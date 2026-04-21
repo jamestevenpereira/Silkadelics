@@ -2,16 +2,66 @@
 
 <main class="overflow-hidden">
     <app-hero id="home"></app-hero>
+
     <app-about id="about"></app-about>
+
+    @defer (on viewport; prefetch on idle) {
     <app-event-types id="events"></app-event-types>
+    } @placeholder {
+    <div class="min-h-[600px] bg-luxury-black"></div>
+    }
+
+    @defer (on viewport; prefetch on idle) {
     <app-packs id="packs"></app-packs>
+    } @placeholder {
+    <div class="min-h-[700px] bg-luxury-black"></div>
+    }
+
+    @defer (on viewport; prefetch on idle) {
     <app-repertoire id="repertoire"></app-repertoire>
+    } @placeholder {
+    <div class="min-h-[600px] bg-luxury-black"></div>
+    }
+
+    @defer (on viewport; prefetch on idle) {
     <app-media-gallery id="gallery"></app-media-gallery>
+    } @placeholder {
+    <div class="min-h-[600px] bg-luxury-charcoal"></div>
+    }
+
+    @defer (on viewport; prefetch on idle) {
     <app-band-members id="band"></app-band-members>
+    } @placeholder {
+    <div class="min-h-[600px] bg-luxury-charcoal"></div>
+    }
+
+    @defer (on viewport; prefetch on idle) {
     <app-partners id="partners"></app-partners>
+    } @placeholder {
+    <div class="min-h-[500px] bg-luxury-black"></div>
+    }
+
+    @defer (on viewport; prefetch on idle) {
     <app-testimonials id="testimonials"></app-testimonials>
+    } @placeholder {
+    <div class="min-h-[500px] bg-luxury-charcoal"></div>
+    }
+
+    @defer (on viewport; prefetch on idle) {
     <app-faq id="faq"></app-faq>
+    } @placeholder {
+    <div class="min-h-[600px] bg-luxury-black"></div>
+    }
+
+    @defer (on viewport; prefetch on idle) {
     <app-booking-form id="booking"></app-booking-form>
+    } @placeholder {
+    <div class="min-h-[700px] bg-luxury-black"></div>
+    }
 </main>
 
+@defer (on viewport; prefetch on idle) {
 <app-footer></app-footer>
+} @placeholder {
+<div class="min-h-[300px] bg-luxury-charcoal"></div>
+}

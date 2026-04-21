@@ -24,7 +24,7 @@ export class HeroComponent implements OnInit, OnDestroy {
   isMuted = signal<boolean>(true);
   videoLoaded = signal<boolean>(false);
   posterShown = true;
-  posterUrl = signal<string>('https://silkadelics.pt/assets/images/about-band.jpg'); // Default poster
+  posterUrl = signal<string>('/assets/images/about-band.webp'); // Default poster
   rawVideoUrl = '';
   player: any;
   videoId = '';
@@ -45,7 +45,7 @@ export class HeroComponent implements OnInit, OnDestroy {
     if (this.videoId) {
       this.posterUrl.set(`https://img.youtube.com/vi/${this.videoId}/maxresdefault.jpg`);
     } else {
-      this.posterUrl.set('https://silkadelics.pt/assets/images/about-band.jpg');
+      this.posterUrl.set('https://silkadelics.pt/assets/images/about-band.webp');
     }
   }
 
