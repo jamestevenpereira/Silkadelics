@@ -32,6 +32,12 @@ export class LanguageService {
     }
 
     private async loadTranslations(lang: 'pt' | 'en') {
+        // Skip translation fetching on the server during build/prerender to avoid relative URL issues
+        // The client will fetch them once hydrated.
+        if (!isPlatformBrowser(this.platformId)) {
+            return;
+        }
+
         try {
             const data = await firstValueFrom(
                 this.http.get<Content>(`/assets/i18n/${lang}.json`)
