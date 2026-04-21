@@ -33,6 +33,26 @@ export const routes: Routes = [
         loadComponent: () => import('./components/website/legal/terms-of-service/terms-of-service.component').then(m => m.TermsOfServiceComponent)
     },
     {
+        path: 'repertoire',
+        children: [
+            {
+                path: 'recommendations',
+                loadComponent: () => import('./components/website/repertoire/recommendations/recommendations.component')
+                    .then(m => m.RecommendationsComponent)
+            },
+            {
+                path: 'library',
+                loadComponent: () => import('./components/website/repertoire/library/library.component')
+                    .then(m => m.LibraryComponent)
+            },
+            {
+                path: '',
+                redirectTo: 'recommendations',
+                pathMatch: 'full'
+            }
+        ]
+    },
+    {
         path: '**',
         loadComponent: () => import('./components/website/not-found/not-found.component').then(m => m.NotFoundComponent)
     }
