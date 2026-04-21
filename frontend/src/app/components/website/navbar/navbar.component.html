@@ -46,7 +46,7 @@
 
             <!-- Mobile Menu Button -->
             <div class="md:hidden flex items-center space-x-6">
-                <button (click)="toggleMenu()" class="text-white hover:text-gold transition-colors focus:outline-none">
+                <button (click)="toggleMenu()" [attr.aria-label]="isMenuOpen ? 'Fechar menu' : 'Abrir menu'" [attr.aria-expanded]="isMenuOpen" class="text-white hover:text-gold transition-colors focus:outline-none focus:ring-2 focus:ring-primary/50 rounded">
                     <svg class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         @if (!isMenuOpen) {
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 8h16M4 16h16" />
@@ -84,9 +84,13 @@
 
             <div class="flex space-x-6 mt-8">
                 <button (click)="setLanguage('pt')"
-                    class="text-sm font-bold tracking-widest uppercase text-white hover:text-gold">PT</button>
+                    [class.text-white]="langService.getLanguage() === 'pt'"
+                    [class.text-gray-500]="langService.getLanguage() !== 'pt'"
+                    class="text-sm font-bold tracking-widest uppercase hover:text-gold transition-colors">PT</button>
                 <button (click)="setLanguage('en')"
-                    class="text-sm font-bold tracking-widest uppercase text-white hover:text-gold">EN</button>
+                    [class.text-white]="langService.getLanguage() === 'en'"
+                    [class.text-gray-500]="langService.getLanguage() !== 'en'"
+                    class="text-sm font-bold tracking-widest uppercase hover:text-gold transition-colors">EN</button>
             </div>
         </div>
     </div>

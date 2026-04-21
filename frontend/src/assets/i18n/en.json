@@ -1,228 +1,347 @@
 {
-    "hero": {
-        "headline": "Silkadelics",
-        "subheadline": "The premium live band perfect for your event.",
-        "ctaPrimary": "Book Now",
-        "ctaSecondary": "View Packs"
+  "hero": {
+    "headline": "Silkadelics",
+    "subheadline": "The premium live band perfect for your event.",
+    "ctaPrimary": "Book Now",
+    "ctaSecondary": "View Packs"
+  },
+  "navbar": {
+    "links": {
+      "about": "About",
+      "events": "Events",
+      "packs": "Packs",
+      "gallery": "Gallery",
+      "repertoire": "Repertoire"
     },
-    "navbar": {
-        "links": {
-            "about": "About",
-            "events": "Events",
-            "packs": "Packs",
-            "gallery": "Gallery",
-            "repertoire": "Repertoire"
-        },
-        "bookNow": "Book Now"
+    "bookNow": "Book Now"
+  },
+  "about": {
+    "title": "About Us",
+    "subtitle": "We create the soundtrack to your dreams.",
+    "description": "Silkadelics is a premium live band composed of professional musicians dedicated to elevating any event to a level of excellence. We provide an unforgettable musical experience with a carefully curated repertoire covering the greatest hits in rock, pop, funk, soul, and dance music. Our mission is to create the perfect atmosphere for your special day, combining refined technique with contagious energy on stage.\n\nWith years of experience in luxury weddings, high-profile corporate events, and exclusive private parties, we tailor our performance to each client's vision. From the sophistication of a jazz quartet cocktail setting to the impact of a stadium-sized concert for hundreds of guests, we guarantee absolute professionalism. Our recommended repertoire includes iconic artists such as Coldplay, Linkin Park, Bruno Mars, Oasis and Kings of Leon, but flexibility is our greatest strength.",
+    "badge": "Years of Excellence",
+    "ctaText": "They’ve won me over!",
+    "ctaButton": "Secure My Date",
+    "stats": {
+      "events": "Events Performed",
+      "dedication": "Dedication"
     },
-    "about": {
-        "title": "About Us",
-        "subtitle": "We create the soundtrack to your dreams.",
-        "description": "Silkadelics is a premium live band composed of professional musicians dedicated to elevating any event to a level of excellence. We provide an unforgettable musical experience with a carefully curated repertoire covering the greatest hits in rock, pop, funk, soul, and dance music. Our mission is to create the perfect atmosphere for your special day, combining refined technique with contagious energy on stage.\n\nWith years of experience in luxury weddings, high-profile corporate events, and exclusive private parties, we tailor our performance to each client's vision. From the sophistication of a jazz quartet cocktail setting to the impact of a stadium-sized concert for hundreds of guests, we guarantee absolute professionalism. Our recommended repertoire includes iconic artists such as Coldplay, Linkin Park, Bruno Mars, Oasis and Kings of Leon, but flexibility is our greatest strength.",
-        "badge": "Years of Excellence",
-        "ctaText": "They’ve won me over!",
-        "ctaButton": "Secure My Date",
-        "stats": {
-            "events": "Events Performed",
-            "dedication": "Dedication"
-        },
-        "features": [
-            { "title": "Musical Excellence", "description": "Professional musicians with years of experience." },
-            { "title": "Versatility", "description": "From Jazz to Pop, we adapt to your taste." },
-            { "title": "Pro Equipment", "description": "State-of-the-art sound and light for the best impact." }
-        ]
+    "features": [
+      {
+        "title": "Musical Excellence",
+        "description": "Professional musicians with years of experience."
+      },
+      {
+        "title": "Versatility",
+        "description": "From Jazz to Pop, we adapt to your taste."
+      },
+      {
+        "title": "Pro Equipment",
+        "description": "State-of-the-art sound and light for the best impact."
+      }
+    ]
+  },
+  "eventTypes": {
+    "title": "Events",
+    "subtitle": "Versatility for every special moment",
+    "requestQuote": "Request Quote",
+    "items": [
+      {
+        "title": "Weddings",
+        "description": "Celebrate love with distinction. We provide music for the ceremony, cocktail hour, dinner, and an unforgettable party with our main concert.",
+        "type": "weddings"
+      },
+      {
+        "title": "Corporate",
+        "description": "Impact and professionalism for galas, brand launches, and corporate parties. We adapt the energy to your brand's profile.",
+        "type": "corporate"
+      },
+      {
+        "title": "Private Parties",
+        "description": "Birthdays, themed parties, and exclusive celebrations. Personalized music for the moments that matter most to you.",
+        "type": "private"
+      }
+    ]
+  },
+  "packs": {
+    "title": "Packs",
+    "subtitle": "Choose the ideal experience",
+    "recommended": "Recommended",
+    "bronzePerformanceTitle": "Choose 1 of 4 performances:",
+    "bronzePerformanceNote": "* Only one option included in the pack",
+    "silverPerformanceTitle": "Choose 2 of 4 performances:",
+    "silverPerformanceNote": "* Only two options included in the pack",
+    "bookingLabel": "Book Now",
+    "extrasTitle": "Customize with Exclusive Extras",
+    "packNames": {
+      "Bronze": "Bronze",
+      "Prata": "Silver",
+      "Ouro": "Gold"
     },
-    "eventTypes": {
-        "title": "Events",
-        "subtitle": "Versatility for every special moment",
-        "requestQuote": "Request Quote",
-        "items": [
-            { "title": "Weddings", "description": "Celebrate love with distinction. We provide music for the ceremony, cocktail hour, dinner, and an unforgettable party with our main concert.", "type": "weddings" },
-            { "title": "Corporate", "description": "Impact and professionalism for galas, brand launches, and corporate parties. We adapt the energy to your brand's profile.", "type": "corporate" },
-            { "title": "Private Parties", "description": "Birthdays, themed parties, and exclusive celebrations. Personalized music for the moments that matter most to you.", "type": "private" }
-        ]
+    "extras": [
+      {
+        "name": "Violin (Extra Musician)",
+        "price": "On Request"
+      },
+      {
+        "name": "Extra Hour",
+        "price": "300€/h"
+      },
+      {
+        "name": "Extra Miles",
+        "price": "€0.40/km",
+        "code": "extra_miles"
+      }
+    ]
+  },
+  "gallery": {
+    "title": "Gallery",
+    "subtitle": "Unforgettable Moments",
+    "description": "Explore all our moments, videos and high-resolution photographs.",
+    "backButton": "Back to Home",
+    "loading": "Loading moments...",
+    "empty": "No moments have been added to the gallery yet.",
+    "downloadButton": "Download HD",
+    "viewButton": "View",
+    "pagination": {
+      "page": "Page",
+      "of": "of",
+      "items": "moments",
+      "previous": "Previous",
+      "next": "Next"
     },
-    "packs": {
-        "title": "Packs",
-        "subtitle": "Choose the ideal experience",
-        "recommended": "Recommended",
-        "bronzePerformanceTitle": "Choose 1 of 4 performances:",
-        "bronzePerformanceNote": "* Only one option included in the pack",
-        "silverPerformanceTitle": "Choose 2 of 4 performances:",
-        "silverPerformanceNote": "* Only two options included in the pack",
-        "bookingLabel": "Book Now",
-        "extrasTitle": "Customize with Exclusive Extras",
-        "packNames": {
-            "Bronze": "Bronze",
-            "Prata": "Silver",
-            "Ouro": "Gold"
-        },
-        "extras": [
-            { "name": "Violin (Extra Musician)", "price": "On Request" },
-            { "name": "Extra Hour", "price": "300€/h" },
-            { "name": "Extra Miles", "price": "€0.40/km", "code": "extra_miles" }
-        ]
+    "followInstagram": "Follow us on Instagram",
+    "viewAll": "View Full Gallery"
+  },
+  "testimonials": {
+    "title": "Testimonials",
+    "subtitle": "What they say about our art",
+    "empty": "No testimonials available yet.",
+    "items": [
+      {
+        "name": "Ana & Pedro",
+        "text": "The band was amazing! All the guests loved the music and the energy.",
+        "rating": 5
+      },
+      {
+        "name": "Carlos Silva",
+        "text": "Excellent professionalism. Highly recommend for corporate events.",
+        "rating": 5
+      }
+    ]
+  },
+  "faq": {
+    "title": "FAQ",
+    "subtitle": "Clear your doubts",
+    "items": [
+      {
+        "question": "How far in advance should I book?",
+        "answer": "We recommend at least 6 to 12 months in advance, especially for high season (May to September). However, feel free to inquire about last-minute openings."
+      },
+      {
+        "question": "Does the band provide sound and lighting equipment?",
+        "answer": "Yes, all our packages include a professional sound system and stage lighting suitable for the venue, ensuring the best technical quality at no extra cost."
+      },
+      {
+        "question": "How does repertoire selection work?",
+        "answer": "Select from <a href=\"#repertoire\" class=\"text-gold hover:text-white transition-colors underline\">our {count} songs</a>. We create a tailored setlist for your event. For the Weddings pack, there is always room to include 1 special song of your choice, giving the couple a unique moment during their celebration."
+      },
+      {
+        "question": "Do you travel outside your region?",
+        "answer": "Yes, Silkadelics perform across mainland Portugal, the islands, and internationally. Travel costs are calculated on a case-by-case basis to ensure the best value."
+      },
+      {
+        "question": "How long is the live performance?",
+        "answer": "Our standard concert performance lasts 2 hours (which can be split into sets). We are flexible and can adjust the duration according to your event's schedule."
+      },
+      {
+        "question": "What languages are included in the repertoire?",
+        "answer": "We sing predominantly in English and Portuguese, covering the greatest national and international hits."
+      }
+    ]
+  },
+  "booking": {
+    "title": "Book Your Date",
+    "subtitle": "Contact us to guarantee availability.",
+    "fields": {
+      "name": "Name",
+      "email": "Email",
+      "phone": "Phone",
+      "date": "Event Date",
+      "eventType": "Event Type",
+      "pack": "Desired Pack",
+      "extras": "Extras",
+      "message": "Message"
     },
-    "gallery": {
-        "title": "Gallery",
-        "subtitle": "Unforgettable Moments",
-        "description": "Explore all our moments, videos and high-resolution photographs.",
-        "backButton": "Back to Home",
-        "loading": "Loading moments...",
-        "empty": "No moments have been added to the gallery yet.",
-        "downloadButton": "Download HD",
-        "viewButton": "View",
-        "pagination": {
-            "page": "Page",
-            "of": "of",
-            "items": "moments",
-            "previous": "Previous",
-            "next": "Next"
-        },
-        "followInstagram": "Follow us on Instagram",
-        "viewAll": "View Full Gallery"
+    "submit": "Send Request",
+    "placeholders": {
+      "message": "Tell us more about your event..."
     },
-    "testimonials": {
-        "title": "Testimonials",
-        "subtitle": "What they say about our art",
-        "empty": "No testimonials available yet.",
-        "items": [
-            { "name": "Ana & Pedro", "text": "The band was amazing! All the guests loved the music and the energy.", "rating": 5 },
-            { "name": "Carlos Silva", "text": "Excellent professionalism. Highly recommend for corporate events.", "rating": 5 }
-        ]
-    },
-    "faq": {
-        "title": "FAQ",
-        "subtitle": "Clear your doubts",
-        "items": [
-            { "question": "How far in advance should I book?", "answer": "We recommend at least 6 to 12 months in advance, especially for high season (May to September). However, feel free to inquire about last-minute openings." },
-            { "question": "Does the band provide sound and lighting equipment?", "answer": "Yes, all our packages include a professional sound system and stage lighting suitable for the venue, ensuring the best technical quality at no extra cost." },
-            { "question": "How does repertoire selection work?", "answer": "Select from <a href=\"#repertoire\" class=\"text-gold hover:text-white transition-colors underline\">our {count} songs</a>. We create a tailored setlist for your event. For the Weddings pack, there is always room to include 1 special song of your choice, giving the couple a unique moment during their celebration." },
-            { "question": "Do you travel outside your region?", "answer": "Yes, Silkadelics perform across mainland Portugal, the islands, and internationally. Travel costs are calculated on a case-by-case basis to ensure the best value." },
-            { "question": "How long is the live performance?", "answer": "Our standard concert performance lasts 2 hours (which can be split into sets). We are flexible and can adjust the duration according to your event's schedule." },
-            { "question": "What languages are included in the repertoire?", "answer": "We sing predominantly in English and Portuguese, covering the greatest national and international hits." }
-        ]
-    },
-    "booking": {
-        "title": "Book Your Date",
-        "subtitle": "Contact us to guarantee availability.",
-        "fields": {
-            "name": "Name",
-            "email": "Email",
-            "phone": "Phone",
-            "date": "Event Date",
-            "eventType": "Event Type",
-            "pack": "Desired Pack",
-            "extras": "Extras",
-            "message": "Message"
-        },
-        "submit": "Send Request",
-        "placeholders": {
-            "message": "Tell us more about your event..."
-        },
-        "availability": "Availability",
-        "calendarNotice": "* Select the date on the calendar below"
-    },
-    "footer": {
-        "description": "Specialists in creating memorable musical experiences for events that demand the best. We elevate your event to a new level of sophistication.",
-        "contacts": "Contacts",
-        "socials": "Social Media",
-        "navigation": "Navigation",
-        "rights": "All rights reserved.",
-        "privacy": "Privacy Policy",
-        "terms": "Terms and Conditions",
-        "links": {
-            "about": "The Band",
-            "events": "Events",
-            "packs": "Packs",
-            "gallery": "Gallery"
-        }
-    },
-    "bandMembers": {
-        "title": "The Band",
-        "subtitle": "Musicians of excellence",
-        "members": [
-            { "id": 1, "name": "James Pereira", "role": "Vocalist", "img": "assets/img/members/vocalist.jpg", "instagram": "https://www.instagram.com/jamesteven_" },
-            { "id": 2, "name": "Ziig", "role": "Bassist", "img": "assets/img/members/bassist.jpg", "instagram": "https://www.instagram.com/ziig10/" },
-            { "id": 3, "name": "João Hilário", "role": "Guitarist", "img": "assets/img/members/guitarist.jpg", "instagram": "https://www.instagram.com/joaohilario91/" },
-            { "id": 4, "name": "Alex Cabral", "role": "Drummer", "img": "assets/img/members/drummer.jpg", "instagram": "https://www.instagram.com/alex_cabral04/" },
-            { "id": 5, "name": "Tone", "role": "Sound Technician", "img": "assets/img/members/sound.jpg", "instagram": "https://www.instagram.com/philipposmathias/" }
-        ]
-    },
-    "repertoire": {
-        "title": "Repertoire",
-        "totalSongs": "Select from our {count} songs",
-        "searchPlaceholder": "Search song or artist...",
-        "filterAll": "All Categories",
-        "pagination": {
-            "previous": "Previous",
-            "next": "Next",
-            "pageOf": "Page {current} of {total}"
-        },
-        "empty": "No songs found."
-    },
-    "whatsapp": {
-        "status": "Online now",
-        "defaultMessage": "Hello! I would like to know more about Silkadelics.",
-        "header": "Talk to Us",
-        "button": "Open WhatsApp"
-    },
-    "calendar": {
-        "title": "Calendar",
-        "weekDays": ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
-        "months": ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
-        "legend": {
-            "booked": "Booked",
-            "pending": "Pending",
-            "selected": "Your Date"
-        }
-    },
-    "shared": {
-        "loading": "Loading...",
-        "success": "Request sent successfully! We will contact you soon.",
-        "error": "An error occurred. Please try again.",
-        "nameValidation": "Letters only (A-Z)",
-        "emailValidation": "(example@domain.com)",
-        "phoneValidation": "(+, digits, spaces, -)",
-        "processing": "Processing...",
-        "back": "Back",
-        "select": "Please select an option",
-        "seeMore": "See more",
-        "onlineNow": "Online now"
-    },
-    "partners": {
-        "title": "Partners",
-        "subtitle": "Photography & Video",
-        "description": "Our trusted recommendations to ensure your most cherished moments are captured perfectly.",
-        "viewInstagram": "View Instagram",
-        "items": [
-            { "id": 1, "name": "Livi", "role": "Photographer", "instagram": "https://www.instagram.com/photo.by.livi/" },
-            { "id": 2, "name": "Tiago Pestana", "role": "Photographer and Videographer", "instagram": "https://www.instagram.com/tiagopestana98/" }
-        ]
-    },
-    "roles": {
-        "Vocalista": "Vocalist",
-        "Baixista": "Bassist",
-        "Guitarrista": "Guitarist",
-        "Baterista": "Drummer",
-        "Técnico de Som": "Sound Technician",
-        "Fotógrafo": "Photographer",
-        "Fotógrafo e Videógrafo": "Photographer and Videographer"
-    },
-    "packFeatures": {
-        "Cerimónia (Igreja ou Civil)": "Ceremony (Church or Civil)",
-        "Cocktail / Aperitivos": "Cocktail / Appetizers",
-        "Deslocação até 50km": "Travel up to 50km",
-        "Copo d'água (2h Concerto)": "Reception (2h Concert)",
-        "DJ Set (Pós-concerto)": "DJ Set (Post-concert)",
-        "- Cerimónia (Igreja ou Civil)": "- Ceremony (Church or Civil)",
-        "- Cocktail / Aperitivos": "- Cocktail / Appetizers",
-        "- Copo d'água (2h Concerto)": "- Reception (2h Concert)",
-        "- DJ Set (Pós-concerto)": "- DJ Set (Post-concert)",
-        "- Church": "- Church",
-        "- Reception + 2h Concert": "- Reception + 2h Concert",
-        "- DJ Live Set": "- DJ Live Set",
-        "Full Venue:": "Full Venue:",
-        "All Inclusive:": "All Inclusive:"
+    "availability": "Availability",
+    "calendarNotice": "* Select the date on the calendar below"
+  },
+  "footer": {
+    "description": "Specialists in creating memorable musical experiences for events that demand the best. We elevate your event to a new level of sophistication.",
+    "contacts": "Contacts",
+    "socials": "Social Media",
+    "navigation": "Navigation",
+    "rights": "All rights reserved.",
+    "privacy": "Privacy Policy",
+    "terms": "Terms and Conditions",
+    "links": {
+      "about": "The Band",
+      "events": "Events",
+      "packs": "Packs",
+      "gallery": "Gallery"
     }
+  },
+  "bandMembers": {
+    "title": "The Band",
+    "subtitle": "Musicians of excellence",
+    "members": [
+      {
+        "id": 1,
+        "name": "James Pereira",
+        "role": "Vocalist",
+        "img": "assets/img/members/vocalist.jpg",
+        "instagram": "https://www.instagram.com/jamesteven_"
+      },
+      {
+        "id": 2,
+        "name": "Ziig",
+        "role": "Bassist",
+        "img": "assets/img/members/bassist.jpg",
+        "instagram": "https://www.instagram.com/ziig10/"
+      },
+      {
+        "id": 3,
+        "name": "João Hilário",
+        "role": "Guitarist",
+        "img": "assets/img/members/guitarist.jpg",
+        "instagram": "https://www.instagram.com/joaohilario91/"
+      },
+      {
+        "id": 4,
+        "name": "Alex Cabral",
+        "role": "Drummer",
+        "img": "assets/img/members/drummer.jpg",
+        "instagram": "https://www.instagram.com/alex_cabral04/"
+      },
+      {
+        "id": 5,
+        "name": "Tone",
+        "role": "Sound Technician",
+        "img": "assets/img/members/sound.jpg",
+        "instagram": "https://www.instagram.com/philipposmathias/"
+      }
+    ]
+  },
+  "repertoire": {
+    "title": "Repertoire",
+    "totalSongs": "Select from our {count} songs",
+    "searchPlaceholder": "Search song or artist...",
+    "filterAll": "All Categories",
+    "pagination": {
+      "previous": "Previous",
+      "next": "Next",
+      "pageOf": "Page {current} of {total}"
+    },
+    "empty": "No songs found.",
+    "artistLabel": "Artist"
+  },
+  "whatsapp": {
+    "status": "Online now",
+    "defaultMessage": "Hello! I would like to know more about Silkadelics.",
+    "header": "Talk to Us",
+    "button": "Open WhatsApp"
+  },
+  "calendar": {
+    "title": "Calendar",
+    "weekDays": [
+      "Sun",
+      "Mon",
+      "Tue",
+      "Wed",
+      "Thu",
+      "Fri",
+      "Sat"
+    ],
+    "months": [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December"
+    ],
+    "legend": {
+      "booked": "Booked",
+      "pending": "Pending",
+      "selected": "Your Date"
+    }
+  },
+  "shared": {
+    "loading": "Loading...",
+    "success": "Request sent successfully! We will contact you soon.",
+    "error": "An error occurred. Please try again.",
+    "nameValidation": "Letters only (A-Z)",
+    "emailValidation": "(example@domain.com)",
+    "phoneValidation": "(+, digits, spaces, -)",
+    "processing": "Processing...",
+    "back": "Back",
+    "select": "Please select an option",
+    "seeMore": "See more",
+    "onlineNow": "Online now"
+  },
+  "partners": {
+    "title": "Partners",
+    "subtitle": "Photography & Video",
+    "description": "Our trusted recommendations to ensure your most cherished moments are captured perfectly.",
+    "viewInstagram": "View Instagram",
+    "items": [
+      {
+        "id": 1,
+        "name": "Livi",
+        "role": "Photographer",
+        "instagram": "https://www.instagram.com/photo.by.livi/"
+      },
+      {
+        "id": 2,
+        "name": "Tiago Pestana",
+        "role": "Photographer and Videographer",
+        "instagram": "https://www.instagram.com/tiagopestana98/"
+      }
+    ]
+  },
+  "roles": {
+    "Vocalista": "Vocalist",
+    "Baixista": "Bassist",
+    "Guitarrista": "Guitarist",
+    "Baterista": "Drummer",
+    "Técnico de Som": "Sound Technician",
+    "Fotógrafo": "Photographer",
+    "Fotógrafo e Videógrafo": "Photographer and Videographer"
+  },
+  "packFeatures": {
+    "Cerimónia (Igreja ou Civil)": "Ceremony (Church or Civil)",
+    "Cocktail / Aperitivos": "Cocktail / Appetizers",
+    "Deslocação até 50km": "Travel up to 50km",
+    "Copo d'água (2h Concerto)": "Reception (2h Concert)",
+    "DJ Set (Pós-concerto)": "DJ Set (Post-concert)",
+    "- Cerimónia (Igreja ou Civil)": "- Ceremony (Church or Civil)",
+    "- Cocktail / Aperitivos": "- Cocktail / Appetizers",
+    "- Copo d'água (2h Concerto)": "- Reception (2h Concert)",
+    "- DJ Set (Pós-concerto)": "- DJ Set (Post-concert)",
+    "- Church": "- Church",
+    "- Reception + 2h Concert": "- Reception + 2h Concert",
+    "- DJ Live Set": "- DJ Live Set",
+    "Full Venue:": "Full Venue:",
+    "All Inclusive:": "All Inclusive:"
+  }
 }

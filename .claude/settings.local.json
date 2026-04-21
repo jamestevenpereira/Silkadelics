@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python skills/ui-ux-pro-max/scripts/search.py \"premium live band entertainment events weddings corporate luxury neon dark\" --design-system -p \"Silkadelics\")",
+      "Bash(python \"C:\\\\Users\\\\jonny\\\\.claude\\\\skills\\\\ui-ux-pro-max\\\\scripts\\\\search.py\" \"premium live band entertainment events weddings corporate luxury neon dark\" --design-system -p \"Silkadelics\")"
+    ]
+  }
+}

@@ -24,7 +24,7 @@
                         class="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent group-hover:opacity-100 transition-opacity duration-500 flex items-end justify-center pb-10 {{ activeMemberId() === member.id ? 'opacity-100' : 'opacity-0' }}">
                         <div
                             class="flex space-x-4 group-hover:translate-y-0 transition-transform duration-500 {{ activeMemberId() === member.id ? 'translate-y-0' : 'translate-y-10' }}">
-                            <a [href]="member.instagram" target="_blank"
+                            <a [href]="member.instagram" target="_blank" rel="noopener noreferrer" [attr.aria-label]="member.name + ' no Instagram'"
                                 class="w-10 h-10 rounded-full bg-gold/20 backdrop-blur-md border border-gold/30 flex items-center justify-center text-gold hover:bg-gold hover:text-black transition-all">
                                 <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                                     <path

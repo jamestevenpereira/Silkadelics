@@ -14,8 +14,8 @@
             <div class="group rounded-2xl overflow-hidden transition-all duration-500"
                 [class.bg-white_5]="openIndex !== i" [class.bg-gold_5]="openIndex === i"
                 [class.border-white_10]="openIndex !== i" [class.border-gold_30]="openIndex === i" class="border">
-                <button (click)="toggle(i)"
-                    class="w-full flex justify-between items-center p-8 text-left transition-all duration-300">
+                <button (click)="toggle(i)" [attr.aria-expanded]="openIndex === i"
+                    class="w-full flex justify-between items-center p-8 text-left transition-all duration-300 focus:ring-2 focus:ring-inset focus:ring-gold/50 focus:outline-none">
                     <span class="text-lg font-serif font-bold transition-colors" [class.text-white]="openIndex !== i"
                         [class.text-gold]="openIndex === i">{{ item.question }}</span>
 

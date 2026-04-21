@@ -28,6 +28,7 @@ export class LanguageService {
 
     async init() {
         await this.loadTranslations(this.language());
+        this.updateHtmlLang(this.language());
     }
 
     private async loadTranslations(lang: 'pt' | 'en') {

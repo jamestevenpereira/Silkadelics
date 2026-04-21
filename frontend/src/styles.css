@@ -148,6 +148,32 @@ h6 {
   }
 }
 
+/* Slow spin for decorative elements */
+@keyframes spinSlow {
+  to { transform: rotate(360deg); }
+}
+.animate-spin-slow {
+  animation: spinSlow 20s linear infinite;
+}
+
+/* Glass card variant (alias of glass) */
+.glass-card {
+  background: rgba(13, 2, 33, 0.7);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 45, 149, 0.15);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+/* Respect reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;

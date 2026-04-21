@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal, computed } from '@angular/core';
+import { Component, inject, OnInit, signal, computed, effect } from '@angular/core';
 
 import { LanguageService } from '../../../core/services/language.service';
 import { SupabaseService } from '../../../core/services/supabase.service';
@@ -23,12 +23,30 @@ export class FaqComponent implements OnInit {
   parsedItems = computed(() => {
     const faq = this.content()?.faq;
     if (!faq?.items) return [];
-    
     return faq.items.map((item: any) => ({
       ...item,
       answer: item.answer.replace('{count}', this.totalCount().toString())
     }));
   });
+
+  constructor() {
+    effect(() => {
+      const items = this.parsedItems();
+      if (!items.length) return;
+      this.seoService.setJsonLd({
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: items.map((item: any) => ({
+          '@type': 'Question',
+          name: item.question,
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: item.answer.replace(/<[^>]*>/g, '')
+          }
+        }))
+      }, 'ld-faq');
+    });
+  }
 
   async ngOnInit() {
     try {
@@ -37,23 +55,6 @@ export class FaqComponent implements OnInit {
     } catch (err) {
       console.error('Error fetching song count:', err);
     }
-    this.injectFaqSchema();
-  }
-
-  injectFaqSchema(): void {
-    const items = this.parsedItems().map((item: any) => ({
-      '@type': 'Question',
-      name: item.question,
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: item.answer.replace(/<[^>]*>/g, '').replace(/\{count\}/g, this.totalCount().toString())
-      }
-    }));
-    this.seoService.setJsonLd({
-      '@context': 'https://schema.org',
-      '@type': 'FAQPage',
-      mainEntity: items
-    }, 'ld-faq');
   }
 
   toggle(index: number) {
