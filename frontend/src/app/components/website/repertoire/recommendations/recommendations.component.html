@@ -1,0 +1,92 @@
+<app-navbar></app-navbar>
+
+<main class="min-h-screen bg-luxury-black overflow-hidden">
+
+  <!-- Background Glows -->
+  <div class="fixed inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
+    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[900px] bg-gold/5 rounded-full blur-[180px] -translate-y-1/2"></div>
+    <div class="absolute bottom-0 right-0 w-[600px] h-[600px] bg-gold/3 rounded-full blur-[160px]"></div>
+  </div>
+
+  <!-- Hero Section -->
+  <section class="pt-40 pb-20 px-4 sm:px-6 lg:px-8 relative z-10">
+    <div class="max-w-7xl mx-auto">
+
+      <!-- Back navigation -->
+      <a routerLink="/" fragment="repertoire"
+         class="inline-flex items-center gap-2 text-gold text-xs font-bold tracking-widest uppercase mb-12
+                hover:text-white transition-colors group">
+        <svg class="w-4 h-4 transform group-hover:-translate-x-1 transition-transform"
+             fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+        </svg>
+        Repertório
+      </a>
+
+      <!-- Title block -->
+      <div class="text-center mb-20 animate-fade-up">
+        <p class="text-gold text-xs font-bold tracking-[0.4em] uppercase mb-6">Our Repertoire</p>
+        <h1 class="text-5xl md:text-7xl font-serif font-bold text-white mb-6 leading-tight">
+          Our <span class="italic text-gold">Recommendations</span>
+        </h1>
+        <p class="text-gray-400 font-sans font-light text-xl max-w-2xl mx-auto leading-relaxed">
+          A curated selection of songs we love to perform — the soundtrack to unforgettable moments.
+        </p>
+        <div class="w-16 h-px bg-gold/40 mx-auto mt-8"></div>
+      </div>
+
+      <!-- Carousel -->
+      <div class="max-w-5xl mx-auto animate-fade-up">
+        @if (loading()) {
+        <div class="flex flex-col items-center justify-center py-32">
+          <div class="w-12 h-12 border-2 border-gold border-t-transparent rounded-full animate-spin mb-4"></div>
+          <p class="text-gold font-sans font-bold text-xs tracking-widest uppercase">Loading...</p>
+        </div>
+        } @else {
+        <app-carousel [images]="images()" [autoplayDelay]="5000"></app-carousel>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Conversion CTA Section -->
+  <section class="py-28 px-4 sm:px-6 lg:px-8 relative z-10">
+    <div class="max-w-4xl mx-auto">
+      <div class="relative glass-dark rounded-[40px] border border-gold/20 p-12 md:p-16 text-center overflow-hidden
+                  hover:border-gold/40 transition-all duration-700 group">
+
+        <!-- Inner glow -->
+        <div class="absolute inset-0 bg-gradient-to-br from-gold/5 via-transparent to-gold/3 rounded-[40px]
+                    opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-64 h-px bg-gradient-to-r from-transparent via-gold/50 to-transparent"></div>
+
+        <div class="relative z-10">
+          <p class="text-gold text-xs font-bold tracking-[0.4em] uppercase mb-6">Feel the Energy</p>
+          <h2 class="text-4xl md:text-5xl font-serif font-bold text-white mb-6 leading-tight">
+            Like this <span class="italic text-gold">vibe?</span>
+          </h2>
+          <p class="text-gray-300 font-sans font-light text-lg max-w-xl mx-auto mb-12 leading-relaxed">
+            We can bring this exact energy to your event.<br>
+            <span class="text-gray-500 text-base">Every set is crafted for the room — curated, live, unforgettable.</span>
+          </p>
+
+          <a routerLink="/" fragment="booking"
+             class="inline-flex items-center gap-3 px-12 py-5
+                    bg-gold text-black font-sans font-bold text-xs tracking-[0.3em] uppercase
+                    rounded-2xl hover:bg-white transition-all duration-300
+                    shadow-[0_0_40px_rgba(212,175,55,0.3)] hover:shadow-[0_0_60px_rgba(255,255,255,0.2)]
+                    group/btn">
+            Book Us Now
+            <svg class="w-4 h-4 group-hover/btn:translate-x-1 transition-transform"
+                 fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<app-footer></app-footer>
