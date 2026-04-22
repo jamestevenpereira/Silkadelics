@@ -78,10 +78,15 @@ export class RepertoireImageService {
       .from(BUCKET)
       .list(folder, { sortBy: { column: 'name', order: 'asc' } });
 
-    if (error || !data) return [];
+    if (error) {
+      console.error(`[RepertoireImageService] Failed to list bucket folder "${folder}"`, error);
+      throw new Error(`Unable to load images from "${folder}". Check Supabase bucket policies and folder names.`);
+    }
+    if (!data) return [];
 
+    const allowedExtensions = ['.webp', '.jpg', '.jpeg', '.png'];
     return data
-      .filter(f => f.name.endsWith('.webp'))
+      .filter(f => allowedExtensions.some(ext => f.name.toLowerCase().endsWith(ext)))
       .map(f => {
         const url = this.supabase.client.storage.from(BUCKET).getPublicUrl(`${folder}/${f.name}`).data.publicUrl;
         return { url, name: f.name, alt: f.name.replace('.webp', '').replace(/-/g, ' ') };

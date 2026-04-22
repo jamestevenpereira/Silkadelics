@@ -1,0 +1,121 @@
+<div class="relative w-full">
+  <!-- Gooey Filter SVG -->
+  <svg style="position: absolute; width: 0; height: 0;" aria-hidden="true">
+    <defs>
+      <filter id="gooey-effect">
+        <feGaussianBlur in="SourceGraphic" stdDeviation="7" result="blur" />
+        <feColorMatrix in="blur" type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -8" result="goo" />
+        <feComposite in="SourceGraphic" in2="goo" operator="atop" />
+      </filter>
+    </defs>
+  </svg>
+
+  <form
+    (submit)="handleSubmit($event)"
+    class="relative flex items-center justify-center w-full mx-auto"
+    [@containerGrow]="isFocused() ? 'focused' : 'unfocused'"
+    (mousemove)="handleMouseMove($event)"
+  >
+    <div
+      class="flex items-center w-full rounded-full border relative overflow-hidden backdrop-blur-md transition-shadow duration-500"
+      [ngClass]="isFocused() ? 'border-transparent shadow-xl' : 'border-white/10 bg-white/5 dark:bg-white/5'"
+      [style.boxShadow]="isClicked() ? '0 0 40px rgba(255, 45, 149, 0.4), 0 0 15px rgba(157, 0, 255, 0.4) inset' : (isFocused() ? '0 15px 35px rgba(0, 0, 0, 0.4)' : 'none')"
+      (click)="handleClick($event)"
+    >
+      <!-- Background Gradient Animation (Luxury Primary/Purple) -->
+      <div *ngIf="isFocused()" class="absolute inset-0 -z-10 opacity-20 animate-gradient-slow bg-[linear-gradient(90deg,var(--color-primary)_0%,var(--color-purple-neon)_100%)]"></div>
+
+      <!-- Gooey Particles -->
+      <div
+        class="absolute inset-0 overflow-hidden rounded-full -z-[5]"
+        [style.filter]="isUnsupportedBrowser ? 'none' : 'url(#gooey-effect)'"
+      >
+        <div *ngIf="isFocused()">
+          <div *ngFor="let p of particles" 
+               class="absolute w-3 h-3 rounded-full bg-gradient-to-r from-primary/60 to-purple-neon/60 animate-particle-float"
+               [style.left.%]="p.left"
+               [style.top.%]="p.top"
+               [style.--tw-duration]="p.duration + 's'"
+               [style.--tw-delay]="p.delay + 's'"
+               [style.--tw-x]="p.x + 'px'"
+               [style.--tw-y]="p.y + 'px'"
+               [style.--tw-scale]="p.scale">
+          </div>
+        </div>
+      </div>
+
+      <!-- Click Effects -->
+      <div *ngIf="isClicked()">
+        <div class="absolute inset-0 -z-[5] rounded-full bg-primary/10 animate-ping-once"></div>
+        <div class="absolute inset-0 -z-[5] rounded-full bg-white/10 animate-fade-out"></div>
+        
+        <div *ngFor="let cp of clickParticles()"
+             class="absolute w-3 h-3 rounded-full shadow-[0_0_8px_rgba(255,255,255,0.8)] animate-click-particle"
+             [style.left.px]="cp.x"
+             [style.top.px]="cp.y"
+             [style.background]="cp.color"
+             [style.--tw-tx]="cp.tx + 'px'"
+             [style.--tw-ty]="cp.ty + 'px'"
+             [style.--tw-scale]="cp.scale"
+             [style.--tw-duration]="cp.duration + 's'">
+        </div>
+      </div>
+
+      <!-- Search Icon -->
+      <div class="pl-4 py-3 transition-transform duration-300" [class.scale-125]="isAnimating()" [class.rotate-12]="isAnimating()">
+        <lucide-icon
+          [name]="searchIcon"
+          [size]="20"
+          [strokeWidth]="isFocused() ? 2.5 : 2"
+          class="transition-all duration-300"
+          [ngClass]="isAnimating() ? 'text-primary' : (isFocused() ? 'text-primary' : 'text-gray-400')"
+        ></lucide-icon>
+      </div>
+
+      <!-- Input Field -->
+      <input
+        #searchInput
+        type="text"
+        [placeholder]="placeholder"
+        [ngModel]="searchQuery()"
+        (ngModelChange)="handleSearch($event)"
+        (focus)="onFocus()"
+        (blur)="onBlur()"
+        class="w-full py-3 pl-4 bg-transparent outline-none placeholder:text-gray-500 font-medium text-base relative z-10"
+        [ngClass]="isFocused() ? 'text-white tracking-wide' : 'text-gray-300'"
+      />
+
+      <!-- Search Button -->
+      <button
+        *ngIf="searchQuery()"
+        type="submit"
+        class="px-5 py-2 mr-2 text-sm font-medium rounded-full bg-gradient-to-r from-primary to-purple-neon text-white backdrop-blur-sm transition-all shadow-lg hover:scale-105 hover:shadow-primary/30 active:scale-95"
+      >
+        Search
+      </button>
+
+      <!-- Glass Highlight -->
+      <div *ngIf="isFocused()" class="absolute inset-0 rounded-full opacity-10 bg-[radial-gradient(circle_at_50%_0%,rgba(255,255,255,0.8)_0%,transparent_70%)] animate-pulse"></div>
+    </div>
+  </form>
+
+  <!-- Suggestions Dropdown -->
+  <div *ngIf="isFocused() && suggestions().length > 0" 
+       [@suggestionList]
+       class="absolute z-10 w-full mt-2 overflow-hidden bg-white/90 dark:bg-gray-900/90 backdrop-blur-md rounded-lg shadow-xl border border-gray-100 dark:border-gray-700"
+       style="max-height: 300px; overflow-y: auto;">
+    <div class="p-2">
+      <div
+        *ngFor="let suggestion of suggestions(); let i = index"
+        [@suggestionItem]="{value: '', params: {delay: i * 70}}"
+        (click)="selectSuggestion(suggestion)"
+        class="flex items-center gap-2 px-4 py-2 cursor-pointer rounded-md hover:bg-purple-50 dark:hover:bg-purple-900/20 group transition-colors"
+      >
+        <lucide-icon [name]="dotIcon" [size]="16" class="text-purple-400 group-hover:text-purple-600"></lucide-icon>
+        <span class="text-gray-700 dark:text-gray-100 group-hover:text-purple-700 dark:group-hover:text-purple-400 font-medium">
+          {{ suggestion }}
+        </span>
+      </div>
+    </div>
+  </div>
+</div>

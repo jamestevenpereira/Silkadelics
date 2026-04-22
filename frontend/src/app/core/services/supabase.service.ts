@@ -42,6 +42,8 @@ export class SupabaseService {
                     persistSession: isBrowser,
                     autoRefreshToken: isBrowser,
                     detectSessionInUrl: isBrowser,
+                    // Avoid browser LockManager contention errors by using an in-process lock.
+                    lock: async (_name: string, _acquireTimeout: number, fn: () => Promise<any>) => await fn(),
                     // Uses Supabase default storage key (matches what was saved on login)
                 }
             });

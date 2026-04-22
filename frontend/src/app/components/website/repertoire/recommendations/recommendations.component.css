@@ -1,0 +1,40 @@
+.carousel-vertical-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem 0;
+  position: relative; /* IMPORTANTE para o ::before */
+}
+
+/* Garante que o carousel não força altura e limita largura */
+.carousel-vertical-wrapper app-carousel {
+  width: 100%;
+  max-width: 450px; /* Limita a largura total do carousel */
+  margin: 0 auto;
+}
+
+/* Imagens verticais naturais */
+.carousel-vertical-wrapper img {
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  max-height: 35vh; /* Diminui um pouco a altura máxima */
+  margin: 0 auto;
+  object-fit: contain;
+  object-position: center;
+  display: block;
+  border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+}
+
+/* Fundo elegante atrás */
+.carousel-vertical-wrapper::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(20,20,20,0.6) 0%, rgba(10,10,10,0.8) 100%);
+  backdrop-filter: blur(8px);
+  z-index: -1;
+  border-radius: 16px;
+}

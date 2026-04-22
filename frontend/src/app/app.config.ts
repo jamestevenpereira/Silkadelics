@@ -1,6 +1,17 @@
 import { ApplicationConfig, provideZoneChangeDetection, importProvidersFrom, APP_INITIALIZER } from '@angular/core';
 import { provideRouter, withInMemoryScrolling } from '@angular/router';
 import { provideHttpClient, withFetch } from '@angular/common/http';
+import { provideAnimations } from '@angular/platform-browser/animations';
+import {
+  LucideAngularModule,
+  ChevronLeft,
+  ChevronRight,
+  ArrowUpRight,
+  ArrowRight,
+  X,
+  Search,
+  CircleDot
+} from 'lucide-angular';
 import { LanguageService } from './core/services/language.service';
 
 import { routes } from './app.routes';
@@ -15,6 +26,18 @@ export const appConfig: ApplicationConfig = {
       })
     ),
     provideHttpClient(withFetch()),
+    provideAnimations(),
+    importProvidersFrom(
+      LucideAngularModule.pick({
+        ChevronLeft,
+        ChevronRight,
+        ArrowUpRight,
+        ArrowRight,
+        X,
+        Search,
+        CircleDot
+      })
+    ),
     {
       provide: APP_INITIALIZER,
       useFactory: (langService: LanguageService) => () => langService.init(),

@@ -297,6 +297,18 @@
     "ctaBody": "Podemos trazer exatamente esta energia para o teu evento.",
     "ctaBodySub": "Cada set é feito à medida — curado, ao vivo, inesquecível.",
     "ctaButton": "Reservar Agora",
+    "table": {
+      "handpicked": "Recomendações Escolhidas a Dedo",
+      "index": "#",
+      "artist": "Artista",
+      "track": "Música Recomendada",
+      "totalRecommendations": "Total de Recomendações",
+      "rowsPerPage": "Registos por página",
+      "page": "Página",
+      "of": "de",
+      "previous": "Anterior",
+      "next": "Próxima"
+    },
     "loading": "A carregar..."
   },
   "library": {
@@ -309,6 +321,20 @@
       "70-90": "Anos 70 – 90",
       "2000+": "Anos 2000+",
       "2010+": "Anos 2010+"
+    },
+    "table": {
+      "index": "#",
+      "artist": "Artista",
+      "track": "Música",
+      "totalSongs": "Total de Músicas",
+      "rowsPerPage": "Registos por página",
+      "page": "Página",
+      "of": "de",
+      "previous": "Anterior",
+      "next": "Próxima",
+      "downloadPdf": "Descarregar PDF",
+      "suggestText": "Não encontras a tua música especial? Nós adoramos aprender temas novos!",
+      "suggestBtn": "Sugerir uma Música"
     },
     "loading": "A carregar...",
     "ctaEyebrow": "Parece-te familiar?",
