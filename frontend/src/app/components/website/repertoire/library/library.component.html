@@ -28,7 +28,8 @@
       <div class="text-center mb-16 animate-fade-up">
         <p class="text-primary text-xs font-bold tracking-[0.4em] uppercase mb-6">{{ content().library?.eyebrow }}</p>
         <h1 class="text-5xl md:text-7xl font-serif font-bold text-white mb-6 leading-tight">
-          {{ content().library?.title }} <span class="italic text-primary">{{ content().library?.titleHighlight }}</span>
+          {{ content().library?.title }} <span class="italic text-primary">{{ content().library?.titleHighlight
+            }}</span>
         </h1>
         <p class="text-gray-400 font-sans font-light text-xl max-w-2xl mx-auto leading-relaxed">
           {{ content().library?.subtitle }}
@@ -60,17 +61,14 @@
         <div class="flex flex-col md:flex-row gap-8 mb-12 items-center justify-between">
           <!-- Premium Search bar -->
           <div class="w-full md:w-fit">
-            <app-search-bar 
-              [placeholder]="content().repertoire?.searchPlaceholder || 'Pesquisar ...'"
+            <app-search-bar [placeholder]="content().repertoire?.searchPlaceholder || 'Pesquisar ...'"
               (onSearch)="onSearch($event)">
             </app-search-bar>
           </div>
 
           <!-- Premium Download button -->
-          <app-button-shiny
-            [label]="content().library?.table?.downloadPdf || 'Descarregar PDF'"
-            className="w-full md:w-fit"
-            (onClick)="downloadPdf()">
+          <app-button-shiny [label]="content().library?.table?.downloadPdf || 'Descarregar PDF'"
+            className="w-full md:w-fit" (onClick)="downloadPdf()">
           </app-button-shiny>
         </div>
 
@@ -218,9 +216,11 @@
         <div class="mt-2 flex flex-col items-center text-center">
           <div class="w-12 h-px bg-primary/30 mb-8"></div>
           <p class="text-gray-400 font-sans text-sm mb-6 max-w-sm">
-            {{ content().library?.table?.suggestText || 'Não encontras a tua música especial? Nós adoramos aprender temas novos!' }}
+            {{ content().library?.table?.suggestText || 'Não encontras a tua música especial? Nós adoramos aprender
+            temas novos!' }}
           </p>
           <button
+            (click)="openSuggestionModal()"
             class="px-8 py-4 border border-primary/30 rounded-2xl text-xs font-sans font-bold uppercase tracking-[0.2em] text-primary hover:bg-primary hover:text-black hover:border-primary transition-all duration-300 cursor-pointer">
             {{ content().library?.table?.suggestBtn || 'Sugerir uma Música' }}
           </button>
@@ -228,6 +228,10 @@
       </div>
     </div>
   </section>
+
+  @if (showSuggestionModal()) {
+    <app-song-suggestion-modal (close)="closeSuggestionModal()"></app-song-suggestion-modal>
+  }
 
   <!-- CTA Section -->
   <section class="pb-24 px-4 sm:px-6 lg:px-8 relative z-10">
@@ -241,7 +245,8 @@
         </div>
 
         <div class="relative z-10">
-          <p class="text-primary text-xs font-bold tracking-[0.4em] uppercase mb-6">{{ content().library?.ctaEyebrow }}</p>
+          <p class="text-primary text-xs font-bold tracking-[0.4em] uppercase mb-6">{{ content().library?.ctaEyebrow }}
+          </p>
           <h2 class="text-4xl md:text-5xl font-serif font-bold text-white mb-6 leading-tight">
             {{ content().library?.ctaTitle }} <span class="italic text-primary">{{ content().library?.ctaTitleHighlight
               }}</span>

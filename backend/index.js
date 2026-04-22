@@ -165,6 +165,94 @@ app.post('/api/bookings', bookingLimiter, async (req, res) => {
   }
 });
 
+// Song Suggestion
+app.post('/api/suggestions', async (req, res) => {
+  try {
+    const { name, email, artist, song, message } = req.body;
+
+    if (!artist || !song) {
+      return res.status(400).json({ error: 'Artist and Song are required.' });
+    }
+
+    // Send Email Notification via Resend
+    const { data: emailData, error: emailError } = await resend.emails.send({
+      from: 'Silkadelics Suggestions <onboarding@resend.dev>',
+      to: 'silkadelics@gmail.com',
+      subject: `Nova Sugestão de Música: ${song} - ${artist}`,
+      html: `
+<!DOCTYPE html>
+<html lang="pt">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"></head>
+<body style="margin:0;padding:0;background:#05010d;font-family:Montserrat,Helvetica,Arial,sans-serif">
+  <table width="100%" cellpadding="0" cellspacing="0" style="max-width:600px;margin:0 auto;background:#05010d">
+    <tr>
+      <td style="padding:40px 30px 20px;text-align:center;border-bottom:1px solid rgba(157,0,255,0.3)">
+        <div style="font-size:11px;letter-spacing:6px;text-transform:uppercase;color:#9d00ff;margin-bottom:6px;">new</div>
+        <div style="font-size:28px;font-weight:700;letter-spacing:3px;text-transform:uppercase;background:linear-gradient(135deg,#ff2d95,#9d00ff,#00f3ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">Suggestion</div>
+        <div style="font-size:9px;letter-spacing:6px;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-top:6px">Song Recommendation</div>
+      </td>
+    </tr>
+    <tr>
+      <td style="padding:30px 30px 0">
+        <h2 style="margin:0 0 20px;font-size:16px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#fff">Nova Sugestão de Música</h2>
+        
+        <!-- Song Info -->
+        <table width="100%" style="background:rgba(157,0,255,0.05);border:1px solid rgba(157,0,255,0.2);border-radius:12px;margin-bottom:16px" cellpadding="0" cellspacing="0">
+          <tr><td style="padding:20px 24px;border-bottom:1px solid rgba(255,255,255,0.05)">
+            <div style="font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#9d00ff;margin-bottom:4px">Música</div>
+            <div style="font-size:18px;color:#fff;font-weight:700">${song}</div>
+          </td></tr>
+          <tr><td style="padding:20px 24px">
+            <div style="font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#9d00ff;margin-bottom:4px">Artista</div>
+            <div style="font-size:16px;color:rgba(255,255,255,0.85);font-weight:600">${artist}</div>
+          </td></tr>
+        </table>
+
+        <!-- User Info -->
+        <table width="100%" style="background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.1);border-radius:12px;margin-bottom:16px" cellpadding="0" cellspacing="0">
+          <tr><td style="padding:16px 24px;border-bottom:1px solid rgba(255,255,255,0.05)">
+            <div style="font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-bottom:4px">Sugerido por</div>
+            <div style="font-size:14px;color:#fff">${name || 'Anónimo'}</div>
+          </td></tr>
+          ${email ? `<tr><td style="padding:16px 24px">
+            <div style="font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-bottom:4px">Contacto</div>
+            <div style="font-size:14px;color:#fff">${email}</div>
+          </td></tr>` : ''}
+        </table>
+
+        <!-- Message -->
+        ${message ? `
+        <table width="100%" style="background:rgba(0,243,255,0.03);border:1px solid rgba(0,243,255,0.15);border-radius:12px;margin-bottom:16px" cellpadding="0" cellspacing="0">
+          <tr><td style="padding:20px 24px">
+            <div style="font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#00f3ff;margin-bottom:8px">Nota Adicional</div>
+            <div style="font-size:14px;color:rgba(255,255,255,0.7);line-height:1.6;font-style:italic">&ldquo;${message}&rdquo;</div>
+          </td></tr>
+        </table>` : ''}
+      </td>
+    </tr>
+    <tr>
+      <td style="padding:24px 30px 40px;text-align:center;border-top:1px solid rgba(255,255,255,0.07);margin-top:20px">
+        <p style="margin:0;font-size:10px;letter-spacing:2px;color:rgba(255,255,255,0.25);text-transform:uppercase">Silkadelics &bull; Repertoire Suggestions</p>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
+      `
+    });
+
+    if (emailError) {
+      console.error('Error sending suggestion email:', emailError);
+      return res.status(500).json({ error: 'Failed to send suggestion email' });
+    }
+
+    res.status(200).json({ message: 'Suggestion sent successfully' });
+  } catch (error) {
+    console.error('Error handling suggestion:', error);
+    res.status(500).json({ error: 'Failed to process suggestion' });
+  }
+});
+
 // Get Booked Dates
 app.get('/api/bookings/dates', async (req, res) => {
   try {

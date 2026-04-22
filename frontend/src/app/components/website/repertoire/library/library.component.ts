@@ -25,11 +25,12 @@ interface SongRow {
 
 import { SearchBarComponent } from '../../../../shared/components/ui/search-bar/search-bar.component';
 import { ButtonShinyComponent } from '../../../../shared/components/ui/button-shiny/button-shiny.component';
+import { SongSuggestionModalComponent } from '../../../../shared/components/ui/song-suggestion-modal/song-suggestion-modal.component';
 
 @Component({
   selector: 'app-library',
   standalone: true,
-  imports: [RouterLink, NavbarComponent, FooterComponent, SearchBarComponent, ButtonShinyComponent],
+  imports: [RouterLink, NavbarComponent, FooterComponent, SearchBarComponent, ButtonShinyComponent, SongSuggestionModalComponent],
   templateUrl: './library.component.html'
 })
 export class LibraryComponent implements OnInit {
@@ -45,6 +46,7 @@ export class LibraryComponent implements OnInit {
   pageSize = signal(10);
   currentPage = signal(1);
   readonly pageSizeOptions = [5, 10, 15];
+  showSuggestionModal = signal(false);
 
   // Audio state
   playingSong = signal<string | null>(null);
@@ -252,5 +254,13 @@ export class LibraryComponent implements OnInit {
     this.router.navigate(['/'], { fragment: 'booking' }).then(() => {
       setTimeout(() => this.scroller.scrollToAnchor('booking'), 300);
     });
+  }
+
+  openSuggestionModal() {
+    this.showSuggestionModal.set(true);
+  }
+
+  closeSuggestionModal() {
+    this.showSuggestionModal.set(false);
   }
 }

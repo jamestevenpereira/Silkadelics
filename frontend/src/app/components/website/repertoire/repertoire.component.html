@@ -17,17 +17,19 @@
 
       <!-- Background layers -->
       <div class="absolute inset-0 bg-gradient-to-br from-primary/25 via-white/5 to-white/3"></div>
-      <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,rgba(255,45,149,0.18)_0%,transparent_60%)]"></div>
+      <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,rgba(255,45,149,0.18)_0%,transparent_60%)]">
+      </div>
       <div class="absolute inset-0 border border-primary/50 rounded-3xl pointer-events-none"></div>
       <div class="absolute -top-20 -left-20 w-72 h-72 bg-primary/20 rounded-full blur-3xl pointer-events-none"></div>
-      <div class="absolute -bottom-20 -right-20 w-60 h-60 bg-primary/15 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute -bottom-20 -right-20 w-60 h-60 bg-primary/15 rounded-full blur-3xl pointer-events-none">
+      </div>
 
       <div class="relative z-10 p-10 lg:p-16 flex flex-col items-center text-center">
 
         <!-- Badge -->
         <div class="inline-flex items-center gap-2 mb-6 px-4 py-2 bg-primary/20 border border-primary/50 rounded-full">
           <svg class="w-4 h-4 text-primary" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
           </svg>
           <span class="text-primary font-sans font-bold text-[10px] tracking-[0.3em] uppercase">
             {{ content().repertoire?.homepage?.featured?.badge }}
@@ -35,7 +37,8 @@
         </div>
 
         <!-- Headline -->
-        <h3 class="text-5xl md:text-6xl lg:text-7xl font-serif font-bold text-white leading-tight mb-4 drop-shadow-[0_0_12px_rgba(255,45,149,0.3)]">
+        <h3
+          class="text-5xl md:text-6xl lg:text-7xl font-serif font-bold text-white leading-tight mb-4 drop-shadow-[0_0_12px_rgba(255,45,149,0.3)]">
           {{ content().repertoire?.homepage?.featured?.headlinePrefix }}<br>
           <span class="text-primary">{{ content().repertoire?.homepage?.featured?.headlineHighlight }}</span>
         </h3>
@@ -47,23 +50,27 @@
 
         <!-- Tags row -->
         <div class="flex flex-wrap justify-center gap-3 mb-10">
-          <span class="px-4 py-2 bg-white/8 border border-white/15 rounded-full text-gray-300 font-sans text-xs tracking-widest uppercase">
+          <span
+            class="px-4 py-2 bg-white/8 border border-white/15 rounded-full text-gray-300 font-sans text-xs tracking-widest uppercase">
             {{ content().repertoire?.homepage?.featured?.tagCrowdFavourites }}
           </span>
-          <span class="px-4 py-2 bg-white/8 border border-white/15 rounded-full text-gray-300 font-sans text-xs tracking-widest uppercase">
+          <span
+            class="px-4 py-2 bg-white/8 border border-white/15 rounded-full text-gray-300 font-sans text-xs tracking-widest uppercase">
             {{ content().repertoire?.homepage?.featured?.tagEveryEra }}
           </span>
-          <span class="px-4 py-2 bg-white/8 border border-white/15 rounded-full text-gray-300 font-sans text-xs tracking-widest uppercase">
+          <span
+            class="px-4 py-2 bg-white/8 border border-white/15 rounded-full text-gray-300 font-sans text-xs tracking-widest uppercase">
             {{ content().repertoire?.homepage?.featured?.tagAllGenres }}
           </span>
         </div>
 
         <!-- CTA -->
         <a routerLink="/repertoire/recommendations"
-           class="group inline-flex items-center gap-3 px-10 py-5 bg-primary text-white rounded-xl font-bold text-xs tracking-[0.3em] uppercase shadow-[0_0_30px_rgba(255,45,149,0.6)] hover:shadow-[0_0_45px_rgba(255,45,149,0.8)] hover:scale-105 transition-all duration-300 cursor-pointer">
+          class="group inline-flex items-center gap-3 px-10 py-5 bg-primary text-white rounded-xl font-bold text-xs tracking-[0.3em] uppercase shadow-[0_0_30px_rgba(255,45,149,0.6)] hover:shadow-[0_0_45px_rgba(255,45,149,0.8)] hover:scale-105 transition-all duration-300 cursor-pointer">
           {{ content().repertoire?.homepage?.featured?.cta }}
-          <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+          <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" fill="none"
+            stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
           </svg>
         </a>
 
@@ -82,85 +89,128 @@
 
       <!-- 70–90s -->
       <a [routerLink]="['/repertoire/library']" [queryParams]="{ era: '70-90' }"
-         class="group relative overflow-hidden rounded-3xl p-8 lg:p-10 bg-white/5 backdrop-blur-md border border-primary/30 hover:border-primary transition-all duration-500 cursor-pointer flex flex-col items-center justify-center text-center min-h-[260px] hover:shadow-[0_0_30px_rgba(255,45,149,0.2)]">
-        <div class="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-        <div class="absolute -inset-1/2 bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-12 translate-x-[-150%] group-hover:translate-x-[150%] transition-transform duration-1000"></div>
+        class="group relative overflow-hidden rounded-3xl p-8 lg:p-10 bg-white/5 backdrop-blur-md border border-primary/30 hover:border-primary transition-all duration-500 cursor-pointer flex flex-col items-center justify-center text-center min-h-[260px] hover:shadow-[0_0_30px_rgba(255,45,149,0.2)]">
+        <div
+          class="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+        </div>
+        <div
+          class="absolute -inset-1/2 bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-12 translate-x-[-150%] group-hover:translate-x-[150%] transition-transform duration-1000">
+        </div>
 
-        <h3 class="text-5xl md:text-6xl font-serif font-bold text-white mb-8 group-hover:drop-shadow-[0_0_8px_rgba(255,45,149,0.5)] transition-all relative z-10">
+        <h3
+          class="text-5xl md:text-6xl font-serif font-bold text-white mb-8 group-hover:drop-shadow-[0_0_8px_rgba(255,45,149,0.5)] transition-all relative z-10">
           {{ content().repertoire?.homepage?.decades?.['7090s'] }}
         </h3>
 
         <div class="flex items-center gap-8 text-gray-400 mb-6 relative z-10">
           <div class="flex flex-col items-center gap-2">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"/></svg>
-            <span class="text-[10px] font-sans font-bold uppercase tracking-widest">{{ content().repertoire?.homepage?.genreTags?.classics }}</span>
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
+            </svg>
+            <span class="text-[10px] font-sans font-bold uppercase tracking-widest">{{
+              content().repertoire?.homepage?.genreTags?.classics }}</span>
           </div>
           <div class="flex flex-col items-center gap-2">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9"/></svg>
-            <span class="text-[10px] font-sans font-bold uppercase tracking-widest">{{ content().repertoire?.homepage?.genreTags?.anthems }}</span>
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9" />
+            </svg>
+            <span class="text-[10px] font-sans font-bold uppercase tracking-widest">{{
+              content().repertoire?.homepage?.genreTags?.anthems }}</span>
           </div>
         </div>
 
-        <span class="relative z-10 px-6 py-2.5 bg-primary text-white rounded-xl font-bold text-[10px] tracking-widest uppercase shadow-[0_0_15px_rgba(255,45,149,0.5)] group-hover:bg-white group-hover:text-primary transition-all duration-300">
+        <span
+          class="relative z-10 px-6 py-2.5 bg-primary text-white rounded-xl font-bold text-[10px] tracking-widest uppercase shadow-[0_0_15px_rgba(255,45,149,0.5)] group-hover:bg-white group-hover:text-primary transition-all duration-300">
           {{ content().repertoire?.homepage?.viewSongs }}
         </span>
       </a>
 
       <!-- 2000s -->
       <a [routerLink]="['/repertoire/library']" [queryParams]="{ era: '2000+' }"
-         class="group relative overflow-hidden rounded-3xl p-8 lg:p-10 bg-white/5 backdrop-blur-md border border-primary/30 hover:border-primary transition-all duration-500 cursor-pointer flex flex-col items-center justify-center text-center min-h-[260px] hover:shadow-[0_0_30px_rgba(255,45,149,0.2)]">
-        <div class="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-        <div class="absolute -inset-1/2 bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-12 translate-x-[-150%] group-hover:translate-x-[150%] transition-transform duration-1000"></div>
+        class="group relative overflow-hidden rounded-3xl p-8 lg:p-10 bg-white/5 backdrop-blur-md border border-primary/30 hover:border-primary transition-all duration-500 cursor-pointer flex flex-col items-center justify-center text-center min-h-[260px] hover:shadow-[0_0_30px_rgba(255,45,149,0.2)]">
+        <div
+          class="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+        </div>
+        <div
+          class="absolute -inset-1/2 bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-12 translate-x-[-150%] group-hover:translate-x-[150%] transition-transform duration-1000">
+        </div>
 
-        <h3 class="text-5xl md:text-6xl font-serif font-bold text-white mb-8 group-hover:drop-shadow-[0_0_8px_rgba(255,45,149,0.5)] transition-all relative z-10">
+        <h3
+          class="text-5xl md:text-6xl font-serif font-bold text-white mb-8 group-hover:drop-shadow-[0_0_8px_rgba(255,45,149,0.5)] transition-all relative z-10">
           {{ content().repertoire?.homepage?.decades?.['2000s'] }}
         </h3>
 
         <div class="flex items-center gap-8 text-gray-400 mb-6 relative z-10">
           <div class="flex flex-col items-center gap-2">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-            <span class="text-[10px] font-sans font-bold uppercase tracking-widest">{{ content().repertoire?.homepage?.genreTags?.popPunk }}</span>
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+            <span class="text-[10px] font-sans font-bold uppercase tracking-widest">{{
+              content().repertoire?.homepage?.genreTags?.popPunk }}</span>
           </div>
           <div class="flex flex-col items-center gap-2">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"/></svg>
-            <span class="text-[10px] font-sans font-bold uppercase tracking-widest">{{ content().repertoire?.homepage?.genreTags?.rb }}</span>
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
+            </svg>
+            <span class="text-[10px] font-sans font-bold uppercase tracking-widest">{{
+              content().repertoire?.homepage?.genreTags?.rb }}</span>
           </div>
         </div>
 
-        <span class="relative z-10 px-6 py-2.5 bg-primary text-white rounded-xl font-bold text-[10px] tracking-widest uppercase shadow-[0_0_15px_rgba(255,45,149,0.5)] group-hover:bg-white group-hover:text-primary transition-all duration-300">
+        <span
+          class="relative z-10 px-6 py-2.5 bg-primary text-white rounded-xl font-bold text-[10px] tracking-widest uppercase shadow-[0_0_15px_rgba(255,45,149,0.5)] group-hover:bg-white group-hover:text-primary transition-all duration-300">
           {{ content().repertoire?.homepage?.viewSongs }}
         </span>
       </a>
 
       <!-- 2010s+ -->
       <a [routerLink]="['/repertoire/library']" [queryParams]="{ era: '2010+' }"
-         class="group relative overflow-hidden rounded-3xl p-8 lg:p-10 bg-white/5 backdrop-blur-md border border-primary/30 hover:border-primary transition-all duration-500 cursor-pointer flex flex-col items-center justify-center text-center min-h-[260px] hover:shadow-[0_0_30px_rgba(255,45,149,0.2)]">
-        <div class="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-        <div class="absolute -inset-1/2 bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-12 translate-x-[-150%] group-hover:translate-x-[150%] transition-transform duration-1000"></div>
+        class="group relative overflow-hidden rounded-3xl p-8 lg:p-10 bg-white/5 backdrop-blur-md border border-primary/30 hover:border-primary transition-all duration-500 cursor-pointer flex flex-col items-center justify-center text-center min-h-[260px] hover:shadow-[0_0_30px_rgba(255,45,149,0.2)]">
+        <div
+          class="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+        </div>
+        <div
+          class="absolute -inset-1/2 bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-12 translate-x-[-150%] group-hover:translate-x-[150%] transition-transform duration-1000">
+        </div>
 
-        <h3 class="text-5xl md:text-6xl font-serif font-bold text-white mb-8 group-hover:drop-shadow-[0_0_8px_rgba(255,45,149,0.5)] transition-all relative z-10">
+        <h3
+          class="text-5xl md:text-6xl font-serif font-bold text-white mb-8 group-hover:drop-shadow-[0_0_8px_rgba(255,45,149,0.5)] transition-all relative z-10">
           {{ content().repertoire?.homepage?.decades?.['2010s'] }}
         </h3>
 
         <div class="flex items-center gap-8 text-gray-400 mb-6 relative z-10">
           <div class="flex flex-col items-center gap-2">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
-            <span class="text-[10px] font-sans font-bold uppercase tracking-widest">{{ content().repertoire?.homepage?.genreTags?.modernPop }}</span>
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+            </svg>
+            <span class="text-[10px] font-sans font-bold uppercase tracking-widest">{{
+              content().repertoire?.homepage?.genreTags?.modernPop }}</span>
           </div>
           <div class="flex flex-col items-center gap-2">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-            <span class="text-[10px] font-sans font-bold uppercase tracking-widest">{{ content().repertoire?.homepage?.genreTags?.electronic }}</span>
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+            </svg>
+            <span class="text-[10px] font-sans font-bold uppercase tracking-widest">{{
+              content().repertoire?.homepage?.genreTags?.electronic }}</span>
           </div>
         </div>
 
-        <span class="relative z-10 px-6 py-2.5 bg-primary text-white rounded-xl font-bold text-[10px] tracking-widest uppercase shadow-[0_0_15px_rgba(255,45,149,0.5)] group-hover:bg-white group-hover:text-primary transition-all duration-300">
+        <span
+          class="relative z-10 px-6 py-2.5 bg-primary text-white rounded-xl font-bold text-[10px] tracking-widest uppercase shadow-[0_0_15px_rgba(255,45,149,0.5)] group-hover:bg-white group-hover:text-primary transition-all duration-300">
           {{ content().repertoire?.homepage?.viewSongs }}
         </span>
       </a>
     </div>
 
     <!-- Full Library Section -->
-    <div class="flex flex-col md:flex-row md:items-center justify-between gap-8 pt-16 border-t border-white/10 animate-fade-up" style="animation-delay: 0.5s">
+    <div
+      class="flex flex-col md:flex-row md:items-center justify-between gap-8 pt-16 border-t border-white/10 animate-fade-up"
+      style="animation-delay: 0.5s">
       <div class="max-w-2xl">
         <h3 class="text-4xl md:text-5xl font-serif font-bold text-white mb-4">
           {{ content().repertoire?.homepage?.fullLibrary?.title }}
@@ -169,9 +219,12 @@
           {{ content().repertoire?.homepage?.fullLibrary?.subtitle }}
         </p>
       </div>
-      <a routerLink="/repertoire/library" class="inline-flex shrink-0 px-8 py-4 lg:px-12 lg:py-5 bg-primary text-white rounded-xl font-bold text-xs tracking-[0.3em] uppercase shadow-[0_0_20px_rgba(255,45,149,0.5)] hover:opacity-90 transition-all duration-300 items-center gap-3 cursor-pointer">
+      <a routerLink="/repertoire/library"
+        class="inline-flex shrink-0 px-8 py-4 lg:px-12 lg:py-5 bg-primary text-white rounded-xl font-bold text-xs tracking-[0.3em] uppercase shadow-[0_0_20px_rgba(255,45,149,0.5)] hover:opacity-90 transition-all duration-300 items-center gap-3 cursor-pointer">
         {{ content().repertoire?.homepage?.fullLibrary?.cta }}
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+        </svg>
       </a>
     </div>
 

@@ -10,7 +10,11 @@ import {
   ArrowRight,
   X,
   Search,
-  CircleDot
+  CircleDot,
+  Music,
+  User,
+  Mail,
+  MessageSquare
 } from 'lucide-angular';
 import { LanguageService } from './core/services/language.service';
 
@@ -35,7 +39,11 @@ export const appConfig: ApplicationConfig = {
         ArrowRight,
         X,
         Search,
-        CircleDot
+        CircleDot,
+        Music,
+        User,
+        Mail,
+        MessageSquare
       })
     ),
     {

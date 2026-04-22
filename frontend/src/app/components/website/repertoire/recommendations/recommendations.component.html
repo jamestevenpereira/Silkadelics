@@ -4,7 +4,9 @@
 
   <!-- Background Glows -->
   <div class="fixed inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
-    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[900px] bg-primary/5 rounded-full blur-[180px] -translate-y-1/2"></div>
+    <div
+      class="absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[900px] bg-primary/5 rounded-full blur-[180px] -translate-y-1/2">
+    </div>
     <div class="absolute bottom-0 right-0 w-[600px] h-[600px] bg-primary/3 rounded-full blur-[160px]"></div>
   </div>
 
@@ -13,21 +15,22 @@
     <div class="max-w-7xl mx-auto">
 
       <!-- Back navigation -->
-      <a routerLink="/" fragment="repertoire"
-         class="inline-flex items-center gap-2 text-primary text-xs font-bold tracking-widest uppercase mb-12
+      <a routerLink="/" fragment="repertoire" class="inline-flex items-center gap-2 text-primary text-xs font-bold tracking-widest uppercase mb-12
                 hover:text-white transition-colors group">
-        <svg class="w-4 h-4 transform group-hover:-translate-x-1 transition-transform"
-             fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+        <svg class="w-4 h-4 transform group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor"
+          viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
         </svg>
         {{ content().recommendations?.backLabel || 'Repertório' }}
       </a>
 
       <!-- Title block -->
       <div class="text-center mb-20 animate-fade-up">
-        <p class="text-primary text-xs font-bold tracking-[0.4em] uppercase mb-6">{{ content().recommendations?.eyebrow }}</p>
+        <p class="text-primary text-xs font-bold tracking-[0.4em] uppercase mb-6">{{ content().recommendations?.eyebrow
+          }}</p>
         <h1 class="text-5xl md:text-7xl font-serif font-bold text-white mb-6 leading-tight">
-          {{ content().recommendations?.title }} <span class="italic text-primary">{{ content().recommendations?.titleHighlight }}</span>
+          {{ content().recommendations?.title }} <span class="italic text-primary">{{
+            content().recommendations?.titleHighlight }}</span>
         </h1>
         <p class="text-gray-400 font-sans font-light text-xl max-w-2xl mx-auto leading-relaxed">
           {{ content().recommendations?.subtitle }}
@@ -39,17 +42,14 @@
       <div class="max-w-6xl mx-auto flex flex-col md:flex-row gap-8 mb-12 items-center justify-between">
         <!-- Premium Search bar -->
         <div class="w-full md:w-fit">
-          <app-search-bar 
-            [placeholder]="content().repertoire?.searchPlaceholder || 'Pesquisar ...'"
+          <app-search-bar [placeholder]="content().repertoire?.searchPlaceholder || 'Pesquisar ...'"
             (onSearch)="onSearch($event)">
           </app-search-bar>
         </div>
 
         <!-- Premium Download button -->
-        <app-button-shiny
-          [label]="content().library?.table?.downloadPdf || 'Descarregar PDF'"
-          className="w-full md:w-fit"
-          (onClick)="downloadPdf()">
+        <app-button-shiny [label]="content().library?.table?.downloadPdf || 'Descarregar PDF'"
+          className="w-full md:w-fit" (onClick)="downloadPdf()">
         </app-button-shiny>
       </div>
 
@@ -190,7 +190,8 @@
             <!-- Right: Page counter -->
             <div class="flex items-center justify-center md:justify-end">
               <span class="text-xs font-sans text-gray-400 tracking-[0.1em]">
-                {{ content().recommendations?.table?.page || 'Página' }} <span class="text-white font-bold">{{ currentPage()
+                {{ content().recommendations?.table?.page || 'Página' }} <span class="text-white font-bold">{{
+                  currentPage()
                   }}</span> {{ content().recommendations?.table?.of || 'de' }} <span class="text-white font-bold">{{
                   totalPages() }}</span>
               </span>
@@ -202,9 +203,11 @@
         <div class="mt-2 flex flex-col items-center text-center">
           <div class="w-12 h-px bg-primary/30 mb-8"></div>
           <p class="text-gray-400 font-sans text-sm mb-6 max-w-sm">
-            {{ content().library?.table?.suggestText || 'Não encontras a tua música especial? Nós adoramos aprender temas novos!' }}
+            {{ content().library?.table?.suggestText || 'Não encontras a tua música especial? Nós adoramos aprender
+            temas novos!' }}
           </p>
           <button
+            (click)="openSuggestionModal()"
             class="px-8 py-4 border border-primary/30 rounded-2xl text-xs font-sans font-bold uppercase tracking-[0.2em] text-primary hover:bg-primary hover:text-black hover:border-primary transition-all duration-300 cursor-pointer">
             {{ content().library?.table?.suggestBtn || 'Sugerir uma Música' }}
           </button>
@@ -212,6 +215,10 @@
       </div>
     </div>
   </section>
+
+  @if (showSuggestionModal()) {
+    <app-song-suggestion-modal (close)="closeSuggestionModal()"></app-song-suggestion-modal>
+  }
 
   <!-- Conversion CTA Section -->
   <section class="pb-28 px-4 sm:px-6 lg:px-8 relative z-10">
@@ -222,28 +229,31 @@
         <!-- Inner glow -->
         <div class="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-primary/3 rounded-[40px]
                     opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
-        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-64 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent"></div>
+        <div
+          class="absolute top-0 left-1/2 -translate-x-1/2 w-64 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent">
+        </div>
 
         <div class="relative z-10">
-          <p class="text-primary text-xs font-bold tracking-[0.4em] uppercase mb-6">{{ content().recommendations?.ctaEyebrow }}</p>
+          <p class="text-primary text-xs font-bold tracking-[0.4em] uppercase mb-6">{{
+            content().recommendations?.ctaEyebrow }}</p>
           <h2 class="text-4xl md:text-5xl font-serif font-bold text-white mb-6 leading-tight">
-            {{ content().recommendations?.ctaTitle }} <span class="italic text-primary">{{ content().recommendations?.ctaTitleHighlight }}</span>
+            {{ content().recommendations?.ctaTitle }} <span class="italic text-primary">{{
+              content().recommendations?.ctaTitleHighlight }}</span>
           </h2>
           <p class="text-gray-300 font-sans font-light text-lg max-w-xl mx-auto mb-12 leading-relaxed">
             {{ content().recommendations?.ctaBody }}<br>
             <span class="text-gray-500 text-base">{{ content().recommendations?.ctaBodySub }}</span>
           </p>
 
-          <button (click)="goToBooking()"
-             class="inline-flex items-center gap-3 px-12 py-5
+          <button (click)="goToBooking()" class="inline-flex items-center gap-3 px-12 py-5
                     bg-primary text-black font-sans font-bold text-xs tracking-[0.3em] uppercase
                     rounded-2xl hover:bg-white transition-all duration-300
                     shadow-[0_0_40px_rgba(212,175,55,0.3)] hover:shadow-[0_0_60px_rgba(255,255,255,0.2)]
                     group/btn cursor-pointer">
             {{ content().recommendations?.ctaButton }}
-            <svg class="w-4 h-4 group-hover/btn:translate-x-1 transition-transform"
-                 fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+            <svg class="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor"
+              viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
             </svg>
           </button>
         </div>
