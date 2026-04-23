@@ -9,9 +9,9 @@ import { LanguageService } from '../../../../core/services/language.service';
 
 import { SupabaseService } from '../../../../core/services/supabase.service';
 
-type RepertoireEra = '70-90' | '2000+' | '2010+' | string;
+type RepertoireEra = 'All' | '70-90' | '2000+' | '2010+' | string;
 
-const VALID_ERAS: RepertoireEra[] = ['70-90', '2000+', '2010+'];
+const VALID_ERAS: RepertoireEra[] = ['All', '70-90', '2000+', '2010+'];
 
 interface EraTab {
   id: RepertoireEra;
@@ -54,8 +54,11 @@ export class LibraryComponent implements OnInit {
   // Audio state
   playingSong = signal<string | null>(null);
   private audioPlayer = new Audio();
+  
+  isLoading = signal(true);
 
   tabs: EraTab[] = [
+    { id: 'All', labelKey: 'Tudo' },
     { id: '70-90', labelKey: '70-90' },
     { id: '2000+', labelKey: '2000+' },
     { id: '2010+', labelKey: '2010+' },
@@ -75,10 +78,11 @@ export class LibraryComponent implements OnInit {
   };
 
   async ngOnInit(): Promise<void> {
-    await this.loadSongs();
     const eraParam = this.route.snapshot.queryParamMap.get('era') as RepertoireEra;
-    const initialEra: RepertoireEra = VALID_ERAS.includes(eraParam) ? eraParam : '70-90';
+    const initialEra: RepertoireEra = VALID_ERAS.includes(eraParam) ? eraParam : 'All';
     this.activeEra.set(initialEra);
+
+    await this.loadSongs();
 
     this.audioPlayer.addEventListener('ended', () => {
       this.playingSong.set(null);
@@ -86,21 +90,26 @@ export class LibraryComponent implements OnInit {
   }
 
   async loadSongs() {
+    this.isLoading.set(true);
     try {
       const data = await this.supabase.getRepertoireApi();
       const newSongsByEra: Record<string, SongRow[]> = {
-        '70-90': [], '2000+': [], '2010+': [], 'Pop / Indie': [], 'Rock / Alternative': [],
+        'All': [], '70-90': [], '2000+': [], '2010+': [], 'Pop / Indie': [], 'Rock / Alternative': [],
         'Jazz': [], 'Portuguesa': [], 'Soul / Funk / Blues': [], 'Acústico': [], 'Outro': []
       };
       
       for (const item of data) {
         if (!newSongsByEra[item.category]) newSongsByEra[item.category] = [];
-        newSongsByEra[item.category].push({
+        
+        const songObj = {
           artist: item.artist,
           song: item.title,
           tags: item.tags,
           audioUrl: item.audio_url
-        });
+        };
+        
+        newSongsByEra[item.category].push(songObj);
+        newSongsByEra['All'].push(songObj); // Add every song to 'All'
       }
       
       this.songsByEra = newSongsByEra;
@@ -110,6 +119,8 @@ export class LibraryComponent implements OnInit {
       // but you can expand this to build `this.tabs` dynamically.
     } catch (error) {
       console.error('Error fetching repertoire:', error);
+    } finally {
+      this.isLoading.set(false);
     }
   }
 

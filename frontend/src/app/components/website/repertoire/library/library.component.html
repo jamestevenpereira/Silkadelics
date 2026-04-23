@@ -98,8 +98,18 @@
                 </thead>
 
                 <tbody class="[&_tr:last-child]:border-0">
-                  @for (song of paginatedSongs(); track $index) {
-                  <tr class="border-b border-white/5 transition-colors hover:bg-white/[0.04]">
+                  @if (isLoading()) {
+                    <tr>
+                      <td colspan="3" class="p-20 text-center">
+                        <div class="flex flex-col items-center justify-center gap-4">
+                          <div class="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
+                          <span class="text-gray-400 font-sans font-bold tracking-[0.2em] uppercase text-[10px]">A carregar repertório...</span>
+                        </div>
+                      </td>
+                    </tr>
+                  } @else {
+                    @for (song of paginatedSongs(); track $index) {
+                    <tr class="border-b border-white/5 transition-colors hover:bg-white/[0.04]">
                     <td class="p-4 sm:px-8 align-middle text-xs font-sans font-bold tracking-[0.2em] text-primary/75">
                       {{ (((currentPage() - 1) * pageSize()) + $index + 1).toString().padStart(2, '0') }}
                     </td>
@@ -134,6 +144,7 @@
                       {{ content().repertoire?.empty || 'Nenhuma música encontrada para esta pesquisa.' }}
                     </td>
                   </tr>
+                  }
                   }
                 </tbody>
 
