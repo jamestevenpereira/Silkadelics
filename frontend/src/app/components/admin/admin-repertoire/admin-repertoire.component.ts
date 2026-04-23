@@ -40,7 +40,11 @@ export class AdminRepertoireComponent implements OnInit {
   itemForm = {
     title: '',
     artist: '',
-    category: 'Pop',
+    category: 'Pop / Indie', // Set to a valid category from the list
+    tags: [] as string[],
+    tagsInput: '', // For UI handling
+    audio_url: '',
+    is_recommended: false,
     display_order: 0
   };
 
@@ -86,7 +90,11 @@ export class AdminRepertoireComponent implements OnInit {
     this.itemForm = {
       title: '',
       artist: '',
-      category: 'Pop',
+      category: 'Pop / Indie',
+      tags: [],
+      tagsInput: '',
+      audio_url: '',
+      is_recommended: false,
       display_order: this.totalItems() + 1
     };
     this.showForm.set(true);
@@ -94,7 +102,11 @@ export class AdminRepertoireComponent implements OnInit {
 
   editItem(item: any) {
     this.editingId.set(item.id);
-    this.itemForm = { ...item };
+    this.itemForm = { 
+      ...item, 
+      tagsInput: item.tags ? item.tags.join(', ') : '',
+      tags: item.tags || []
+    };
     this.showForm.set(true);
   }
 
@@ -106,8 +118,23 @@ export class AdminRepertoireComponent implements OnInit {
   async saveItem() {
     this.loading.set(true);
     try {
+      // Process tagsInput into tags array
+      const tagsArray = this.itemForm.tagsInput
+        ? this.itemForm.tagsInput.split(',').map(t => t.trim()).filter(t => t.length > 0)
+        : [];
+        
+      const payloadToSave = {
+        title: this.itemForm.title,
+        artist: this.itemForm.artist,
+        category: this.itemForm.category,
+        tags: tagsArray,
+        audio_url: this.itemForm.audio_url,
+        is_recommended: this.itemForm.is_recommended,
+        display_order: this.itemForm.display_order
+      };
+
       if (this.editingId()) {
-        await this.supabaseService.updateRepertoireItem(this.editingId()!, this.itemForm);
+        await this.supabaseService.updateRepertoireItem(this.editingId()!, payloadToSave);
       } else {
         // Check for duplicate title
         const { data: existing } = await this.supabaseService.client
@@ -122,7 +149,7 @@ export class AdminRepertoireComponent implements OnInit {
           return;
         }
 
-        await this.supabaseService.addRepertoireItem(this.itemForm);
+        await this.supabaseService.addRepertoireItem(payloadToSave);
       }
       await this.loadRepertoire();
       this.cancelEdit();

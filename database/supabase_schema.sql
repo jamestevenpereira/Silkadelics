@@ -54,6 +54,9 @@ CREATE TABLE IF NOT EXISTS repertoire (
   title TEXT NOT NULL,
   artist TEXT NOT NULL,
   category TEXT NOT NULL,
+  tags TEXT[] DEFAULT '{}',
+  audio_url TEXT,
+  is_recommended BOOLEAN DEFAULT false,
   display_order INTEGER DEFAULT 0
 );
 

@@ -284,7 +284,40 @@ app.get('/api/packs', async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch packs' });
   }
 });
-// Get Songs Count
+// Repertoire Endpoints
+app.get('/api/repertoire', async (req, res) => {
+  try {
+    const { data, error } = await supabase
+      .from('repertoire')
+      .select('*')
+      .order('display_order', { ascending: true })
+      .order('artist', { ascending: true });
+
+    if (error) throw error;
+    res.json(data);
+  } catch (error) {
+    console.error('SERVER_ERROR [GET /api/repertoire]:', error);
+    res.status(500).json({ error: 'Failed to fetch repertoire', details: error.message });
+  }
+});
+
+app.get('/api/repertoire/recommendations', async (req, res) => {
+  try {
+    const { data, error } = await supabase
+      .from('repertoire')
+      .select('*')
+      .eq('is_recommended', true)
+      .order('display_order', { ascending: true })
+      .order('artist', { ascending: true });
+
+    if (error) throw error;
+    res.json(data);
+  } catch (error) {
+    console.error('SERVER_ERROR [GET /api/repertoire/recommendations]:', error);
+    res.status(500).json({ error: 'Failed to fetch recommendations', details: error.message });
+  }
+});
+
 app.get('/api/songs/count', async (req, res) => {
   try {
     const { count, error } = await supabase
@@ -296,6 +329,57 @@ app.get('/api/songs/count', async (req, res) => {
   } catch (error) {
     console.error('SERVER_ERROR [GET /api/songs/count]:', error);
     res.status(500).json({ error: 'Failed to fetch songs count', details: error.message });
+  }
+});
+
+app.post('/api/repertoire', async (req, res) => {
+  try {
+    const { title, artist, category, tags, audio_url, is_recommended, display_order } = req.body;
+    const { data, error } = await supabase
+      .from('repertoire')
+      .insert([{ title, artist, category, tags: tags || [], audio_url, is_recommended: is_recommended || false, display_order: display_order || 0 }])
+      .select();
+
+    if (error) throw error;
+    res.status(201).json(data[0]);
+  } catch (error) {
+    console.error('SERVER_ERROR [POST /api/repertoire]:', error);
+    res.status(500).json({ error: 'Failed to create repertoire item', details: error.message });
+  }
+});
+
+app.put('/api/repertoire/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { title, artist, category, tags, audio_url, is_recommended, display_order } = req.body;
+    
+    const { data, error } = await supabase
+      .from('repertoire')
+      .update({ title, artist, category, tags, audio_url, is_recommended, display_order })
+      .eq('id', id)
+      .select();
+
+    if (error) throw error;
+    res.json(data[0]);
+  } catch (error) {
+    console.error('SERVER_ERROR [PUT /api/repertoire]:', error);
+    res.status(500).json({ error: 'Failed to update repertoire item', details: error.message });
+  }
+});
+
+app.delete('/api/repertoire/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { error } = await supabase
+      .from('repertoire')
+      .delete()
+      .eq('id', id);
+
+    if (error) throw error;
+    res.json({ success: true });
+  } catch (error) {
+    console.error('SERVER_ERROR [DELETE /api/repertoire]:', error);
+    res.status(500).json({ error: 'Failed to delete repertoire item', details: error.message });
   }
 });
 

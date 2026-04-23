@@ -287,4 +287,22 @@ export class SupabaseService {
             });
         });
     }
+
+    async getRepertoireApi(): Promise<any[]> {
+        return new Promise((resolve, reject) => {
+            this.http.get<any[]>(`${this.apiUrl}/repertoire`).subscribe({
+                next: (res) => resolve(res),
+                error: (err) => reject(err)
+            });
+        });
+    }
+
+    async getRecommendationsApi(): Promise<any[]> {
+        return new Promise((resolve, reject) => {
+            this.http.get<any[]>(`${this.apiUrl}/repertoire/recommendations`).subscribe({
+                next: (res) => resolve(res),
+                error: (err) => reject(err)
+            });
+        });
+    }
 }

@@ -63,6 +63,26 @@
                     </select>
                 </div>
 
+                <div class="space-y-2">
+                    <label class="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Tags (Separadas por vírgula)</label>
+                    <input [(ngModel)]="itemForm.tagsInput" name="tagsInput" type="text" placeholder="Ex: Rock, Clássico, Anos 80"
+                        class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-gold outline-none transition-all">
+                </div>
+
+                <div class="space-y-2">
+                    <label class="text-[10px] font-bold text-gray-500 uppercase tracking-widest">URL do Áudio (Opcional)</label>
+                    <input [(ngModel)]="itemForm.audio_url" name="audio_url" type="text" placeholder="assets/audio/demo.mp3"
+                        class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-gold outline-none transition-all">
+                </div>
+
+                <div class="flex items-center gap-3">
+                    <input [(ngModel)]="itemForm.is_recommended" name="is_recommended" type="checkbox" id="is_recommended"
+                        class="w-4 h-4 bg-white/5 border-white/10 rounded text-gold focus:ring-gold focus:ring-offset-luxury-charcoal">
+                    <label for="is_recommended" class="text-sm font-bold text-gray-300 cursor-pointer">
+                        Destacar como Recomendação
+                    </label>
+                </div>
+
                 <div class="flex gap-4 pt-4">
                     <button type="button" (click)="cancelEdit()"
                         class="flex-1 py-4 border border-white/10 text-white font-sans font-bold text-xs tracking-widest uppercase rounded-xl hover:bg-white/5 transition-all">

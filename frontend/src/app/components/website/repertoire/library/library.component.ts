@@ -7,7 +7,9 @@ import { NavbarComponent } from '../../navbar/navbar.component';
 import { FooterComponent } from '../../footer/footer.component';
 import { LanguageService } from '../../../../core/services/language.service';
 
-type RepertoireEra = '70-90' | '2000+' | '2010+';
+import { SupabaseService } from '../../../../core/services/supabase.service';
+
+type RepertoireEra = '70-90' | '2000+' | '2010+' | string;
 
 const VALID_ERAS: RepertoireEra[] = ['70-90', '2000+', '2010+'];
 
@@ -38,6 +40,7 @@ export class LibraryComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private scroller = inject(ViewportScroller);
+  private supabase = inject(SupabaseService);
 
   content = this.langService.content;
 
@@ -58,72 +61,21 @@ export class LibraryComponent implements OnInit {
     { id: '2010+', labelKey: '2010+' },
   ];
 
-  songsByEra: Record<RepertoireEra, SongRow[]> = {
-    '70-90': [
-      { artist: 'Nirvana', song: 'Smells Like Teen Spirit', tags: ['Grunge', 'Rock'], audioUrl: 'assets/audio/demo.mp3' },
-      { artist: 'Pearl Jam', song: 'Black', tags: ['Rock', 'Ballad'] },
-      { artist: 'Guns N’ Roses', song: 'Sweet Child O’ Mine', tags: ['Classic Rock'] },
-      { artist: 'Oasis', song: 'Wonderwall', tags: ['Sing-along', 'Britpop'] },
-      { artist: 'Radiohead (Silkadelics Version)', song: 'Creep', tags: ['Alternative'] },
-      { artist: 'Marilyn Manson', song: 'Sweet Dreams', tags: ['Dark Pop'] },
-      { artist: 'People R Ugly', song: 'What’s Up', tags: ['Anthem'] },
-      { artist: 'Ornatos Violeta', song: 'Ouvi Dizer', tags: ['Português'] },
-      { artist: 'Ornatos Violeta', song: 'Chaga', tags: ['Português'] },
-      { artist: 'Blink-182', song: 'All The Small Things', tags: ['Pop Punk'] },
-      { artist: 'Gala', song: 'Freed From Desire', tags: ['Dance', '90s'] },
-    ],
-    '2000+': [
-      { artist: 'Linkin Park', song: 'Crawling', tags: ['Rock', 'Nu-Metal'] },
-      { artist: 'Linkin Park', song: 'Numb', tags: ['Anthem', 'Nu-Metal'], audioUrl: 'assets/audio/demo.mp3' },
-      { artist: 'Linkin Park', song: 'What I’ve Done', tags: ['Rock'] },
-      { artist: 'Coldplay', song: 'Fix You', tags: ['Emotional', 'Pop'] },
-      { artist: 'Coldplay', song: 'Yellow', tags: ['Acoustic', 'Classic'] },
-      { artist: 'The Rasmus', song: 'In The Shadows', tags: ['Rock'] },
-      { artist: 'Green Day', song: 'Holiday', tags: ['Punk Rock'] },
-      { artist: 'Green Day', song: 'Boulevard Of Broken Dreams', tags: ['Rock'] },
-      { artist: '3 Doors Down', song: 'Kryptonite', tags: ['Alternative'] },
-      { artist: 'Muse', song: 'Plug In Baby', tags: ['Rock', 'Modern'] },
-      { artist: 'Muse', song: 'Hysteria', tags: ['Rock'] },
-      { artist: 'Muse', song: 'Time Is Running Out', tags: ['Rock'] },
-      { artist: 'System Of A Down', song: 'Lonely Day', tags: ['Rock'] },
-      { artist: 'System Of A Down', song: 'Aerials', tags: ['Rock'] },
-      { artist: 'Rage Against The Machine', song: 'Killing In The Name', tags: ['Heavy'] },
-      { artist: 'Foo Fighters', song: 'Everlong', tags: ['Rock'] },
-      { artist: 'Kings Of Leon', song: 'Use Somebody', tags: ['Indie Rock'] },
-      { artist: 'Kings Of Leon', song: 'Sex On Fire', tags: ['Anthem'] },
-      { artist: 'Daft Punk', song: 'One More Time', tags: ['Dance'] },
-      { artist: 'The Kooks', song: 'Naive', tags: ['Indie'] },
-      { artist: 'Arctic Monkeys', song: 'R U Mine?', tags: ['Rock'] },
-    ],
-    '2010+': [
-      { artist: 'U2', song: 'Ordinary Love', tags: ['Pop'] },
-      { artist: 'Kaleo', song: 'Way Down We Go', tags: ['Blues Rock'] },
-      { artist: 'Kaleo', song: 'No Good', tags: ['Rock'] },
-      { artist: 'Måneskin', song: 'Beggin', tags: ['Rock', 'Trend'] },
-      { artist: 'Måneskin', song: 'Wanna Be Your Slave', tags: ['Rock'] },
-      { artist: 'Måneskin', song: 'Let’s Get It Started', tags: ['Party'] },
-      { artist: 'Radiohead (Silkadelics Version)', song: 'Creep', tags: ['Alternative'] },
-      { artist: 'Adele', song: 'Rolling In The Deep (Linkin Park)', tags: ['Emotional'] },
-      { artist: 'Walk The Moon', song: 'Shut Up And Dance', tags: ['Party', 'Dance'] },
-      { artist: 'Maroon 5', song: 'Moves Like Jagger', tags: ['Pop'] },
-      { artist: 'Maroon 5', song: 'Sugar', tags: ['Wedding Pop'] },
-      { artist: 'Justin Timberlake', song: 'Can’t Stop The Feeling', tags: ['Dance', 'Pop'] },
-      { artist: 'Bruno Mars', song: 'Super Bowl Halftime Medley', tags: ['Funk', 'Party'], audioUrl: 'assets/audio/demo.mp3' },
-      { artist: 'Two Door Cinema Club', song: 'What You Know', tags: ['Indie'] },
-      { artist: 'Vance Joy', song: 'Riptide', tags: ['Acoustic'] },
-      { artist: 'Arctic Monkeys', song: 'Snap Out Of It', tags: ['Indie Rock'] },
-      { artist: 'The Killers', song: 'Mr. Brightside', tags: ['Anthem', 'Party'] },
-      { artist: 'Daft Punk', song: 'Get Lucky', tags: ['Funk', 'Disco'] },
-      { artist: 'Bad Wolves', song: 'Zombie', tags: ['Rock'] },
-      { artist: 'Tenacious D', song: 'Baby One More Time', tags: ['Funny', 'Rock'] },
-      { artist: 'The weasel (Silkadelics Version)', song: 'Duia', tags: ['Português'] },
-      { artist: 'Silkadelics Version', song: 'Haja O Que Houver', tags: ['Português'] },
-      { artist: 'Os Azeitonas', song: 'Anda Comigo Ver os Aviões', tags: ['Português'] },
-      { artist: 'Pearl Jam', song: 'Black', tags: ['Rock'] },
-    ],
+  songsByEra: Record<string, SongRow[]> = {
+    '70-90': [],
+    '2000+': [],
+    '2010+': [],
+    'Pop / Indie': [],
+    'Rock / Alternative': [],
+    'Jazz': [],
+    'Portuguesa': [],
+    'Soul / Funk / Blues': [],
+    'Acústico': [],
+    'Outro': []
   };
 
   async ngOnInit(): Promise<void> {
+    await this.loadSongs();
     const eraParam = this.route.snapshot.queryParamMap.get('era') as RepertoireEra;
     const initialEra: RepertoireEra = VALID_ERAS.includes(eraParam) ? eraParam : '70-90';
     this.activeEra.set(initialEra);
@@ -131,6 +83,34 @@ export class LibraryComponent implements OnInit {
     this.audioPlayer.addEventListener('ended', () => {
       this.playingSong.set(null);
     });
+  }
+
+  async loadSongs() {
+    try {
+      const data = await this.supabase.getRepertoireApi();
+      const newSongsByEra: Record<string, SongRow[]> = {
+        '70-90': [], '2000+': [], '2010+': [], 'Pop / Indie': [], 'Rock / Alternative': [],
+        'Jazz': [], 'Portuguesa': [], 'Soul / Funk / Blues': [], 'Acústico': [], 'Outro': []
+      };
+      
+      for (const item of data) {
+        if (!newSongsByEra[item.category]) newSongsByEra[item.category] = [];
+        newSongsByEra[item.category].push({
+          artist: item.artist,
+          song: item.title,
+          tags: item.tags,
+          audioUrl: item.audio_url
+        });
+      }
+      
+      this.songsByEra = newSongsByEra;
+
+      // Identify dynamic categories if needed (like the new genres)
+      // For now we keep the tabs structure fixed to what's defined in the template,
+      // but you can expand this to build `this.tabs` dynamically.
+    } catch (error) {
+      console.error('Error fetching repertoire:', error);
+    }
   }
 
   selectEra(era: RepertoireEra): void {

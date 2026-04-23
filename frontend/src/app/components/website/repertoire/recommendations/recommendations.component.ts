@@ -6,6 +6,7 @@ import { ViewportScroller } from '@angular/common';
 import { NavbarComponent } from '../../navbar/navbar.component';
 import { FooterComponent } from '../../footer/footer.component';
 import { LanguageService } from '../../../../core/services/language.service';
+import { SupabaseService } from '../../../../core/services/supabase.service';
 
 import { SearchBarComponent } from '../../../../shared/components/ui/search-bar/search-bar.component';
 import { ButtonShinyComponent } from '../../../../shared/components/ui/button-shiny/button-shiny.component';
@@ -21,6 +22,7 @@ export class RecommendationsComponent implements OnInit {
   private langService = inject(LanguageService);
   private router = inject(Router);
   private scroller = inject(ViewportScroller);
+  private supabase = inject(SupabaseService);
 
   content = this.langService.content;
   
@@ -34,39 +36,26 @@ export class RecommendationsComponent implements OnInit {
   playingSong = signal<string | null>(null);
   private audioPlayer = new Audio();
 
-  recommendations: { artist: string; song: string; audioUrl?: string }[] = [
-    { artist: 'Oasis', song: 'Wonderwall', audioUrl: 'assets/audio/demo.mp3' },
-    { artist: 'People R Ugly', song: 'What\'s Up' },
-    { artist: 'Radiohead (Silkadelics Version)', song: 'Creep' },
-    { artist: 'Tenacious D', song: 'Baby One More Time' },
-    { artist: 'The Killers', song: 'Mr. Brightside', audioUrl: 'assets/audio/demo.mp3' },
-    { artist: 'Walk The Moon', song: 'Shut Up And Dance' },
-    { artist: 'Linkin Park', song: 'Numb', audioUrl: 'assets/audio/demo.mp3' },
-    { artist: 'Two Door Cinema Club', song: 'What You Know' },
-    { artist: 'Guns N\' Roses', song: 'Sweet Child O\' Mine' },
-    { artist: 'Coldplay', song: 'Yellow' },
-    { artist: 'Kaleo', song: 'No Good' },
-    { artist: 'Green Day', song: 'Boulevard Of Broken Dreams' },
-    { artist: 'Daft Punk', song: 'One More Time' },
-    { artist: 'Bad Wolves', song: 'Zombie' },
-    { artist: 'Bruno Mars', song: 'Super Bowl Halftime Medley', audioUrl: 'assets/audio/demo.mp3' },
-    { artist: 'Coldplay', song: 'Fix You' },
-    { artist: 'Daft Punk', song: 'Get Lucky' },
-    { artist: 'Franz Ferdinand', song: 'Take Me Out' },
-    { artist: 'The Weasel (Silkadelics Version)', song: 'Duia' },
-    { artist: 'Gala', song: 'Freed From Desire' },
-    { artist: 'Green Day', song: 'Holiday' },
-    { artist: 'Justin Timberlake', song: 'Can\'t Stop The Feeling' },
-    { artist: 'Kings Of Leon', song: 'Sex On Fire' },
-    { artist: 'Kings Of Leon', song: 'Use Somebody' },
-    { artist: 'Måneskin', song: 'Beggin' },
-    { artist: 'Måneskin', song: 'Let\'s Get It Started' },
-  ];
+  recommendations = signal<{ artist: string; song: string; audioUrl?: string }[]>([]);
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
+    await this.loadRecommendations();
     this.audioPlayer.addEventListener('ended', () => {
       this.playingSong.set(null);
     });
+  }
+
+  async loadRecommendations() {
+    try {
+      const data = await this.supabase.getRecommendationsApi();
+      this.recommendations.set(data.map(item => ({
+        artist: item.artist,
+        song: item.title,
+        audioUrl: item.audio_url
+      })));
+    } catch (error) {
+      console.error('Error fetching recommendations:', error);
+    }
   }
 
   onSearch(query: string | Event): void {
@@ -81,9 +70,9 @@ export class RecommendationsComponent implements OnInit {
 
   filteredRecommendations = computed(() => {
     const query = this.searchQuery().toLowerCase().trim();
-    if (!query) return this.recommendations;
+    if (!query) return this.recommendations();
     
-    return this.recommendations.filter(r => 
+    return this.recommendations().filter(r => 
       r.artist.toLowerCase().includes(query) || 
       r.song.toLowerCase().includes(query)
     );
