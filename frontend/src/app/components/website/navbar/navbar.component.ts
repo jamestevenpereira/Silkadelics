@@ -32,7 +32,12 @@ export class NavbarComponent {
   }
 
   scrollToTop() {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    const isHome = this.router.url === '/' || this.router.url.startsWith('/#');
+    if (isHome) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      this.router.navigate(['/']);
+    }
   }
 
   goToBooking(): void {

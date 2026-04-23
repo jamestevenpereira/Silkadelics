@@ -35,18 +35,18 @@
                     {{ content().footer?.contacts }}
                 </h4>
                 <ul class="space-y-6 text-gray-400 font-sans font-light w-full">
-                    <li class="flex items-center justify-center md:justify-start gap-4 group cursor-pointer">
+                    <li class="flex items-center justify-center md:justify-start gap-4 group">
                         <div
                             class="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center group-hover:bg-gold transition-colors">
                             <svg class="w-4 h-4 text-gold group-hover:text-black transition-colors" fill="none"
                                 stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 00-2 2z" />
+                                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                             </svg>
                         </div>
-                        <span class="group-hover:text-white transition-colors">silkadelics&#64;gmail.com</span>
+                        <a href="mailto:silkadelics@gmail.com" class="group-hover:text-white transition-colors">silkadelics&#64;gmail.com</a>
                     </li>
-                    <li class="flex items-center justify-center md:justify-start gap-4 group cursor-pointer">
+                    <li class="flex items-center justify-center md:justify-start gap-4 group">
                         <div
                             class="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center group-hover:bg-gold transition-colors">
                             <svg class="w-4 h-4 text-gold group-hover:text-black transition-colors" fill="none"
@@ -55,7 +55,7 @@
                                     d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                             </svg>
                         </div>
-                        <span class="group-hover:text-white transition-colors">+351 927 245 662</span>
+                        <a href="tel:+351927245662" class="group-hover:text-white transition-colors">+351 927 245 662</a>
                     </li>
                 </ul>
             </div>
@@ -72,6 +72,8 @@
                     <li><a [routerLink]="['/']" fragment="packs" class="hover:text-gold transition-colors">{{ content().footer?.links?.packs
                             }}</a></li>
                     <li><a [routerLink]="['/']" fragment="gallery" class="hover:text-gold transition-colors">{{ content().footer?.links?.gallery
+                            }}</a></li>
+                    <li><a [routerLink]="['/']" fragment="repertoire" class="hover:text-gold transition-colors">{{ content().footer?.links?.repertoire || 'Repertório'
                             }}</a></li>
                 </ul>
             </div>

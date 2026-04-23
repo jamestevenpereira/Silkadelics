@@ -18,7 +18,7 @@
                     : 'The page you are looking for doesn\'t exist or has been moved. Let\'s get you back to the main stage.' }}
             </p>
             
-            <a [routerLink]="['/', langService.getLanguage()]" 
+            <a [routerLink]="['/']" 
                class="inline-block px-12 py-5 bg-primary text-black font-sans font-bold text-xs tracking-[0.3em] uppercase rounded-xl hover:bg-white transition-all duration-300 shadow-[0_0_20px_rgba(255,45,149,0.3)]">
                 {{ langService.getLanguage() === 'pt' ? 'Voltar ao Início' : 'Back to Home' }}
             </a>
