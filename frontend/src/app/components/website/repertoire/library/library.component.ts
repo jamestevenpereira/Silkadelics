@@ -64,7 +64,9 @@ export class LibraryComponent implements OnInit {
     { id: '2010+', labelKey: '2010+' },
   ];
 
-  songsByEra: Record<string, SongRow[]> = {
+  // Use a signal so computed() re-runs automatically when fetch completes
+  songsByEra = signal<Record<string, SongRow[]>>({
+    'All': [],
     '70-90': [],
     '2000+': [],
     '2010+': [],
@@ -75,7 +77,7 @@ export class LibraryComponent implements OnInit {
     'Soul / Funk / Blues': [],
     'Acústico': [],
     'Outro': []
-  };
+  });
 
   async ngOnInit(): Promise<void> {
     const eraParam = this.route.snapshot.queryParamMap.get('era') as RepertoireEra;
@@ -101,7 +103,7 @@ export class LibraryComponent implements OnInit {
       for (const item of data) {
         if (!newSongsByEra[item.category]) newSongsByEra[item.category] = [];
         
-        const songObj = {
+        const songObj: SongRow = {
           artist: item.artist,
           song: item.title,
           tags: item.tags,
@@ -109,14 +111,11 @@ export class LibraryComponent implements OnInit {
         };
         
         newSongsByEra[item.category].push(songObj);
-        newSongsByEra['All'].push(songObj); // Add every song to 'All'
+        newSongsByEra['All'].push(songObj);
       }
       
-      this.songsByEra = newSongsByEra;
-
-      // Identify dynamic categories if needed (like the new genres)
-      // For now we keep the tabs structure fixed to what's defined in the template,
-      // but you can expand this to build `this.tabs` dynamically.
+      // Using .set() on the signal triggers re-computation of all dependents
+      this.songsByEra.set(newSongsByEra);
     } catch (error) {
       console.error('Error fetching repertoire:', error);
     } finally {
@@ -146,7 +145,8 @@ export class LibraryComponent implements OnInit {
 
   filteredSongs = computed(() => {
     const query = this.searchQuery().toLowerCase().trim();
-    const songs = this.songsByEra[this.activeEra()] || [];
+    // Both songsByEra() and activeEra() are signals — this computed re-runs when either changes
+    const songs = this.songsByEra()[this.activeEra()] || [];
     
     if (!query) return songs;
     
