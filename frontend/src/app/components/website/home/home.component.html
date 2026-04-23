@@ -3,31 +3,41 @@
 <main class="overflow-hidden">
     <app-hero id="home"></app-hero>
 
-    <app-about id="about"></app-about>
+    <div id="about" class="scroll-mt-24">
+      <app-about></app-about>
+    </div>
 
-    @defer (on viewport; prefetch on idle) {
-    <app-event-types id="events"></app-event-types>
-    } @placeholder {
-    <div class="min-h-[600px] bg-luxury-black"></div>
-    }
+    <div id="events" class="scroll-mt-24">
+      @defer (on viewport; prefetch on idle) {
+      <app-event-types></app-event-types>
+      } @placeholder {
+      <div class="min-h-[600px] bg-luxury-black"></div>
+      }
+    </div>
 
-    @defer (on viewport; prefetch on idle) {
-    <app-packs id="packs"></app-packs>
-    } @placeholder {
-    <div class="min-h-[700px] bg-luxury-black"></div>
-    }
+    <div id="packs" class="scroll-mt-24">
+      @defer (on viewport; prefetch on idle) {
+      <app-packs></app-packs>
+      } @placeholder {
+      <div class="min-h-[700px] bg-luxury-black"></div>
+      }
+    </div>
 
-    @defer (on viewport; prefetch on idle) {
-    <app-repertoire id="repertoire"></app-repertoire>
-    } @placeholder {
-    <div class="min-h-[600px] bg-luxury-black"></div>
-    }
+    <div id="repertoire" class="scroll-mt-24">
+      @defer (on viewport; prefetch on idle) {
+      <app-repertoire></app-repertoire>
+      } @placeholder {
+      <div class="min-h-[600px] bg-luxury-black"></div>
+      }
+    </div>
 
-    @defer (on viewport; prefetch on idle) {
-    <app-media-gallery id="gallery"></app-media-gallery>
-    } @placeholder {
-    <div class="min-h-[600px] bg-luxury-charcoal"></div>
-    }
+    <div id="gallery" class="scroll-mt-24">
+      @defer (on viewport; prefetch on idle) {
+      <app-media-gallery></app-media-gallery>
+      } @placeholder {
+      <div class="min-h-[600px] bg-luxury-charcoal"></div>
+      }
+    </div>
 
     @defer (on viewport; prefetch on idle) {
     <app-band-members id="band"></app-band-members>
