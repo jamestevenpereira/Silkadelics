@@ -1,12 +1,12 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-
 import { FormsModule } from '@angular/forms';
+import { CdkDragDrop, DragDropModule, moveItemInArray } from '@angular/cdk/drag-drop';
 import { SupabaseService } from '../../../core/services/supabase.service';
 
 @Component({
   selector: 'app-admin-repertoire',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, DragDropModule],
   templateUrl: './admin-repertoire.component.html',
   styleUrls: ['./admin-repertoire.component.css']
 })
@@ -14,42 +14,33 @@ export class AdminRepertoireComponent implements OnInit {
   supabaseService = inject(SupabaseService);
 
   repertoire = signal<any[]>([]);
+  recommendedList = signal<any[]>([]);
   loading = signal<boolean>(false);
+  savingOrder = signal<boolean>(false);
   showForm = signal<boolean>(false);
   editingId = signal<number | null>(null);
 
-  // Pagination & Search
   page = signal(1);
   pageSize = signal(10);
   totalItems = signal(0);
   searchQuery = signal('');
   searchTimeout: any;
 
-  Math = Math; // Expose Math to template
+  Math = Math;
 
-  categories = signal<string[]>([
-    'Pop / Indie',
-    'Rock / Alternative',
-    'Jazz',
-    'Portuguesa',
-    'Soul / Funk / Blues',
-    'Acústico',
-    'Outro'
-  ]);
+  eras = ['70-90', '2000+', '2010+'];
 
   itemForm = {
     title: '',
     artist: '',
-    category: 'Pop / Indie', // Set to a valid category from the list
-    tags: [] as string[],
-    tagsInput: '', // For UI handling
+    category: '70-90',
     audio_url: '',
     is_recommended: false,
     display_order: 0
   };
 
   async ngOnInit() {
-    await this.loadRepertoire();
+    await Promise.all([this.loadRepertoire(), this.loadRecommended()]);
   }
 
   async loadRepertoire() {
@@ -58,9 +49,13 @@ export class AdminRepertoireComponent implements OnInit {
       this.pageSize(),
       this.searchQuery()
     );
-
     if (data) this.repertoire.set(data);
     if (count !== null) this.totalItems.set(count);
+  }
+
+  async loadRecommended() {
+    const data = await this.supabaseService.getAllRecommended();
+    this.recommendedList.set(data);
   }
 
   onSearch() {
@@ -90,9 +85,7 @@ export class AdminRepertoireComponent implements OnInit {
     this.itemForm = {
       title: '',
       artist: '',
-      category: 'Pop / Indie',
-      tags: [],
-      tagsInput: '',
+      category: '70-90',
       audio_url: '',
       is_recommended: false,
       display_order: this.totalItems() + 1
@@ -102,10 +95,13 @@ export class AdminRepertoireComponent implements OnInit {
 
   editItem(item: any) {
     this.editingId.set(item.id);
-    this.itemForm = { 
-      ...item, 
-      tagsInput: item.tags ? item.tags.join(', ') : '',
-      tags: item.tags || []
+    this.itemForm = {
+      title: item.title,
+      artist: item.artist,
+      category: item.category,
+      audio_url: item.audio_url ?? '',
+      is_recommended: item.is_recommended,
+      display_order: item.display_order
     };
     this.showForm.set(true);
   }
@@ -118,25 +114,18 @@ export class AdminRepertoireComponent implements OnInit {
   async saveItem() {
     this.loading.set(true);
     try {
-      // Process tagsInput into tags array
-      const tagsArray = this.itemForm.tagsInput
-        ? this.itemForm.tagsInput.split(',').map(t => t.trim()).filter(t => t.length > 0)
-        : [];
-        
-      const payloadToSave = {
+      const payload = {
         title: this.itemForm.title,
         artist: this.itemForm.artist,
         category: this.itemForm.category,
-        tags: tagsArray,
         audio_url: this.itemForm.audio_url,
         is_recommended: this.itemForm.is_recommended,
         display_order: this.itemForm.display_order
       };
 
       if (this.editingId()) {
-        await this.supabaseService.updateRepertoireItem(this.editingId()!, payloadToSave);
+        await this.supabaseService.updateRepertoireItem(this.editingId()!, payload);
       } else {
-        // Check for duplicate title
         const { data: existing } = await this.supabaseService.client
           .from('repertoire')
           .select('id')
@@ -148,10 +137,10 @@ export class AdminRepertoireComponent implements OnInit {
           this.loading.set(false);
           return;
         }
-
-        await this.supabaseService.addRepertoireItem(payloadToSave);
+        await this.supabaseService.addRepertoireItem(payload);
       }
-      await this.loadRepertoire();
+
+      await Promise.all([this.loadRepertoire(), this.loadRecommended()]);
       this.cancelEdit();
     } catch (error) {
       console.error('Error saving repertoire item:', error);
@@ -163,7 +152,35 @@ export class AdminRepertoireComponent implements OnInit {
   async deleteItem(id: number) {
     if (confirm('Tem a certeza que deseja remover esta música?')) {
       await this.supabaseService.deleteRepertoireItem(id);
+      await Promise.all([this.loadRepertoire(), this.loadRecommended()]);
+    }
+  }
+
+  async toggleRecommended(item: any) {
+    const newValue = !item.is_recommended;
+    // Optimistic update
+    this.repertoire.update(list =>
+      list.map(r => r.id === item.id ? { ...r, is_recommended: newValue } : r)
+    );
+    await this.supabaseService.updateRepertoireItem(item.id, { is_recommended: newValue });
+    await this.loadRecommended();
+  }
+
+  async dropRecommended(event: CdkDragDrop<any[]>) {
+    const list = [...this.recommendedList()];
+    moveItemInArray(list, event.previousIndex, event.currentIndex);
+    this.recommendedList.set(list);
+
+    this.savingOrder.set(true);
+    try {
+      const updates = list.map((item, index) => ({ id: item.id, display_order: index }));
+      await this.supabaseService.reorderRepertoire(updates);
       await this.loadRepertoire();
+    } catch (error) {
+      console.error('Error reordering:', error);
+      await this.loadRecommended();
+    } finally {
+      this.savingOrder.set(false);
     }
   }
 }

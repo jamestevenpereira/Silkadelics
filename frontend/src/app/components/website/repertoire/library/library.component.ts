@@ -44,7 +44,7 @@ export class LibraryComponent implements OnInit {
 
   content = this.langService.content;
 
-  activeEra = signal<RepertoireEra>('70-90');
+  activeEra = signal<RepertoireEra>('All');
   searchQuery = signal('');
   pageSize = signal(10);
   currentPage = signal(1);
@@ -129,14 +129,15 @@ export class LibraryComponent implements OnInit {
     this.currentPage.set(1);
   }
 
+  private searchDebounceTimer: any = null;
+
   onSearch(query: string | Event): void {
-    if (typeof query === 'string') {
-      this.searchQuery.set(query);
-    } else {
-      const input = query.target as HTMLInputElement;
-      this.searchQuery.set(input.value);
-    }
-    this.currentPage.set(1);
+    const q = typeof query === 'string' ? query : (query.target as HTMLInputElement).value;
+    if (this.searchDebounceTimer) clearTimeout(this.searchDebounceTimer);
+    this.searchDebounceTimer = setTimeout(() => {
+      this.searchQuery.set(q);
+      this.currentPage.set(1);
+    }, 300);
   }
 
   isActive(era: RepertoireEra): boolean {
@@ -235,10 +236,21 @@ export class LibraryComponent implements OnInit {
 
   prevPage(): void {
     this.currentPage.update((p) => Math.max(1, p - 1));
+    this.scrollTableToTop();
   }
 
   nextPage(): void {
     this.currentPage.update((p) => Math.min(this.totalPages(), p + 1));
+    this.scrollTableToTop();
+  }
+
+  private scrollTableToTop(): void {
+    setTimeout(() => {
+      const tablePanel = document.querySelector('[role="tabpanel"]');
+      if (tablePanel) {
+        tablePanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }, 0);
   }
 
   goToBooking(): void {

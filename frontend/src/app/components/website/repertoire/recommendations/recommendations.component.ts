@@ -48,6 +48,7 @@ export class RecommendationsComponent implements OnInit {
   async loadRecommendations() {
     try {
       const data = await this.supabase.getRecommendationsApi();
+      // API returns ordered by display_order — preserve that order
       this.recommendations.set(data.map(item => ({
         artist: item.artist,
         song: item.title,
@@ -58,14 +59,15 @@ export class RecommendationsComponent implements OnInit {
     }
   }
 
+  private searchDebounceTimer: any = null;
+
   onSearch(query: string | Event): void {
-    if (typeof query === 'string') {
-      this.searchQuery.set(query);
-    } else {
-      const input = query.target as HTMLInputElement;
-      this.searchQuery.set(input.value);
-    }
-    this.currentPage.set(1);
+    const q = typeof query === 'string' ? query : (query.target as HTMLInputElement).value;
+    if (this.searchDebounceTimer) clearTimeout(this.searchDebounceTimer);
+    this.searchDebounceTimer = setTimeout(() => {
+      this.searchQuery.set(q);
+      this.currentPage.set(1);
+    }, 300);
   }
 
   filteredRecommendations = computed(() => {
@@ -79,9 +81,8 @@ export class RecommendationsComponent implements OnInit {
   });
 
   sortedRecommendations = computed(() => {
-    return [...this.filteredRecommendations()].sort((a, b) =>
-      a.artist.localeCompare(b.artist, 'pt', { sensitivity: 'base' })
-    );
+    // Order comes from display_order set in admin — do not re-sort
+    return this.filteredRecommendations();
   });
 
   paginatedRecommendations = computed(() => {
@@ -152,10 +153,21 @@ export class RecommendationsComponent implements OnInit {
 
   prevPage(): void {
     this.currentPage.update((p) => Math.max(1, p - 1));
+    this.scrollTableToTop();
   }
 
   nextPage(): void {
     this.currentPage.update((p) => Math.min(this.totalPages(), p + 1));
+    this.scrollTableToTop();
+  }
+
+  private scrollTableToTop(): void {
+    setTimeout(() => {
+      const table = document.getElementById('recommendations-table');
+      if (table) {
+        table.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }, 0);
   }
 
   goToBooking(): void {

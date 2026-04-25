@@ -1,0 +1,50 @@
+@if (isVisible()) {
+<div
+  class="fixed bottom-0 left-0 right-0 z-[200] p-4 sm:p-6 animate-fade-up"
+  role="dialog"
+  aria-live="polite"
+  [attr.aria-label]="content().cookies?.title">
+
+  <div class="max-w-5xl mx-auto glass-dark border border-white/10 rounded-2xl sm:rounded-3xl px-6 py-5 sm:px-10 sm:py-6 shadow-2xl flex flex-col sm:flex-row items-start sm:items-center gap-5 sm:gap-8">
+
+    <!-- Icon -->
+    <div class="hidden sm:flex w-12 h-12 shrink-0 rounded-full bg-primary/10 items-center justify-center text-primary">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+          d="M12 11c0-1.1.9-2 2-2s2 .9 2 2-.9 2-2 2-2-.9-2-2zM4 12C4 7.58 7.58 4 12 4s8 3.58 8 8-3.58 8-8 8-8-3.58-8-8z"/>
+        <circle cx="8.5" cy="14.5" r="1" fill="currentColor" stroke="none"/>
+        <circle cx="15" cy="16" r="1" fill="currentColor" stroke="none"/>
+        <circle cx="17" cy="10" r="1" fill="currentColor" stroke="none"/>
+      </svg>
+    </div>
+
+    <!-- Text -->
+    <div class="flex-1 min-w-0">
+      <p class="text-[10px] font-sans font-bold uppercase tracking-[0.2em] text-primary mb-1">
+        {{ content().cookies?.title }}
+      </p>
+      <p class="text-xs sm:text-sm text-gray-400 font-sans font-light leading-relaxed">
+        {{ content().cookies?.description }}
+        <a routerLink="/privacy-policy" class="text-primary hover:underline ml-1" (click)="acceptNecessary()">
+          {{ content().cookies?.learnMore }}
+        </a>
+      </p>
+    </div>
+
+    <!-- Buttons -->
+    <div class="flex flex-row sm:flex-col gap-3 shrink-0 w-full sm:w-auto">
+      <button
+        (click)="acceptAll()"
+        class="flex-1 sm:flex-none px-6 py-3 bg-primary text-white font-sans font-bold text-[10px] tracking-[0.2em] uppercase rounded-xl hover:bg-secondary hover:text-black transition-all duration-300 shadow-[0_0_15px_rgba(255,45,149,0.3)] focus:outline-none focus:ring-2 focus:ring-primary/50">
+        {{ content().cookies?.acceptAll }}
+      </button>
+      <button
+        (click)="acceptNecessary()"
+        class="flex-1 sm:flex-none px-6 py-3 border border-white/20 text-gray-400 font-sans font-bold text-[10px] tracking-[0.2em] uppercase rounded-xl hover:bg-white/5 hover:text-white transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-white/20">
+        {{ content().cookies?.necessary }}
+      </button>
+    </div>
+
+  </div>
+</div>
+}

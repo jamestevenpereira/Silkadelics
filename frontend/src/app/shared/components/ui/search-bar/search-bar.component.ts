@@ -45,10 +45,7 @@ export class SearchBarComponent implements OnInit {
   isClicked = signal(false);
   mousePosition = signal({ x: 0, y: 0 });
 
-  suggestionsData = [
-    "React", "Vue", "Angular", "Next.js", "Svelte", 
-    "TailwindCSS", "TypeScript", "JavaScript", "Node.js"
-  ];
+  suggestionsData: string[] = [];
 
   suggestions = computed(() => {
     const query = this.searchQuery().toLowerCase();

@@ -23,7 +23,7 @@
                             class="block text-[10px] font-sans font-bold uppercase tracking-[0.2em] mb-3 transition-colors"
                             [class.text-primary]="!isFieldInvalid('name')"
                             [class.text-red-500]="isFieldInvalid('name')">
-                            {{ content().booking?.fields?.name }}
+                                {{ content().booking?.fields?.name }}<span class="text-red-400 ml-1">*</span>
                         </label>
                         <input id="field-name" type="text" formControlName="name" placeholder="John Doe" (input)="onNameInput($event)"
                             class="w-full bg-white/5 border rounded-2xl px-6 py-5 text-white focus:bg-white/10 focus:ring-2 focus:ring-primary/50 focus:ring-offset-0 transition-all outline-none font-sans font-light"
@@ -43,7 +43,7 @@
                             class="block text-[10px] font-sans font-bold uppercase tracking-[0.2em] mb-3 transition-colors"
                             [class.text-primary]="!isFieldInvalid('email')"
                             [class.text-red-500]="isFieldInvalid('email')">
-                            {{ content().booking?.fields?.email }}
+                            {{ content().booking?.fields?.email }}<span class="text-red-400 ml-1">*</span>
                         </label>
                         <input id="field-email" type="email" formControlName="email" placeholder="john@example.com"
                             class="w-full bg-white/5 border rounded-2xl px-6 py-5 text-white focus:bg-white/10 focus:ring-2 focus:ring-primary/50 focus:ring-offset-0 transition-all outline-none font-sans font-light"
@@ -66,7 +66,7 @@
                             class="block text-[10px] font-sans font-bold uppercase tracking-[0.2em] mb-3 transition-colors"
                             [class.text-primary]="!isFieldInvalid('phone')"
                             [class.text-red-500]="isFieldInvalid('phone')">
-                            {{ content().booking?.fields?.phone }}
+                            {{ content().booking?.fields?.phone }}<span class="text-red-400 ml-1">*</span>
                         </label>
                         <input id="field-phone" type="text" formControlName="phone" placeholder="+351 961 234 567"
                             (input)="onPhoneInput($event)"
@@ -85,7 +85,7 @@
                     <div class="group">
                         <label for="field-date"
                             class="block text-[10px] font-sans font-bold text-gray-500 uppercase tracking-[0.2em] mb-3 group-focus-within:text-primary transition-colors">
-                            {{ content().booking?.fields?.date }}
+                            {{ content().booking?.fields?.date }}<span class="text-red-400 ml-1">*</span>
                         </label>
                         <input id="field-date" type="date" formControlName="date" readonly
                             class="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-5 text-white/50 focus:border-secondary transition-all outline-none font-sans font-light [color-scheme:dark] cursor-not-allowed">
@@ -109,7 +109,7 @@
                     <div class="group relative">
                         <label for="field-event-type"
                             class="block text-[10px] font-sans font-bold text-gray-500 uppercase tracking-[0.2em] mb-3 group-focus-within:text-primary transition-colors">
-                            {{ content().booking?.fields?.eventType }}
+                            {{ content().booking?.fields?.eventType }}<span class="text-red-400 ml-1">*</span>
                         </label>
                         <select id="field-event-type" formControlName="eventType"
                             class="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-5 text-white focus:border-secondary focus:bg-white/10 focus:ring-2 focus:ring-primary/50 focus:ring-offset-0 transition-all outline-none appearance-none font-sans font-light cursor-pointer">

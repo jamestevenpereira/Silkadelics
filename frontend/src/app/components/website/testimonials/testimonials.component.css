@@ -6,24 +6,22 @@
     padding: 2rem 0;
 }
 
+.marquee-container:hover .marquee-content {
+    animation-play-state: paused;
+}
+
 .marquee-content {
     flex-shrink: 0;
     display: flex;
-    justify-content: space-around;
     gap: 2rem;
     min-width: 100%;
     animation: scroll 40s linear infinite;
-}
-
-.marquee-container:hover .marquee-content {
-    animation-play-state: paused;
 }
 
 @keyframes scroll {
     from {
         transform: translateX(0);
     }
-
     to {
         transform: translateX(calc(-100% - 2rem));
     }
@@ -41,5 +39,11 @@
 
     .marquee-content {
         animation-duration: 25s;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .marquee-content {
+        animation-play-state: paused;
     }
 }

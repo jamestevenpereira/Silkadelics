@@ -3,7 +3,7 @@
     <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
             <h2 class="text-3xl font-serif font-bold text-white mb-2">Repertório</h2>
-            <p class="text-gray-400 text-sm">Gira a lista de músicas disponíveis para os eventos.</p>
+            <p class="text-gray-400 text-sm">Gire a lista de músicas e o alinhamento recomendado.</p>
         </div>
         <button (click)="openNewForm()"
             class="px-6 py-3 bg-gold text-black font-sans font-bold text-xs tracking-widest uppercase rounded-xl hover:bg-white transition-colors">
@@ -40,8 +40,7 @@
 
             <form (ngSubmit)="saveItem()" class="space-y-6">
                 <div class="space-y-2">
-                    <label class="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Título da
-                        Música</label>
+                    <label class="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Título da Música</label>
                     <input [(ngModel)]="itemForm.title" name="title" type="text" required
                         class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-gold outline-none transition-all">
                 </div>
@@ -53,20 +52,13 @@
                 </div>
 
                 <div class="space-y-2">
-                    <label class="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Categoria /
-                        Género</label>
+                    <label class="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Era</label>
                     <select [(ngModel)]="itemForm.category" name="category" required
                         class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-gold outline-none transition-all">
-                        @for (cat of categories(); track cat) {
-                        <option [value]="cat" class="bg-luxury-charcoal">{{ cat }}</option>
+                        @for (era of eras; track era) {
+                        <option [value]="era" class="bg-luxury-charcoal">{{ era }}</option>
                         }
                     </select>
-                </div>
-
-                <div class="space-y-2">
-                    <label class="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Tags (Separadas por vírgula)</label>
-                    <input [(ngModel)]="itemForm.tagsInput" name="tagsInput" type="text" placeholder="Ex: Rock, Clássico, Anos 80"
-                        class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-gold outline-none transition-all">
                 </div>
 
                 <div class="space-y-2">
@@ -79,7 +71,7 @@
                     <input [(ngModel)]="itemForm.is_recommended" name="is_recommended" type="checkbox" id="is_recommended"
                         class="w-4 h-4 bg-white/5 border-white/10 rounded text-gold focus:ring-gold focus:ring-offset-luxury-charcoal">
                     <label for="is_recommended" class="text-sm font-bold text-gray-300 cursor-pointer">
-                        Destacar como Recomendação
+                        Incluir no Alinhamento Recomendado
                     </label>
                 </div>
 
@@ -98,68 +90,81 @@
     </div>
     }
 
-    <!-- Repertoire List -->
+    <!-- Repertoire Table -->
     <div class="glass-dark rounded-[32px] border border-white/10 overflow-hidden">
         <div class="overflow-x-auto">
-            <table class="w-full text-left">
-                <thead>
-                    <tr class="border-b border-white/10 bg-white/5">
-                        <th class="px-8 py-6 text-[10px] font-bold text-gray-500 uppercase tracking-widest">Título</th>
-                        <th class="px-8 py-6 text-[10px] font-bold text-gray-500 uppercase tracking-widest">Artista</th>
-                        <th class="px-8 py-6 text-[10px] font-bold text-gray-500 uppercase tracking-widest">Categoria
-                        </th>
-                        <th class="px-8 py-6 text-[10px] font-bold text-gray-500 uppercase tracking-widest text-right">
-                            Ações</th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-white/5">
-                    @for (item of repertoire(); track item.id) {
-                    <tr class="group hover:bg-white/5 transition-colors">
-                        <td class="px-8 py-6 text-white font-medium">{{ item.title }}</td>
-                        <td class="px-8 py-6 text-gray-400">{{ item.artist }}</td>
-                        <td class="px-8 py-6">
-                            <span
-                                class="bg-gold/10 text-gold text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full whitespace-nowrap">
-                                {{ item.category }}
-                            </span>
-                        </td>
-                        <td class="px-8 py-6 text-right">
-                            <div class="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                                <button (click)="editItem(item)"
-                                    class="p-2 text-gray-400 hover:text-gold transition-colors">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+            <div class="max-h-[600px] overflow-y-auto">
+                <table class="w-full text-left">
+                    <thead class="sticky top-0 z-10">
+                        <tr class="border-b border-white/10 bg-[#1a1a1a]">
+                            <th class="px-8 py-6 text-[10px] font-bold text-gray-500 uppercase tracking-widest">Título</th>
+                            <th class="px-8 py-6 text-[10px] font-bold text-gray-500 uppercase tracking-widest">Artista</th>
+                            <th class="px-8 py-6 text-[10px] font-bold text-gray-500 uppercase tracking-widest">Era</th>
+                            <th class="px-8 py-6 text-[10px] font-bold text-gray-500 uppercase tracking-widest text-center">Destaque</th>
+                            <th class="px-8 py-6 text-[10px] font-bold text-gray-500 uppercase tracking-widest text-right">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-white/5">
+                        @for (item of repertoire(); track item.id) {
+                        <tr class="group hover:bg-white/5 transition-colors">
+                            <td class="px-8 py-5 text-white font-medium">{{ item.title }}</td>
+                            <td class="px-8 py-5 text-gray-400">{{ item.artist }}</td>
+                            <td class="px-8 py-5">
+                                <span class="bg-gold/10 text-gold text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full whitespace-nowrap">
+                                    {{ item.category }}
+                                </span>
+                            </td>
+                            <td class="px-8 py-5 text-center">
+                                <button (click)="toggleRecommended(item)"
+                                    class="transition-transform hover:scale-110 focus:outline-none"
+                                    [title]="item.is_recommended ? 'Remover dos destaques' : 'Adicionar aos destaques'">
+                                    @if (item.is_recommended) {
+                                    <svg class="w-5 h-5 text-gold mx-auto" fill="currentColor" viewBox="0 0 20 20">
+                                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                                     </svg>
-                                </button>
-                                <button (click)="deleteItem(item.id)"
-                                    class="p-2 text-gray-400 hover:text-red-500 transition-colors">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-4v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                    } @else {
+                                    <svg class="w-5 h-5 text-gray-600 hover:text-gold mx-auto transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                            d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
                                     </svg>
+                                    }
                                 </button>
-                            </div>
-                        </td>
-                    </tr>
-                    } @empty {
-                    <tr>
-                        <td colspan="4" class="px-8 py-20 text-center text-gray-500 italic">
-                            {{ searchQuery() ? 'Nenhuma música encontrada.' : 'Nenhuma música adicionada ao repertório.'
-                            }}
-                        </td>
-                    </tr>
-                    }
-                </tbody>
-            </table>
+                            </td>
+                            <td class="px-8 py-5 text-right">
+                                <div class="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                    <button (click)="editItem(item)" class="p-2 text-gray-400 hover:text-gold transition-colors">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                                        </svg>
+                                    </button>
+                                    <button (click)="deleteItem(item.id)" class="p-2 text-gray-400 hover:text-red-500 transition-colors">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-4v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                        </svg>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        } @empty {
+                        <tr>
+                            <td colspan="5" class="px-8 py-20 text-center text-gray-500 italic">
+                                {{ searchQuery() ? 'Nenhuma música encontrada.' : 'Nenhuma música adicionada ao repertório.' }}
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
         </div>
 
         <!-- Pagination -->
         <div class="px-8 py-4 border-t border-white/10 flex items-center justify-between bg-white/5">
             <div class="text-xs text-gray-500">
-                A mostrar <span class="text-white font-bold">{{ (page() - 1) * pageSize() + 1 }}</span> a <span
-                    class="text-white font-bold">{{ Math.min(page() * pageSize(), totalItems()) }}</span> de <span
-                    class="text-white font-bold">{{ totalItems() }}</span> resultados
+                A mostrar <span class="text-white font-bold">{{ (page() - 1) * pageSize() + 1 }}</span> a
+                <span class="text-white font-bold">{{ Math.min(page() * pageSize(), totalItems()) }}</span> de
+                <span class="text-white font-bold">{{ totalItems() }}</span> resultados
             </div>
             <div class="flex gap-2">
                 <button (click)="prevPage()" [disabled]="page() === 1"
@@ -170,6 +175,68 @@
                     class="px-4 py-2 border border-white/10 rounded-lg text-xs font-bold uppercase tracking-widest text-gray-400 hover:text-white hover:bg-white/5 disabled:opacity-50 disabled:cursor-not-allowed transition-all">
                     Seguinte
                 </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Alinhamento Recomendado -->
+    <div class="glass-dark rounded-[32px] border border-white/10 overflow-hidden">
+        <div class="px-8 py-6 border-b border-white/10 flex items-center justify-between">
+            <div>
+                <h3 class="text-xl font-serif font-bold text-white">Alinhamento Recomendado</h3>
+                <p class="text-gray-500 text-xs mt-1">Arrasta as linhas para definir a ordem que aparece no site.</p>
+            </div>
+            <div class="flex items-center gap-3">
+                @if (savingOrder()) {
+                <span class="text-[10px] text-gold uppercase tracking-widest font-bold animate-pulse">A guardar...</span>
+                }
+                <span class="bg-gold/10 text-gold text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full">
+                    {{ recommendedList().length }} músicas
+                </span>
+            </div>
+        </div>
+
+        <div class="overflow-x-auto">
+            <div class="max-h-[500px] overflow-y-auto">
+                @if (recommendedList().length > 0) {
+                <table class="w-full text-left">
+                    <thead class="sticky top-0 z-10">
+                        <tr class="border-b border-white/10 bg-[#1a1a1a]">
+                            <th class="px-4 py-4 w-10"></th>
+                            <th class="px-4 py-4 text-[10px] font-bold text-gray-500 uppercase tracking-widest w-10">#</th>
+                            <th class="px-4 py-4 text-[10px] font-bold text-gray-500 uppercase tracking-widest">Título</th>
+                            <th class="px-4 py-4 text-[10px] font-bold text-gray-500 uppercase tracking-widest">Artista</th>
+                            <th class="px-4 py-4 text-[10px] font-bold text-gray-500 uppercase tracking-widest">Era</th>
+                        </tr>
+                    </thead>
+                    <tbody cdkDropList (cdkDropListDropped)="dropRecommended($event)" class="divide-y divide-white/5">
+                        @for (item of recommendedList(); track item.id; let i = $index) {
+                        <tr cdkDrag class="group hover:bg-white/5 transition-colors cursor-grab active:cursor-grabbing">
+                            <td class="px-4 py-4" cdkDragHandle>
+                                <svg class="w-4 h-4 text-gray-600 group-hover:text-gray-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8h16M4 16h16" />
+                                </svg>
+                            </td>
+                            <td class="px-4 py-4 text-gray-600 text-xs font-bold tabular-nums">{{ i + 1 }}</td>
+                            <td class="px-4 py-4 text-white font-medium text-sm">{{ item.title }}</td>
+                            <td class="px-4 py-4 text-gray-400 text-sm">{{ item.artist }}</td>
+                            <td class="px-4 py-4">
+                                <span class="bg-gold/10 text-gold text-[10px] font-bold uppercase tracking-widest px-2 py-1 rounded-full whitespace-nowrap">
+                                    {{ item.category }}
+                                </span>
+                            </td>
+                            <ng-template cdkDragPlaceholder>
+                                <tr class="h-[53px] bg-white/5 border-b border-dashed border-white/20 opacity-50"></tr>
+                            </ng-template>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+                } @else {
+                <div class="px-8 py-16 text-center text-gray-500 italic text-sm">
+                    Nenhuma música marcada como destaque. Clica na ⭐ na tabela acima para adicionar.
+                </div>
+                }
             </div>
         </div>
     </div>

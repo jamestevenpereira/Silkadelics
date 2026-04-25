@@ -203,6 +203,22 @@ export class SupabaseService {
         return await this.supabase.from('repertoire').delete().eq('id', id);
     }
 
+    async getAllRecommended(): Promise<any[]> {
+        const { data } = await this.supabase
+            .from('repertoire')
+            .select('*')
+            .eq('is_recommended', true)
+            .order('display_order', { ascending: true });
+        return data ?? [];
+    }
+
+    async reorderRepertoire(updates: { id: number; display_order: number }[]) {
+        const promises = updates.map(u =>
+            this.supabase.from('repertoire').update({ display_order: u.display_order }).eq('id', u.id)
+        );
+        return await Promise.all(promises);
+    }
+
     // Testimonials
     async getTestimonials() {
         return await this.supabase.from('testimonials').select('*').order('created_at', { ascending: false });

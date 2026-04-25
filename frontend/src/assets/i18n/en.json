@@ -443,6 +443,13 @@
     "Fotógrafo": "Photographer",
     "Fotógrafo e Videógrafo": "Photographer and Videographer"
   },
+  "cookies": {
+    "title": "We Use Cookies",
+    "description": "This website uses essential cookies for its operation and third-party content (YouTube) to enhance your experience. By continuing, you accept our privacy policy.",
+    "acceptAll": "Accept All",
+    "necessary": "Necessary Only",
+    "learnMore": "Learn more."
+  },
   "packFeatures": {
     "Cerimónia (Igreja ou Civil)": "Ceremony (Church or Civil)",
     "Cocktail / Aperitivos": "Cocktail / Appetizers",

@@ -39,11 +39,11 @@
 
       <!-- Era Tabs -->
       <div class="max-w-5xl mx-auto">
-        <div class="flex items-center justify-center gap-0 mb-16 border-b border-white/10" role="tablist"
+        <div class="flex flex-wrap items-center justify-center gap-0 mb-16 border-b border-white/10" role="tablist"
           aria-label="Repertoire eras">
           @for (tab of tabs; track tab.id) {
           <button (click)="selectEra(tab.id)" [attr.aria-selected]="isActive(tab.id)"
-            [attr.aria-controls]="'era-' + tab.id" role="tab" class="relative px-10 py-5 font-sans font-bold text-xs tracking-[0.3em] uppercase
+            [attr.aria-controls]="'era-' + tab.id" role="tab" class="relative px-4 py-3 sm:px-8 sm:py-4 md:px-10 md:py-5 font-sans font-bold text-xs tracking-[0.3em] uppercase
                    transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary/30
                    group" [class.text-primary]="isActive(tab.id)" [class.text-gray-500]="!isActive(tab.id)"
             [class.hover:text-gray-300]="!isActive(tab.id)">

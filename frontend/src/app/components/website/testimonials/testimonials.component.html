@@ -14,46 +14,60 @@
         </div>
 
         @if (testimonials().length > 0) {
-        <div class="marquee-container" (mouseenter)="$any($event).target.classList.add('paused')"
-            (mouseleave)="$any($event).target.classList.remove('paused')">
+        <div class="marquee-container">
             <div class="marquee-content">
                 @for (t of displayTestimonials(); track $index) {
                 <div class="testimonial-card glass-dark rounded-3xl border border-white/10 p-8 md:p-10 relative">
-                    <!-- Subtle Quote Icon -->
-                    <div class="absolute top-6 right-8 text-4xl font-serif text-primary/10 select-none">
-                        "
-                    </div>
-
-                    <!-- Stars -->
+                    <div class="absolute top-6 right-8 text-4xl font-serif text-primary/10 select-none">"</div>
                     <div class="flex text-primary mb-6 gap-1">
                         @for (s of [1,2,3,4,5]; track s) {
                         <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                            <path
-                                d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                         </svg>
                         }
                     </div>
-
-                    <!-- Testimonial Text -->
-                    <p class="text-gray-300 font-sans font-light leading-relaxed mb-8 italic">
-                        "{{ t.text }}"
-                    </p>
-
-                    <!-- Author Info -->
+                    <p class="text-gray-300 font-sans font-light leading-relaxed mb-8 italic">"{{ t.text }}"</p>
                     <div class="flex items-center gap-4">
                         @if (t.img) {
-                        <img [src]="t.img" [alt]="t.name"
-                            class="w-12 h-12 rounded-full object-cover border-2 border-primary/20">
+                        <img [src]="t.img" [alt]="t.name" class="w-12 h-12 rounded-full object-cover border-2 border-primary/20">
                         } @else {
-                        <div
-                            class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold">
+                        <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold">
                             {{ t.name.charAt(0) }}
                         </div>
                         }
                         <div>
-                            <div class="text-sm font-bold text-white tracking-wide">
-                                {{ t.name }}
+                            <div class="text-sm font-bold text-white tracking-wide">{{ t.name }}</div>
+                            <div class="text-[10px] text-gray-500 uppercase tracking-widest">
+                                {{ t.role || (content().testimonials?.title === 'Testemunhos' ? 'Cliente' : 'Client') }}
                             </div>
+                        </div>
+                    </div>
+                </div>
+                }
+            </div>
+            <!-- Duplicate for seamless infinite loop -->
+            <div class="marquee-content" aria-hidden="true">
+                @for (t of displayTestimonials(); track $index) {
+                <div class="testimonial-card glass-dark rounded-3xl border border-white/10 p-8 md:p-10 relative">
+                    <div class="absolute top-6 right-8 text-4xl font-serif text-primary/10 select-none">"</div>
+                    <div class="flex text-primary mb-6 gap-1">
+                        @for (s of [1,2,3,4,5]; track s) {
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                        }
+                    </div>
+                    <p class="text-gray-300 font-sans font-light leading-relaxed mb-8 italic">"{{ t.text }}"</p>
+                    <div class="flex items-center gap-4">
+                        @if (t.img) {
+                        <img [src]="t.img" [alt]="t.name" class="w-12 h-12 rounded-full object-cover border-2 border-primary/20">
+                        } @else {
+                        <div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold">
+                            {{ t.name.charAt(0) }}
+                        </div>
+                        }
+                        <div>
+                            <div class="text-sm font-bold text-white tracking-wide">{{ t.name }}</div>
                             <div class="text-[10px] text-gray-500 uppercase tracking-widest">
                                 {{ t.role || (content().testimonials?.title === 'Testemunhos' ? 'Cliente' : 'Client') }}
                             </div>

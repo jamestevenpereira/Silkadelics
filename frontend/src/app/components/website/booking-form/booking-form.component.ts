@@ -138,11 +138,13 @@ export class BookingFormComponent implements OnInit {
             this.submitSuccess = true;
             this.bookingForm.reset();
             (this.bookingForm.get('extras') as FormArray).clear();
+            setTimeout(() => { this.submitSuccess = false; }, 6000);
           },
           error: (error) => {
             console.error('Error submitting form:', error);
             this.isSubmitting = false;
             this.submitError = true;
+            setTimeout(() => { this.submitError = false; }, 6000);
           }
         });
     }

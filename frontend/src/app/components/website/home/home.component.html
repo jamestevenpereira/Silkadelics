@@ -39,29 +39,37 @@
       }
     </div>
 
-    @defer (on viewport; prefetch on idle) {
-    <app-band-members id="band"></app-band-members>
-    } @placeholder {
-    <div class="min-h-[600px] bg-luxury-charcoal"></div>
-    }
+    <div id="band" class="scroll-mt-24">
+      @defer (on viewport; prefetch on idle) {
+      <app-band-members></app-band-members>
+      } @placeholder {
+      <div class="min-h-[600px] bg-luxury-charcoal"></div>
+      }
+    </div>
 
-    @defer (on viewport; prefetch on idle) {
-    <app-partners id="partners"></app-partners>
-    } @placeholder {
-    <div class="min-h-[500px] bg-luxury-black"></div>
-    }
+    <div id="partners" class="scroll-mt-24">
+      @defer (on viewport; prefetch on idle) {
+      <app-partners></app-partners>
+      } @placeholder {
+      <div class="min-h-[500px] bg-luxury-black"></div>
+      }
+    </div>
 
-    @defer (on viewport; prefetch on idle) {
-    <app-testimonials id="testimonials"></app-testimonials>
-    } @placeholder {
-    <div class="min-h-[500px] bg-luxury-charcoal"></div>
-    }
+    <div id="testimonials" class="scroll-mt-24">
+      @defer (on viewport; prefetch on idle) {
+      <app-testimonials></app-testimonials>
+      } @placeholder {
+      <div class="min-h-[500px] bg-luxury-charcoal"></div>
+      }
+    </div>
 
-    @defer (on viewport; prefetch on idle) {
-    <app-faq id="faq"></app-faq>
-    } @placeholder {
-    <div class="min-h-[600px] bg-luxury-black"></div>
-    }
+    <div id="faq" class="scroll-mt-24">
+      @defer (on viewport; prefetch on idle) {
+      <app-faq></app-faq>
+      } @placeholder {
+      <div class="min-h-[600px] bg-luxury-black"></div>
+      }
+    </div>
 
     <!-- Scroll anchor for fragment navigation — must exist outside @defer -->
     <div id="booking" class="scroll-mt-24"></div>

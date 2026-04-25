@@ -1,15 +1,19 @@
 import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { WhatsAppChatComponent } from './components/shared/whatsapp-chat/whatsapp-chat.component';
+import { CookieConsentComponent } from './components/shared/cookie-consent/cookie-consent.component';
+import { ScrollToTopComponent } from './components/shared/scroll-to-top/scroll-to-top.component';
 import { LightboxService } from './core/services/lightbox.service';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, WhatsAppChatComponent],
+  imports: [RouterOutlet, WhatsAppChatComponent, CookieConsentComponent, ScrollToTopComponent],
   template: `
     <router-outlet></router-outlet>
     <app-whatsapp-chat></app-whatsapp-chat>
+    <app-cookie-consent></app-cookie-consent>
+    <app-scroll-to-top></app-scroll-to-top>
 
     <!-- Global Lightbox — rendered at root level to escape all stacking contexts -->
     @if (lightbox.isOpen()) {
