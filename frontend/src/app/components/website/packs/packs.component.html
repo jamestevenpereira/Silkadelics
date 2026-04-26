@@ -131,8 +131,15 @@
                 @for (extra of content().packs?.extras; track extra.name) {
                 <div
                     class="flex justify-between items-center p-5 bg-black/40 rounded-xl border border-white/5 hover:border-primary/30 transition-colors group/item">
-                    <span class="font-sans font-medium text-gray-300 group-hover/item:text-white transition-colors">
-                        {{ extra.name }}</span>
+                    <div class="font-sans font-medium text-gray-300 group-hover/item:text-white transition-colors leading-snug">
+                        <span class="block">{{ extra.name }}</span>
+
+                        @if (extra.subtitle) {
+                        <span class="block text-sm text-gray-400 font-normal">
+                            {{ extra.subtitle }}
+                        </span>
+                        }
+                    </div>
                     <span class="text-primary font-bold font-sans">{{ extra.price }}</span>
                 </div>
                 }

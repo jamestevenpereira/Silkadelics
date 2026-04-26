@@ -83,11 +83,13 @@
     },
     "extras": [
       {
-        "name": "Ceremony (Church or Civil)",
+        "name": "Ceremony",
+        "subtitle": "(Church or Civil)",
         "price": "600€"
       },
       {
-        "name": "Violin (Extra Musician)",
+        "name": "Violin",
+        "subtitle": "(Extra Musician)",
         "price": "On Request"
       },
       {

@@ -83,11 +83,13 @@
     },
     "extras": [
       {
-        "name": "Cerimónia (Igreja ou Civil)",
+        "name": "Cerimónia",
+        "subtitle": "(Igreja ou Civil)",
         "price": "600€"
       },
       {
-        "name": "Violino (Músico Extra)",
+        "name": "Violino",
+        "subtitle": "(Músico Extra)",
         "price": "Sob Consulta"
       },
       {
