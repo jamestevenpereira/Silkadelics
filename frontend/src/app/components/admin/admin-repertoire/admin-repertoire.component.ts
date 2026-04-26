@@ -207,4 +207,58 @@ export class AdminRepertoireComponent implements OnInit {
       this.savingOrder.set(false);
     }
   }
+
+  async downloadFullPdf() {
+    const { jsPDF } = await import('jspdf');
+    const { default: autoTable } = await import('jspdf-autotable');
+
+    const { data } = await this.supabaseService.getRepertoire(1, 500, '');
+    if (!data || data.length === 0) return;
+
+    const doc = new jsPDF();
+    const date = new Date().toLocaleDateString('pt-PT');
+
+    doc.setFontSize(22);
+    doc.text('Silkadelics — Repertório Completo', 14, 20);
+    doc.setFontSize(10);
+    doc.setTextColor(120);
+    doc.text(`Gerado em: ${date}  ·  Total: ${data.length} músicas`, 14, 30);
+
+    const eras = ['70-90', '2000+', '2010+'];
+    let startY = 40;
+
+    for (const era of eras) {
+      const songs = data
+        .filter((s: any) => s.category === era)
+        .sort((a: any, b: any) => a.artist.localeCompare(b.artist, 'pt'));
+
+      if (songs.length === 0) continue;
+
+      doc.setFontSize(13);
+      doc.setTextColor(40);
+      doc.text(`Era: ${era} (${songs.length} músicas)`, 14, startY);
+      startY += 4;
+
+      autoTable(doc, {
+        head: [['#', 'Artista', 'Música', 'Medley']],
+        body: songs.map((s: any, i: number) => [
+          (i + 1).toString().padStart(2, '0'),
+          s.artist,
+          s.title,
+          s.medley_name || '—'
+        ]),
+        startY,
+        theme: 'grid',
+        headStyles: { fillColor: [139, 92, 246] },
+        styles: { font: 'helvetica', fontSize: 9 },
+        margin: { top: 40 },
+        didDrawPage: (d: any) => { startY = d.cursor.y; }
+      });
+
+      startY = (doc as any).lastAutoTable.finalY + 12;
+    }
+
+    const filename = `Silkadelics_Repertorio_Completo_${new Date().toISOString().split('T')[0]}.pdf`;
+    doc.save(filename);
+  }
 }

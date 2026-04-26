@@ -38,6 +38,10 @@
                         class="text-[10px] font-bold uppercase tracking-[0.2em] transition-colors hover:text-gold">
                         Reservas
                     </button>
+                    <button (click)="activeTab = 'metrics'" [class.text-gold]="activeTab === 'metrics'"
+                        class="text-[10px] font-bold uppercase tracking-[0.2em] transition-colors hover:text-gold">
+                        Métricas
+                    </button>
                 </nav>
             </div>
 
@@ -201,6 +205,8 @@
         <app-admin-packs></app-admin-packs>
         } @else if (activeTab === 'bookings') {
         <app-admin-bookings></app-admin-bookings>
+        } @else if (activeTab === 'metrics') {
+        <app-admin-metrics></app-admin-metrics>
         }
     </main>
 </div>

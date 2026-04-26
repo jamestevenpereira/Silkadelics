@@ -10,18 +10,19 @@ import { AdminRepertoireComponent } from '../admin-repertoire/admin-repertoire.c
 import { AdminTestimonialsComponent } from '../admin-testimonials/admin-testimonials.component';
 import { AdminPacksComponent } from '../admin-packs/admin-packs.component';
 import { AdminBookingsComponent } from '../admin-bookings/admin-bookings.component';
+import { AdminMetricsComponent } from '../admin-metrics/admin-metrics.component';
 import { ConfirmDialogComponent, ConfirmDialogOptions } from '../shared/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-admin-dashboard',
   standalone: true,
-  imports: [FormsModule, AdminTeamComponent, AdminRepertoireComponent, AdminTestimonialsComponent, AdminPacksComponent, AdminBookingsComponent, ConfirmDialogComponent],
+  imports: [FormsModule, AdminTeamComponent, AdminRepertoireComponent, AdminTestimonialsComponent, AdminPacksComponent, AdminBookingsComponent, AdminMetricsComponent, ConfirmDialogComponent],
   templateUrl: './admin-dashboard.component.html',
   styleUrl: './admin-dashboard.component.css'
 })
 export class AdminDashboardComponent implements OnInit {
   private platformId = inject(PLATFORM_ID);
-  activeTab: 'general' | 'team' | 'repertoire' | 'testimonials' | 'packs' | 'bookings' = 'general';
+  activeTab: 'general' | 'team' | 'repertoire' | 'testimonials' | 'packs' | 'bookings' | 'metrics' = 'general';
   gallery: any[] = [];
   promoVideoUrl = '';
   loading = false;

@@ -1,0 +1,169 @@
+<div class="space-y-8 animate-fade-up">
+
+    <!-- Header -->
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+        <div>
+            <h2 class="text-3xl font-serif font-bold text-white mb-2">Métricas</h2>
+            <p class="text-gray-400 text-sm">Resumo de performance e concertos realizados.</p>
+        </div>
+        <div class="flex items-center gap-3">
+            <label class="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Ano</label>
+            <select [ngModel]="selectedYear()" (ngModelChange)="selectedYear.set($event)"
+                class="bg-white/5 border border-white/10 rounded-xl px-4 py-2 text-white text-sm focus:border-gold outline-none transition-all">
+                @for (y of availableYears(); track y) {
+                <option [value]="y" class="bg-luxury-charcoal">{{ y }}</option>
+                }
+                @if (availableYears().length === 0) {
+                <option [value]="selectedYear()" class="bg-luxury-charcoal">{{ selectedYear() }}</option>
+                }
+            </select>
+        </div>
+    </div>
+
+    @if (loading()) {
+    <div class="flex items-center justify-center py-20">
+        <div class="animate-spin h-8 w-8 border-b-2 border-gold rounded-full"></div>
+    </div>
+    } @else {
+
+    <!-- KPI Cards -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+
+        <!-- Concertos realizados -->
+        <div class="glass-dark rounded-[24px] border border-white/10 p-6">
+            <div class="text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-3">Concertos</div>
+            <div class="text-4xl font-serif font-bold text-white mb-1">{{ concluded().length }}</div>
+            <div class="text-xs text-gray-500">realizados em {{ selectedYear() }}</div>
+            <div class="mt-4 w-8 h-[2px] bg-primary"></div>
+        </div>
+
+        <!-- Cache Total -->
+        <div class="glass-dark rounded-[24px] border border-white/10 p-6">
+            <div class="text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-3">Cache Total</div>
+            @if (totalCache() > 0) {
+            <div class="text-4xl font-serif font-bold text-gold mb-1">
+                € {{ totalCache() | number:'1.0-0' }}
+            </div>
+            } @else {
+            <div class="text-4xl font-serif font-bold text-gray-600 mb-1">—</div>
+            }
+            <div class="text-xs text-gray-500">angariado em {{ selectedYear() }}</div>
+            <div class="mt-4 w-8 h-[2px] bg-gold"></div>
+        </div>
+
+        <!-- Próximos confirmados -->
+        <div class="glass-dark rounded-[24px] border border-white/10 p-6">
+            <div class="text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-3">Próximos</div>
+            <div class="text-4xl font-serif font-bold text-white mb-1">{{ upcoming().length }}</div>
+            <div class="text-xs text-gray-500">concertos confirmados</div>
+            <div class="mt-4 w-8 h-[2px] bg-emerald-400"></div>
+        </div>
+
+        <!-- Cache médio -->
+        <div class="glass-dark rounded-[24px] border border-white/10 p-6">
+            <div class="text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-3">Média / Evento</div>
+            @if (avgCache() > 0) {
+            <div class="text-4xl font-serif font-bold text-white mb-1">
+                € {{ avgCache() | number:'1.0-0' }}
+            </div>
+            } @else {
+            <div class="text-4xl font-serif font-bold text-gray-600 mb-1">—</div>
+            }
+            <div class="text-xs text-gray-500">valor médio por concerto</div>
+            <div class="mt-4 w-8 h-[2px] bg-secondary"></div>
+        </div>
+
+    </div>
+
+    <!-- Secondary Stats -->
+    <div class="grid grid-cols-2 gap-4">
+        <div class="glass-dark rounded-[20px] border border-white/5 p-5 flex items-center gap-4">
+            <div class="w-10 h-10 rounded-full bg-amber-500/10 flex items-center justify-center flex-shrink-0">
+                <svg class="w-5 h-5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+            </div>
+            <div>
+                <div class="text-2xl font-bold text-white">{{ pending().length }}</div>
+                <div class="text-[10px] text-gray-500 uppercase tracking-widest">Pendentes</div>
+            </div>
+        </div>
+        <div class="glass-dark rounded-[20px] border border-white/5 p-5 flex items-center gap-4">
+            <div class="w-10 h-10 rounded-full bg-red-500/10 flex items-center justify-center flex-shrink-0">
+                <svg class="w-5 h-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </div>
+            <div>
+                <div class="text-2xl font-bold text-white">{{ cancelled().length }}</div>
+                <div class="text-[10px] text-gray-500 uppercase tracking-widest">Cancelados</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+        <!-- Próximos Concertos -->
+        <div class="glass-dark rounded-[24px] border border-white/10 overflow-hidden">
+            <div class="px-6 py-5 border-b border-white/10 flex items-center justify-between">
+                <h3 class="text-base font-serif font-bold text-white">Próximos Concertos</h3>
+                <span class="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Todos os anos</span>
+            </div>
+            <div class="divide-y divide-white/5">
+                @for (b of upcoming(); track b.id) {
+                <div class="px-6 py-4 flex items-center justify-between">
+                    <div>
+                        <div class="text-sm font-medium text-white">{{ b.name }}</div>
+                        <div class="text-xs text-gray-500">{{ b.event_type }}
+                            @if (b.venue) { · {{ b.venue }} }
+                        </div>
+                    </div>
+                    <div class="text-right flex-shrink-0 ml-4">
+                        <div class="text-sm font-bold text-emerald-400">{{ b.date | date:'dd MMM' }}</div>
+                        @if (b.deal_value) {
+                        <div class="text-xs text-gold">€ {{ b.deal_value | number:'1.0-0' }}</div>
+                        }
+                    </div>
+                </div>
+                } @empty {
+                <div class="px-6 py-8 text-center text-gray-600 text-sm italic">Nenhum concerto confirmado.</div>
+                }
+            </div>
+        </div>
+
+        <!-- Concertos Concluídos -->
+        <div class="glass-dark rounded-[24px] border border-white/10 overflow-hidden">
+            <div class="px-6 py-5 border-b border-white/10 flex items-center justify-between">
+                <h3 class="text-base font-serif font-bold text-white">Concertos Realizados</h3>
+                <span class="bg-primary/10 text-primary text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full">
+                    {{ selectedYear() }}
+                </span>
+            </div>
+            <div class="divide-y divide-white/5">
+                @for (b of recentConcluded(); track b.id) {
+                <div class="px-6 py-4 flex items-center justify-between">
+                    <div>
+                        <div class="text-sm font-medium text-white">{{ b.name }}</div>
+                        <div class="text-xs text-gray-500">{{ b.event_type }}
+                            @if (b.venue) { · {{ b.venue }} }
+                        </div>
+                    </div>
+                    <div class="text-right flex-shrink-0 ml-4">
+                        <div class="text-xs text-gray-500">{{ b.date | date:'dd MMM' }}</div>
+                        @if (b.deal_value) {
+                        <div class="text-sm font-bold text-gold">€ {{ b.deal_value | number:'1.0-0' }}</div>
+                        } @else {
+                        <div class="text-xs text-gray-600">sem valor</div>
+                        }
+                    </div>
+                </div>
+                } @empty {
+                <div class="px-6 py-8 text-center text-gray-600 text-sm italic">Nenhum concerto concluído em {{ selectedYear() }}.</div>
+                }
+            </div>
+        </div>
+
+    </div>
+
+    } <!-- end @else loading -->
+</div>

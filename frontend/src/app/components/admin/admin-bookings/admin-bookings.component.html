@@ -2,9 +2,9 @@
     <div class="flex items-center justify-between">
         <div>
             <h2 class="text-3xl font-serif font-bold text-white">Gestão de Reservas</h2>
-            <p class="text-sm text-gray-500 mt-2 font-light">Gerencie aqui as datas e disponibilidades do calendário</p>
+            <p class="text-sm text-gray-500 mt-2 font-light">Gerencie datas, valores e disponibilidades</p>
         </div>
-        <button (click)="showAddModal = true"
+        <button (click)="openNewModal()"
             class="px-8 py-4 bg-gold text-black font-bold text-[10px] uppercase tracking-[0.2em] rounded-xl hover:bg-white transition-all flex items-center gap-3">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
@@ -20,10 +20,9 @@
                 <thead>
                     <tr class="border-b border-white/5 bg-white/5">
                         <th class="px-8 py-6 text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em]">Data</th>
-                        <th class="px-8 py-6 text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em]">Cliente
-                        </th>
-                        <th class="px-8 py-6 text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em]">Evento /
-                            Pack</th>
+                        <th class="px-8 py-6 text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em]">Cliente</th>
+                        <th class="px-8 py-6 text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em]">Evento</th>
+                        <th class="px-8 py-6 text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em]">Valor</th>
                         <th class="px-8 py-6 text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em]">Estado</th>
                         <th class="px-8 py-6 text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em]">Ações</th>
                     </tr>
@@ -31,18 +30,22 @@
                 <tbody class="divide-y divide-white/5">
                     @if (loading) {
                     <tr>
-                        <td colspan="5" class="px-8 py-12 text-center text-gray-500 italic font-light">
+                        <td colspan="6" class="px-8 py-12 text-center text-gray-500 italic font-light">
                             <div class="animate-spin h-6 w-6 border-b-2 border-gold rounded-full mx-auto mb-4"></div>
                             Carregando reservas...
                         </td>
                     </tr>
                     } @else {
                     @for (booking of bookings; track booking.id) {
-                    <tr class="group hover:bg-white/5 transition-colors">
+                    <tr class="group hover:bg-white/5 transition-colors"
+                        [class.opacity-60]="displayStatus(booking) === 'concluded'">
                         <td class="px-8 py-6">
-                            <div class="text-white font-medium">{{ booking.date | date:'dd/MM/yyyy' }}</div>
-                            <div class="text-[10px] text-gray-500 uppercase tracking-widest mt-1">{{ booking.date }}
-                            </div>
+                            <div class="text-white font-medium">{{ booking.date | date:'dd MMM yyyy' }}</div>
+                            @if (booking.date >= today) {
+                            <div class="text-[10px] text-emerald-400/70 uppercase tracking-widest mt-1">Próximo</div>
+                            } @else {
+                            <div class="text-[10px] text-gray-600 uppercase tracking-widest mt-1">Passado</div>
+                            }
                         </td>
                         <td class="px-8 py-6">
                             <div class="text-white font-medium">{{ booking.name }}</div>
@@ -51,33 +54,63 @@
                         </td>
                         <td class="px-8 py-6">
                             <div class="text-white font-medium">{{ booking.event_type }}</div>
-                            <div class="text-xs text-gold/70 font-light italic">Pack: {{ booking.pack || 'N/A' }}</div>
+                            @if (booking.pack && booking.event_type === 'Casamentos') {
+                            <div class="text-xs text-gold/70 font-light italic">Pack: {{ booking.pack }}</div>
+                            }
+                            @if (booking.venue) {
+                            <div class="text-xs text-gray-500 font-light flex items-center gap-1 mt-0.5">
+                                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                </svg>
+                                {{ booking.venue }}
+                            </div>
+                            }
+                        </td>
+                        <td class="px-8 py-6">
+                            @if (booking.deal_value) {
+                            <span class="bg-gold/10 text-gold text-xs font-bold px-3 py-1 rounded-full whitespace-nowrap">
+                                € {{ booking.deal_value | number:'1.0-0' }}
+                            </span>
+                            } @else {
+                            <span class="text-gray-600 text-xs">—</span>
+                            }
                         </td>
                         <td class="px-8 py-6">
                             <div class="flex items-center gap-3">
                                 <select [ngModel]="unsavedStatuses[booking.id] || booking.status"
                                     (ngModelChange)="onStatusChange(booking.id, $event)"
-                                    class="bg-transparent border border-white/10 rounded-lg px-3 py-2 text-xs font-bold uppercase tracking-widest outline-none focus:border-gold transition-all"
+                                    class="bg-transparent border rounded-lg px-3 py-2 text-xs font-bold uppercase tracking-widest outline-none focus:border-gold transition-all"
                                     [ngClass]="getStatusClass(unsavedStatuses[booking.id] || booking.status)">
-                                    <option value="pending" class="bg-luxury-black text-amber-500">Pending</option>
-                                    <option value="booked" class="bg-luxury-black text-red-500">Booked</option>
+                                    <option value="pending" class="bg-luxury-black text-white">Pendente</option>
+                                    <option value="booked" class="bg-luxury-black text-white">Confirmado</option>
+                                    <option value="cancelled" class="bg-luxury-black text-white">Cancelado</option>
                                 </select>
-
                                 @if (unsavedStatuses[booking.id] && unsavedStatuses[booking.id] !== booking.status) {
                                 <button (click)="confirmUpdateStatus(booking)" [disabled]="isUpdatingStatus[booking.id]"
                                     class="px-4 py-2 bg-gold text-black rounded-lg text-[10px] font-bold uppercase tracking-widest hover:bg-white transition-all disabled:opacity-50">
-                                    {{ isUpdatingStatus[booking.id] ? '...' : 'Confirmar' }}
+                                    {{ isUpdatingStatus[booking.id] ? '...' : 'Guardar' }}
                                 </button>
+                                }
+                                @if (displayStatus(booking) === 'concluded') {
+                                <span class="text-[9px] font-bold uppercase tracking-widest px-2 py-1 rounded-full bg-primary/10 text-primary border border-primary/20">
+                                    Concluído
+                                </span>
                                 }
                             </div>
                         </td>
                         <td class="px-8 py-6">
-                            <div class="flex items-center gap-4">
-                                <button (click)="deleteBooking(booking.id)"
-                                    class="p-3 bg-red-500/10 text-red-500 border border-red-500/20 rounded-xl hover:bg-red-500 hover:text-white transition-all">
+                            <div class="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                <button (click)="openEditModal(booking)"
+                                    class="p-3 min-w-[44px] min-h-[44px] flex items-center justify-center bg-gold/10 text-gold border border-gold/20 rounded-xl hover:bg-gold hover:text-black transition-all">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                                    </svg>
+                                </button>
+                                <button (click)="deleteBooking(booking.id)"
+                                    class="p-3 min-w-[44px] min-h-[44px] flex items-center justify-center bg-red-500/10 text-red-500 border border-red-500/20 rounded-xl hover:bg-red-500 hover:text-white transition-all">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                                     </svg>
                                 </button>
                             </div>
@@ -85,7 +118,7 @@
                     </tr>
                     } @empty {
                     <tr>
-                        <td colspan="5" class="px-8 py-20 text-center text-gray-600 italic font-light">
+                        <td colspan="6" class="px-8 py-20 text-center text-gray-600 italic font-light">
                             Nenhuma reserva encontrada.
                         </td>
                     </tr>
@@ -95,96 +128,112 @@
             </table>
         </div>
     </div>
+</div>
 
-    <!-- Add Modal -->
-    @if (showAddModal) {
-    <div class="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6">
-        <div class="absolute inset-0 bg-black/90 backdrop-blur-sm" (click)="showAddModal = false"></div>
+<!-- Add / Edit Modal -->
+@if (showModal) {
+<div class="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6">
+    <div class="absolute inset-0 bg-black/90 backdrop-blur-sm" (click)="closeModal()"></div>
 
-        <div
-            class="glass-dark w-full max-w-2xl rounded-[40px] border border-white/10 shadow-2xl relative z-10 overflow-hidden animate-fade-up">
-            <div class="p-8 md:p-12">
-                <div class="flex items-center justify-between mb-10">
-                    <h3 class="text-2xl font-serif font-bold text-white">Nova Reserva Manual</h3>
-                    <button (click)="showAddModal = false" class="text-gray-500 hover:text-white transition-colors">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                    </button>
+    <div class="glass-dark w-full max-w-2xl rounded-[40px] border border-white/10 shadow-2xl relative z-10 overflow-hidden animate-fade-up max-h-[90vh] overflow-y-auto">
+        <div class="p-8 md:p-12">
+            <div class="flex items-center justify-between mb-10">
+                <h3 class="text-2xl font-serif font-bold text-white">
+                    {{ editingId ? 'Editar Reserva' : 'Nova Reserva Manual' }}
+                </h3>
+                <button (click)="closeModal()" class="text-gray-500 hover:text-white transition-colors">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+
+            <form (ngSubmit)="saveBooking()" class="space-y-6">
+                <!-- Row 1: Name + Date -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-[0.2em] mb-2">Nome *</label>
+                        <input type="text" [(ngModel)]="bookingForm.name" name="name" required
+                            class="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white focus:border-gold outline-none transition-all">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-[0.2em] mb-2">Data *</label>
+                        <input type="date" [(ngModel)]="bookingForm.date" name="date" required
+                            class="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white focus:border-gold outline-none transition-all [color-scheme:dark]">
+                    </div>
                 </div>
 
-                <form (ngSubmit)="onAddBooking()" class="space-y-6">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div class="group">
-                            <label
-                                class="block text-[10px] font-bold text-gray-500 uppercase tracking-[0.2em] mb-2">Nome</label>
-                            <input type="text" [(ngModel)]="newBooking.name" name="name" required
-                                class="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white focus:border-gold outline-none transition-all">
-                        </div>
-                        <div class="group">
-                            <label
-                                class="block text-[10px] font-bold text-gray-500 uppercase tracking-[0.2em] mb-2">Data</label>
-                            <input type="date" [(ngModel)]="newBooking.date" name="date" required
-                                class="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white focus:border-gold outline-none transition-all [color-scheme:dark]">
-                        </div>
+                <!-- Row 2: Email + Phone -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-[0.2em] mb-2">Email</label>
+                        <input type="email" [(ngModel)]="bookingForm.email" name="email"
+                            class="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white focus:border-gold outline-none transition-all">
                     </div>
+                    <div>
+                        <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-[0.2em] mb-2">Telemóvel</label>
+                        <input type="text" [(ngModel)]="bookingForm.phone" name="phone"
+                            class="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white focus:border-gold outline-none transition-all" placeholder="+351 ...">
+                    </div>
+                </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div class="group">
-                            <label
-                                class="block text-[10px] font-bold text-gray-500 uppercase tracking-[0.2em] mb-2">Email</label>
-                            <input type="email" [(ngModel)]="newBooking.email" name="email"
-                                class="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white focus:border-gold outline-none transition-all"
-                                placeholder="exemplo@email.com">
-                        </div>
-                        <div class="group">
-                            <label
-                                class="block text-[10px] font-bold text-gray-500 uppercase tracking-[0.2em] mb-2">Telemóvel
-                                / Contacto</label>
-                            <input type="text" [(ngModel)]="newBooking.phone" name="phone"
-                                class="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white focus:border-gold outline-none transition-all"
-                                placeholder="+351 ...">
-                        </div>
+                <!-- Row 3: Event Type + Status -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-[0.2em] mb-2">Tipo de Evento</label>
+                        <select [(ngModel)]="bookingForm.event_type" name="event_type"
+                            class="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white focus:border-gold outline-none transition-all appearance-none">
+                            <option value="" disabled>Selecionar Tipo</option>
+                            <option value="Casamentos">Casamentos</option>
+                            <option value="Corporativos">Corporativos</option>
+                            <option value="Festas Privadas">Festas Privadas</option>
+                            <option value="Outros">Outros</option>
+                        </select>
                     </div>
+                    <div>
+                        <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-[0.2em] mb-2">Estado</label>
+                        <select [(ngModel)]="bookingForm.status" name="status"
+                            class="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white focus:border-gold outline-none transition-all appearance-none">
+                            <option value="pending">Pendente</option>
+                            <option value="booked">Confirmado</option>
+                            <option value="cancelled">Cancelado</option>
+                        </select>
+                    </div>
+                </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div class="group">
-                            <label
-                                class="block text-[10px] font-bold text-gray-500 uppercase tracking-[0.2em] mb-2">Tipo
-                                de Evento</label>
-                            <select [(ngModel)]="newBooking.event_type" name="event_type"
-                                class="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white focus:border-gold outline-none transition-all appearance-none">
-                                <option value="" disabled selected>Selecionar Tipo</option>
-                                <option value="Casamentos">Casamentos</option>
-                                <option value="Corporativos">Corporativos</option>
-                                <option value="Festas Privadas">Festas Privadas</option>
-                                <option value="Outros">Outros</option>
-                            </select>
-                        </div>
-                        <div class="group">
-                            <label
-                                class="block text-[10px] font-bold text-gray-500 uppercase tracking-[0.2em] mb-2">Estado</label>
-                            <select [(ngModel)]="newBooking.status" name="status"
-                                class="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white focus:border-gold outline-none transition-all appearance-none">
-                                <option value="pending">Pending</option>
-                                <option value="booked">Booked</option>
-                            </select>
-                        </div>
+                <!-- Row 4: Venue + Deal Value -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-[0.2em] mb-2">Local / Venue</label>
+                        <input type="text" [(ngModel)]="bookingForm.venue" name="venue"
+                            class="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white focus:border-gold outline-none transition-all" placeholder="Ex: Quinta das Rosas, Lisboa">
                     </div>
+                    <div>
+                        <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-[0.2em] mb-2">Valor do Negócio (€)</label>
+                        <input type="number" [(ngModel)]="bookingForm.deal_value" name="deal_value" min="0" step="50"
+                            class="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white focus:border-gold outline-none transition-all" placeholder="0">
+                    </div>
+                </div>
 
-                    <div class="pt-6">
-                        <button type="submit" [disabled]="isSaving || !newBooking.name || !newBooking.date"
-                            class="w-full py-5 bg-gold text-black font-bold text-[10px] uppercase tracking-[0.3em] rounded-xl hover:bg-white transition-all disabled:opacity-30">
-                            {{ isSaving ? 'A guardar...' : 'Criar Reserva' }}
-                        </button>
-                    </div>
-                </form>
-            </div>
+                <!-- Notes -->
+                <div>
+                    <label class="block text-[10px] font-bold text-gray-500 uppercase tracking-[0.2em] mb-2">Notas Internas</label>
+                    <textarea [(ngModel)]="bookingForm.notes" name="notes" rows="3"
+                        class="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-4 text-white focus:border-gold outline-none transition-all resize-none" placeholder="Notas internas sobre este evento..."></textarea>
+                </div>
+
+                <div class="pt-4">
+                    <button type="submit" [disabled]="isSaving || !bookingForm.name || !bookingForm.date"
+                        class="w-full py-5 bg-gold text-black font-bold text-[10px] uppercase tracking-[0.3em] rounded-xl hover:bg-white transition-all disabled:opacity-30">
+                        {{ isSaving ? 'A guardar...' : (editingId ? 'Guardar Alterações' : 'Criar Reserva') }}
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
-    }
 </div>
+}
+
 @if (confirmDialog()) {
 <app-confirm-dialog
     [options]="confirmDialog()!"
