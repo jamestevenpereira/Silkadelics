@@ -42,7 +42,7 @@
                     </div>
 
                     <!-- Render normal features OR Bronze/Silver special -->
-                    @if (isBronzePack(pack) || isSilverPack(pack)) {
+                    @if (isEssentialPack(pack) || isCompletePack(pack)) {
                     <!-- Bronze/Silver Pack Special Display -->
                     <div class="mb-8 flex-grow">
                         <!-- Regular features first -->
@@ -67,7 +67,7 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M13 10V3L4 14h7v7l9-11h-7z" />
                                 </svg>
-                                {{ isBronzePack(pack) ? content().packs?.bronzePerformanceTitle : content().packs?.silverPerformanceTitle }}
+                                {{ isEssentialPack(pack) ? content().packs?.essentialPerformanceTitle : content().packs?.completePerformanceTitle }}
                             </div>
                             <div class="space-y-2">
                                 @for (option of getPerformanceOptions(pack); track option) {
@@ -82,7 +82,7 @@
                                 }
                             </div>
                             <p class="text-[10px] text-primary/60 mt-4 italic text-center">
-                                {{ isBronzePack(pack) ? content().packs?.bronzePerformanceNote : content().packs?.silverPerformanceNote }}
+                                {{ isEssentialPack(pack) ? content().packs?.essentialPerformanceNote : content().packs?.completePerformanceNote }}
                             </p>
                         </div>
                     </div>

@@ -82,12 +82,14 @@ export class PacksComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  isBronzePack(pack: any): boolean {
-    return pack.title?.toLowerCase().includes('bronze');
+  isEssentialPack(pack: any): boolean {
+  return pack.title?.toLowerCase().includes('essencial') ||
+         pack.title?.toLowerCase().includes('essential');
   }
 
-  isSilverPack(pack: any): boolean {
-    return pack.title?.toLowerCase().includes('prata') || pack.title?.toLowerCase().includes('silver');
+  isCompletePack(pack: any): boolean {
+    return pack.title?.toLowerCase().includes('completo') ||
+          pack.title?.toLowerCase().includes('complete');
   }
 
   // Get sub-options for Bronze/Silver pack
