@@ -23,7 +23,7 @@ const bookingLimiter = rateLimit({
 app.use(helmet()); // Secure HTTP headers
 app.use(compression()); // Compress responses
 app.use(cors({
-  origin: ['https://silkadelics.pt', 'https://silkadelics.vercel.app', 'http://localhost:4200'],
+  origin: ['https://silkadelics.pt', 'https://www.silkadelics.pt', 'https://silkadelics.vercel.app', 'http://localhost:4200'],
   credentials: true
 }));
 app.use(express.json());
