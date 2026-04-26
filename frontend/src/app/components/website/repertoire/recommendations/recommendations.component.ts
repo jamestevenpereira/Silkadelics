@@ -35,7 +35,7 @@ export class RecommendationsComponent implements OnInit {
   playingSong = signal<string | null>(null);
   private audioPlayer = new Audio();
 
-  recommendations = signal<{ artist: string; song: string; audioUrl?: string }[]>([]);
+  recommendations = signal<{ artist: string; song: string; audioUrl?: string; medleyName?: string }[]>([]);
 
   async ngOnInit(): Promise<void> {
     await this.loadRecommendations();
@@ -51,7 +51,8 @@ export class RecommendationsComponent implements OnInit {
       this.recommendations.set(data.map(item => ({
         artist: item.artist,
         song: item.title,
-        audioUrl: item.audio_url
+        audioUrl: item.audio_url,
+        medleyName: item.medley_name || undefined
       })));
     } catch (error) {
       console.error('Error fetching recommendations:', error);

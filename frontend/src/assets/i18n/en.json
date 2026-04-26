@@ -338,6 +338,7 @@
     "subtitle": "Explore our full repertoire across eras \u2014 from timeless classics to modern hits.",
     "backLabel": "Repertoire",
     "tabs": {
+      "All": "All",
       "70-90": "70s \u2013 90s",
       "2000+": "2000+",
       "2010+": "2010+"

@@ -1,4 +1,4 @@
-import { Component, OnInit, inject, PLATFORM_ID } from '@angular/core';
+import { Component, OnInit, inject, PLATFORM_ID, signal } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 
 import { FormsModule } from '@angular/forms';
@@ -10,11 +10,12 @@ import { AdminRepertoireComponent } from '../admin-repertoire/admin-repertoire.c
 import { AdminTestimonialsComponent } from '../admin-testimonials/admin-testimonials.component';
 import { AdminPacksComponent } from '../admin-packs/admin-packs.component';
 import { AdminBookingsComponent } from '../admin-bookings/admin-bookings.component';
+import { ConfirmDialogComponent, ConfirmDialogOptions } from '../shared/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-admin-dashboard',
   standalone: true,
-  imports: [FormsModule, AdminTeamComponent, AdminRepertoireComponent, AdminTestimonialsComponent, AdminPacksComponent, AdminBookingsComponent],
+  imports: [FormsModule, AdminTeamComponent, AdminRepertoireComponent, AdminTestimonialsComponent, AdminPacksComponent, AdminBookingsComponent, ConfirmDialogComponent],
   templateUrl: './admin-dashboard.component.html',
   styleUrl: './admin-dashboard.component.css'
 })
@@ -25,6 +26,11 @@ export class AdminDashboardComponent implements OnInit {
   promoVideoUrl = '';
   loading = false;
   uploading = false;
+  confirmDialog = signal<(ConfirmDialogOptions & { action: () => void }) | null>(null);
+
+  showConfirm(opts: ConfirmDialogOptions & { action: () => void }) { this.confirmDialog.set(opts); }
+  dismissConfirm() { this.confirmDialog.set(null); }
+  executeConfirm() { const d = this.confirmDialog(); if (d) { this.confirmDialog.set(null); d.action(); } }
 
   // Pagination
   currentPage = 1;
@@ -149,19 +155,23 @@ export class AdminDashboardComponent implements OnInit {
     }
   }
 
-  async onDelete(item: any) {
-    if (!confirm('Tem a certeza que deseja eliminar este item?')) return;
-
-    try {
-      const path = item.url.split('/').pop();
-      if (path) {
-        await this.supabaseService.deleteFile('gallery', path);
+  onDelete(item: any) {
+    this.showConfirm({
+      title: 'Eliminar da Galeria',
+      message: 'Tem a certeza que deseja eliminar este item da galeria? Esta ação não pode ser desfeita.',
+      confirmLabel: 'Eliminar',
+      danger: true,
+      action: async () => {
+        try {
+          const path = item.url.split('/').pop();
+          if (path) await this.supabaseService.deleteFile('gallery', path);
+          await this.supabaseService.removeFromGallery(item.id);
+          await this.loadData();
+        } catch (err) {
+          console.error('Error deleting item:', err);
+        }
       }
-      await this.supabaseService.removeFromGallery(item.id);
-      await this.loadData();
-    } catch (err) {
-      console.error('Error deleting item:', err);
-    }
+    });
   }
 
   async onUpdateVideo() {

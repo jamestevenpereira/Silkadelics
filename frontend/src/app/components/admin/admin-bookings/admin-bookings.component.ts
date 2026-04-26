@@ -1,12 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SupabaseService } from '../../../core/services/supabase.service';
+import { ConfirmDialogComponent, ConfirmDialogOptions } from '../shared/confirm-dialog/confirm-dialog.component';
 
 @Component({
     selector: 'app-admin-bookings',
     standalone: true,
-    imports: [CommonModule, FormsModule],
+    imports: [CommonModule, FormsModule, ConfirmDialogComponent],
     templateUrl: './admin-bookings.component.html',
     styleUrl: './admin-bookings.component.css'
 })
@@ -30,6 +31,11 @@ export class AdminBookingsComponent implements OnInit {
 
     unsavedStatuses: { [key: string]: string } = {};
     isUpdatingStatus: { [key: string]: boolean } = {};
+    confirmDialog = signal<(ConfirmDialogOptions & { action: () => void }) | null>(null);
+
+    showConfirm(opts: ConfirmDialogOptions & { action: () => void }) { this.confirmDialog.set(opts); }
+    dismissConfirm() { this.confirmDialog.set(null); }
+    executeConfirm() { const d = this.confirmDialog(); if (d) { this.confirmDialog.set(null); d.action(); } }
 
     constructor(private supabaseService: SupabaseService) { }
 
@@ -77,22 +83,24 @@ export class AdminBookingsComponent implements OnInit {
         }
     }
 
-    async deleteBooking(id: string) {
-        if (!confirm('Tem a certeza que deseja eliminar esta reserva?')) return;
-
-        try {
-            const { data, error } = await this.supabaseService.deleteBooking(id);
-            if (error) throw error;
-
-            if (!data || data.length === 0) {
-                throw new Error('A reserva não foi eliminada da base de dados (RLS ou ID inválido).');
+    deleteBooking(id: string) {
+        this.showConfirm({
+            title: 'Eliminar Reserva',
+            message: 'Tem a certeza que deseja eliminar esta reserva permanentemente? Esta ação não pode ser desfeita.',
+            confirmLabel: 'Eliminar',
+            danger: true,
+            action: async () => {
+                try {
+                    const { data, error } = await this.supabaseService.deleteBooking(id);
+                    if (error) throw error;
+                    if (!data || data.length === 0) throw new Error('A reserva não foi eliminada da base de dados (RLS ou ID inválido).');
+                    this.bookings = this.bookings.filter(b => b.id !== id);
+                } catch (err: any) {
+                    console.error('Error deleting booking:', err);
+                    alert('Erro ao eliminar reserva: ' + (err.message || 'Verifique as permissões de RLS no Supabase'));
+                }
             }
-
-            this.bookings = this.bookings.filter(b => b.id !== id);
-        } catch (err: any) {
-            console.error('Error deleting booking:', err);
-            alert('Erro ao eliminar reserva: ' + (err.message || 'Verifique as permissões de RLS no Supabase'));
-        }
+        });
     }
 
     async onAddBooking() {

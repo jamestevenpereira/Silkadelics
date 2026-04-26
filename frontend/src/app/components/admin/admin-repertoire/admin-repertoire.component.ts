@@ -2,11 +2,12 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CdkDragDrop, DragDropModule, moveItemInArray } from '@angular/cdk/drag-drop';
 import { SupabaseService } from '../../../core/services/supabase.service';
+import { ConfirmDialogComponent, ConfirmDialogOptions } from '../shared/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-admin-repertoire',
   standalone: true,
-  imports: [FormsModule, DragDropModule],
+  imports: [FormsModule, DragDropModule, ConfirmDialogComponent],
   templateUrl: './admin-repertoire.component.html',
   styleUrls: ['./admin-repertoire.component.css']
 })
@@ -19,6 +20,11 @@ export class AdminRepertoireComponent implements OnInit {
   savingOrder = signal<boolean>(false);
   showForm = signal<boolean>(false);
   editingId = signal<number | null>(null);
+  confirmDialog = signal<(ConfirmDialogOptions & { action: () => void }) | null>(null);
+
+  showConfirm(opts: ConfirmDialogOptions & { action: () => void }) { this.confirmDialog.set(opts); }
+  dismissConfirm() { this.confirmDialog.set(null); }
+  executeConfirm() { const d = this.confirmDialog(); if (d) { this.confirmDialog.set(null); d.action(); } }
 
   page = signal(1);
   pageSize = signal(10);
@@ -30,17 +36,30 @@ export class AdminRepertoireComponent implements OnInit {
 
   eras = ['70-90', '2000+', '2010+'];
 
+  allItems = signal<any[]>([]);
+
+  existingMedleys = (): string[] => {
+    const names = this.allItems().map(i => i.medley_name).filter(Boolean);
+    return [...new Set(names)];
+  };
+
   itemForm = {
     title: '',
     artist: '',
     category: '70-90',
     audio_url: '',
     is_recommended: false,
-    display_order: 0
+    display_order: 0,
+    medley_name: ''
   };
 
   async ngOnInit() {
-    await Promise.all([this.loadRepertoire(), this.loadRecommended()]);
+    await Promise.all([this.loadRepertoire(), this.loadRecommended(), this.loadAllItems()]);
+  }
+
+  async loadAllItems() {
+    const { data } = await this.supabaseService.getRepertoire(1, 500, '');
+    if (data) this.allItems.set(data);
   }
 
   async loadRepertoire() {
@@ -88,7 +107,8 @@ export class AdminRepertoireComponent implements OnInit {
       category: '70-90',
       audio_url: '',
       is_recommended: false,
-      display_order: this.totalItems() + 1
+      display_order: this.totalItems() + 1,
+      medley_name: ''
     };
     this.showForm.set(true);
   }
@@ -101,7 +121,8 @@ export class AdminRepertoireComponent implements OnInit {
       category: item.category,
       audio_url: item.audio_url ?? '',
       is_recommended: item.is_recommended,
-      display_order: item.display_order
+      display_order: item.display_order,
+      medley_name: item.medley_name ?? ''
     };
     this.showForm.set(true);
   }
@@ -120,7 +141,8 @@ export class AdminRepertoireComponent implements OnInit {
         category: this.itemForm.category,
         audio_url: this.itemForm.audio_url,
         is_recommended: this.itemForm.is_recommended,
-        display_order: this.itemForm.display_order
+        display_order: this.itemForm.display_order,
+        medley_name: this.itemForm.medley_name?.trim() || null
       };
 
       if (this.editingId()) {
@@ -136,7 +158,7 @@ export class AdminRepertoireComponent implements OnInit {
         await this.supabaseService.addRepertoireItem(payload);
       }
 
-      await Promise.all([this.loadRepertoire(), this.loadRecommended()]);
+      await Promise.all([this.loadRepertoire(), this.loadRecommended(), this.loadAllItems()]);
       this.cancelEdit();
     } catch (error) {
       console.error('Error saving repertoire item:', error);
@@ -145,11 +167,17 @@ export class AdminRepertoireComponent implements OnInit {
     }
   }
 
-  async deleteItem(id: number) {
-    if (confirm('Tem a certeza que deseja remover esta música?')) {
-      await this.supabaseService.deleteRepertoireItem(id);
-      await Promise.all([this.loadRepertoire(), this.loadRecommended()]);
-    }
+  deleteItem(id: number) {
+    this.showConfirm({
+      title: 'Remover Música',
+      message: 'Tem a certeza que deseja remover esta música? Esta ação não pode ser desfeita.',
+      confirmLabel: 'Remover',
+      danger: true,
+      action: async () => {
+        await this.supabaseService.deleteRepertoireItem(id);
+        await Promise.all([this.loadRepertoire(), this.loadRecommended()]);
+      }
+    });
   }
 
   async toggleRecommended(item: any) {

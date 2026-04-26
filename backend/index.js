@@ -350,10 +350,10 @@ app.get('/api/songs/count', async (req, res) => {
 
 app.post('/api/repertoire', requireAuth, async (req, res) => {
   try {
-    const { title, artist, category, tags, audio_url, is_recommended, display_order } = req.body;
+    const { title, artist, category, tags, audio_url, is_recommended, display_order, medley_name } = req.body;
     const { data, error } = await supabase
       .from('repertoire')
-      .insert([{ title, artist, category, tags: tags || [], audio_url, is_recommended: is_recommended || false, display_order: display_order || 0 }])
+      .insert([{ title, artist, category, tags: tags || [], audio_url, is_recommended: is_recommended || false, display_order: display_order || 0, medley_name: medley_name || null }])
       .select();
 
     if (error) throw error;
@@ -367,11 +367,11 @@ app.post('/api/repertoire', requireAuth, async (req, res) => {
 app.put('/api/repertoire/:id', requireAuth, async (req, res) => {
   try {
     const { id } = req.params;
-    const { title, artist, category, tags, audio_url, is_recommended, display_order } = req.body;
-    
+    const { title, artist, category, tags, audio_url, is_recommended, display_order, medley_name } = req.body;
+
     const { data, error } = await supabase
       .from('repertoire')
-      .update({ title, artist, category, tags, audio_url, is_recommended, display_order })
+      .update({ title, artist, category, tags, audio_url, is_recommended, display_order, medley_name: medley_name || null })
       .eq('id', id)
       .select();
 

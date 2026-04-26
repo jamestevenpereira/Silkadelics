@@ -204,3 +204,9 @@
         }
     </main>
 </div>
+@if (confirmDialog()) {
+<app-confirm-dialog
+    [options]="confirmDialog()!"
+    (confirmed)="executeConfirm()"
+    (cancelled)="dismissConfirm()" />
+}

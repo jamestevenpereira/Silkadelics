@@ -3,11 +3,12 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { LanguageService } from '../../../core/services/language.service';
 import { SupabaseService } from '../../../core/services/supabase.service';
+import { ConfirmDialogComponent, ConfirmDialogOptions } from '../shared/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-admin-team',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, ConfirmDialogComponent],
   templateUrl: './admin-team.component.html',
   styleUrls: ['./admin-team.component.css']
 })
@@ -21,6 +22,11 @@ export class AdminTeamComponent implements OnInit {
   uploading = signal<boolean>(false);
   showForm = signal<boolean>(false);
   editingId = signal<string | null>(null);
+  confirmDialog = signal<(ConfirmDialogOptions & { action: () => void }) | null>(null);
+
+  showConfirm(opts: ConfirmDialogOptions & { action: () => void }) { this.confirmDialog.set(opts); }
+  dismissConfirm() { this.confirmDialog.set(null); }
+  executeConfirm() { const d = this.confirmDialog(); if (d) { this.confirmDialog.set(null); d.action(); } }
 
   memberForm = {
     name: '',
@@ -106,10 +112,16 @@ export class AdminTeamComponent implements OnInit {
     }
   }
 
-  async deleteMember(id: string) {
-    if (confirm('Tem a certeza que deseja remover este membro?')) {
-      await this.supabaseService.deleteTeamMember(id);
-      await this.loadTeam();
-    }
+  deleteMember(id: string) {
+    this.showConfirm({
+      title: 'Remover Membro',
+      message: 'Tem a certeza que deseja remover este membro da equipa? Esta ação não pode ser desfeita.',
+      confirmLabel: 'Remover',
+      danger: true,
+      action: async () => {
+        await this.supabaseService.deleteTeamMember(id);
+        await this.loadTeam();
+      }
+    });
   }
 }

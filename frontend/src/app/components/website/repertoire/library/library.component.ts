@@ -21,6 +21,7 @@ interface SongRow {
   song: string;
   tags?: string[];
   audioUrl?: string;
+  medleyName?: string;
 }
 
 import { SearchBarComponent } from '../../../../shared/components/ui/search-bar/search-bar.component';
@@ -57,7 +58,7 @@ export class LibraryComponent implements OnInit {
   isLoading = signal(true);
 
   tabs: EraTab[] = [
-    { id: 'All', labelKey: 'Tudo' },
+    { id: 'All', labelKey: 'All' },
     { id: '70-90', labelKey: '70-90' },
     { id: '2000+', labelKey: '2000+' },
     { id: '2010+', labelKey: '2010+' },
@@ -106,7 +107,8 @@ export class LibraryComponent implements OnInit {
           artist: item.artist,
           song: item.title,
           tags: item.tags,
-          audioUrl: item.audio_url
+          audioUrl: item.audio_url,
+          medleyName: item.medley_name || undefined
         };
         
         newSongsByEra[item.category].push(songObj);

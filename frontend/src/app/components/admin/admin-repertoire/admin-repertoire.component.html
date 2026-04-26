@@ -67,6 +67,20 @@
                         class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-gold outline-none transition-all">
                 </div>
 
+                <div class="space-y-2">
+                    <label class="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Medley (Opcional)</label>
+                    <input [(ngModel)]="itemForm.medley_name" name="medley_name" type="text"
+                        list="medley-options"
+                        placeholder="Ex: Coldplay Hits, Dance Medley..."
+                        class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:border-gold outline-none transition-all">
+                    <datalist id="medley-options">
+                        @for (m of existingMedleys(); track m) {
+                        <option [value]="m">{{ m }}</option>
+                        }
+                    </datalist>
+                    <p class="text-[10px] text-gray-600">Agrupa esta música num medley. Escolhe um existente ou escreve um novo nome.</p>
+                </div>
+
                 <div class="flex items-center gap-3">
                     <input [(ngModel)]="itemForm.is_recommended" name="is_recommended" type="checkbox" id="is_recommended"
                         class="w-4 h-4 bg-white/5 border-white/10 rounded text-gold focus:ring-gold focus:ring-offset-luxury-charcoal">
@@ -100,6 +114,7 @@
                             <th class="px-8 py-6 text-[10px] font-bold text-gray-500 uppercase tracking-widest">Título</th>
                             <th class="px-8 py-6 text-[10px] font-bold text-gray-500 uppercase tracking-widest">Artista</th>
                             <th class="px-8 py-6 text-[10px] font-bold text-gray-500 uppercase tracking-widest">Era</th>
+                            <th class="px-8 py-6 text-[10px] font-bold text-gray-500 uppercase tracking-widest text-center">Áudio</th>
                             <th class="px-8 py-6 text-[10px] font-bold text-gray-500 uppercase tracking-widest text-center">Destaque</th>
                             <th class="px-8 py-6 text-[10px] font-bold text-gray-500 uppercase tracking-widest text-right">Ações</th>
                         </tr>
@@ -107,12 +122,30 @@
                     <tbody class="divide-y divide-white/5">
                         @for (item of repertoire(); track item.id) {
                         <tr class="group hover:bg-white/5 transition-colors">
-                            <td class="px-8 py-5 text-white font-medium">{{ item.title }}</td>
+                            <td class="px-8 py-5">
+                                <span class="text-white font-medium">{{ item.title }}</span>
+                                @if (item.medley_name) {
+                                <span class="ml-2 bg-primary/10 text-primary text-[9px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full whitespace-nowrap">
+                                    🔗 {{ item.medley_name }}
+                                </span>
+                                }
+                            </td>
                             <td class="px-8 py-5 text-gray-400">{{ item.artist }}</td>
                             <td class="px-8 py-5">
                                 <span class="bg-gold/10 text-gold text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full whitespace-nowrap">
                                     {{ item.category }}
                                 </span>
+                            </td>
+                            <td class="px-8 py-5 text-center">
+                                @if (item.audio_url) {
+                                <svg class="w-5 h-5 text-gold mx-auto" title="Áudio disponível" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072M12 6v12m0 0l-3-3m3 3l3-3M9.586 7.586a9 9 0 000 8.828M6.343 5.343a13 13 0 000 13.314" />
+                                </svg>
+                                } @else {
+                                <svg class="w-5 h-5 text-gray-700 mx-auto" title="Sem áudio" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2" />
+                                </svg>
+                                }
                             </td>
                             <td class="px-8 py-5 text-center">
                                 <button (click)="toggleRecommended(item)"
@@ -149,7 +182,7 @@
                         </tr>
                         } @empty {
                         <tr>
-                            <td colspan="5" class="px-8 py-20 text-center text-gray-500 italic">
+                            <td colspan="6" class="px-8 py-20 text-center text-gray-500 italic">
                                 {{ searchQuery() ? 'Nenhuma música encontrada.' : 'Nenhuma música adicionada ao repertório.' }}
                             </td>
                         </tr>
@@ -241,3 +274,10 @@
         </div>
     </div>
 </div>
+
+@if (confirmDialog()) {
+<app-confirm-dialog
+    [options]="confirmDialog()!"
+    (confirmed)="executeConfirm()"
+    (cancelled)="dismissConfirm()" />
+}

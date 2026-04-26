@@ -2,11 +2,12 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 
 import { FormsModule } from '@angular/forms';
 import { SupabaseService } from '../../../core/services/supabase.service';
+import { ConfirmDialogComponent, ConfirmDialogOptions } from '../shared/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-admin-testimonials',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, ConfirmDialogComponent],
   templateUrl: './admin-testimonials.component.html',
   styleUrls: ['./admin-testimonials.component.css']
 })
@@ -18,6 +19,11 @@ export class AdminTestimonialsComponent implements OnInit {
   uploading = signal<boolean>(false);
   showForm = signal<boolean>(false);
   editingId = signal<number | null>(null);
+  confirmDialog = signal<(ConfirmDialogOptions & { action: () => void }) | null>(null);
+
+  showConfirm(opts: ConfirmDialogOptions & { action: () => void }) { this.confirmDialog.set(opts); }
+  dismissConfirm() { this.confirmDialog.set(null); }
+  executeConfirm() { const d = this.confirmDialog(); if (d) { this.confirmDialog.set(null); d.action(); } }
 
   form = {
     name: '',
@@ -94,10 +100,16 @@ export class AdminTestimonialsComponent implements OnInit {
     }
   }
 
-  async deleteTestimonial(id: number) {
-    if (confirm('Tem a certeza que deseja remover este testemunho?')) {
-      await this.supabaseService.deleteTestimonial(id);
-      await this.loadTestimonials();
-    }
+  deleteTestimonial(id: number) {
+    this.showConfirm({
+      title: 'Remover Testemunho',
+      message: 'Tem a certeza que deseja remover este testemunho? Esta ação não pode ser desfeita.',
+      confirmLabel: 'Remover',
+      danger: true,
+      action: async () => {
+        await this.supabaseService.deleteTestimonial(id);
+        await this.loadTestimonials();
+      }
+    });
   }
 }
