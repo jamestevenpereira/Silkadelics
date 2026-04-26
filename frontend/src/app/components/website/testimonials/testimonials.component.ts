@@ -24,13 +24,25 @@ export class TestimonialsComponent implements OnInit {
   async ngOnInit() {
     try {
       const data = await this.supabaseService.getTestimonialsApi();
-      if (data) {
+      if (data?.length) {
         this.testimonials.set(data);
         // Single set — duplication is done in template for seamless loop
         this.displayTestimonials.set(data);
+        return;
+      }
+
+      const fallback = await this.supabaseService.getTestimonials();
+      if (fallback.data?.length) {
+        this.testimonials.set(fallback.data);
+        this.displayTestimonials.set(fallback.data);
       }
     } catch (error) {
       console.error('Error fetching testimonials:', error);
+      const fallback = await this.supabaseService.getTestimonials();
+      if (fallback.data?.length) {
+        this.testimonials.set(fallback.data);
+        this.displayTestimonials.set(fallback.data);
+      }
     }
   }
 }

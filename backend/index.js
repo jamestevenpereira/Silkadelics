@@ -23,10 +23,17 @@ const bookingLimiter = rateLimit({
 app.use(helmet()); // Secure HTTP headers
 app.use(compression()); // Compress responses
 app.use(cors({
-  origin: ['https://silkadelics.pt', 'https://www.silkadelics.pt', 'https://silkadelics.vercel.app', 'http://localhost:4200'],
+  origin: ['https://silkadelics.pt', 'https://www.silkadelics.pt', 'https://silkadelics.vercel.app', 'http://localhost:4200', 'http://localhost:4201'],
   credentials: true
 }));
 app.use(express.json());
+
+app.use('/api', (req, res, next) => {
+  res.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+  res.set('Pragma', 'no-cache');
+  res.set('Expires', '0');
+  next();
+});
 
 // Escape helper — prevents HTML injection in email templates
 const esc = (s) => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
@@ -43,7 +50,16 @@ const requireAuth = async (req, res, next) => {
 // Supabase Client
 const supabaseUrl = process.env.SUPABASE_URL;
 const supabaseKey = process.env.SUPABASE_KEY;
+const supabaseServiceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 const supabase = createClient(supabaseUrl, supabaseKey);
+const supabaseAdmin = supabaseServiceRoleKey
+  ? createClient(supabaseUrl, supabaseServiceRoleKey, {
+    auth: {
+      persistSession: false,
+      autoRefreshToken: false
+    }
+  })
+  : supabase;
 
 // Resend Client
 const resend = new Resend(process.env.RESEND_API_KEY);
@@ -271,9 +287,9 @@ app.post('/api/suggestions', async (req, res) => {
 // Get Booked Dates — returns only dates for booked/pending bookings, no status exposed
 app.get('/api/bookings/dates', async (req, res) => {
   try {
-    const { data, error } = await supabase
+    const { data, error } = await supabaseAdmin
       .from('bookings')
-      .select('date')
+      .select('date, status')
       .in('status', ['booked', 'pending']);
 
     if (error) throw error;

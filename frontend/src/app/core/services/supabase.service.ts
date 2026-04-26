@@ -251,13 +251,7 @@ export class SupabaseService {
     }
 
     async getBookedDates() {
-        const { data, error } = await this.supabase
-            .from('bookings')
-            .select('date, status')
-            .in('status', ['booked', 'pending']);
-
-        if (error) throw error;
-        return data || [];
+        return await this.getBookedDatesApi();
     }
 
     // Bookings Management
@@ -303,7 +297,22 @@ export class SupabaseService {
 
     async getTestimonialsApi(): Promise<any[]> {
         return new Promise((resolve, reject) => {
-            this.http.get<any[]>(`${this.apiUrl}/testimonials`).subscribe({
+            this.http.get<any[]>(`${this.apiUrl}/testimonials`, {
+                headers: { 'Cache-Control': 'no-cache' },
+                params: { _: Date.now().toString() }
+            }).subscribe({
+                next: (res) => resolve(res),
+                error: (err) => reject(err)
+            });
+        });
+    }
+
+    async getBookedDatesApi(): Promise<any[]> {
+        return new Promise((resolve, reject) => {
+            this.http.get<any[]>(`${this.apiUrl}/bookings/dates`, {
+                headers: { 'Cache-Control': 'no-cache' },
+                params: { _: Date.now().toString() }
+            }).subscribe({
                 next: (res) => resolve(res),
                 error: (err) => reject(err)
             });
