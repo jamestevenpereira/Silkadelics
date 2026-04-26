@@ -75,10 +75,6 @@ export class SupabaseService {
         }
     }
 
-    get client() {
-        return this.supabase;
-    }
-
     /**
      * Waits for Supabase to finish its internal session check from local storage.
      * Prevents race conditions where guards check auth before it's loaded.
@@ -191,6 +187,15 @@ export class SupabaseService {
         return await dbQuery;
     }
 
+    async checkDuplicateRepertoireTitle(title: string): Promise<boolean> {
+        const { data } = await this.supabase
+            .from('repertoire')
+            .select('id')
+            .ilike('title', title)
+            .limit(1);
+        return (data?.length ?? 0) > 0;
+    }
+
     async addRepertoireItem(item: any) {
         return await this.supabase.from('repertoire').insert([item]);
     }
@@ -248,7 +253,8 @@ export class SupabaseService {
     async getBookedDates() {
         const { data, error } = await this.supabase
             .from('bookings')
-            .select('date, status');
+            .select('date, status')
+            .in('status', ['booked', 'pending']);
 
         if (error) throw error;
         return data || [];

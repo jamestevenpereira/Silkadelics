@@ -22,8 +22,23 @@ const bookingLimiter = rateLimit({
 // Middleware
 app.use(helmet()); // Secure HTTP headers
 app.use(compression()); // Compress responses
-app.use(cors());
+app.use(cors({
+  origin: ['https://silkadelics.pt', 'https://silkadelics.vercel.app', 'http://localhost:4200'],
+  credentials: true
+}));
 app.use(express.json());
+
+// Escape helper — prevents HTML injection in email templates
+const esc = (s) => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+
+// Auth middleware — validates Supabase JWT for protected mutation routes
+const requireAuth = async (req, res, next) => {
+  const token = req.headers.authorization?.split(' ')[1];
+  if (!token) return res.status(401).json({ error: 'Unauthorized' });
+  const { data: { user }, error } = await supabase.auth.getUser(token);
+  if (error || !user) return res.status(401).json({ error: 'Unauthorized' });
+  next();
+};
 
 // Supabase Client
 const supabaseUrl = process.env.SUPABASE_URL;
@@ -104,30 +119,30 @@ app.post('/api/bookings', bookingLimiter, async (req, res) => {
         <table width="100%" style="background:rgba(255,45,149,0.05);border:1px solid rgba(255,45,149,0.2);border-radius:12px;margin-bottom:16px" cellpadding="0" cellspacing="0">
           <tr><td style="padding:20px 24px;border-bottom:1px solid rgba(255,255,255,0.05)">
             <div style="font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#ff2d95;margin-bottom:4px">Cliente</div>
-            <div style="font-size:16px;color:#fff;font-weight:600">${name}</div>
+            <div style="font-size:16px;color:#fff;font-weight:600">${esc(name)}</div>
           </td></tr>
           <tr><td style="padding:20px 24px;border-bottom:1px solid rgba(255,255,255,0.05)">
             <div style="font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#ff2d95;margin-bottom:4px">Email</div>
-            <div style="font-size:15px;color:rgba(255,255,255,0.85)">${email}</div>
+            <div style="font-size:15px;color:rgba(255,255,255,0.85)">${esc(email)}</div>
           </td></tr>
           <tr><td style="padding:20px 24px">
             <div style="font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#ff2d95;margin-bottom:4px">Telefone</div>
-            <div style="font-size:15px;color:rgba(255,255,255,0.85)">${phone}</div>
+            <div style="font-size:15px;color:rgba(255,255,255,0.85)">${esc(phone)}</div>
           </td></tr>
         </table>
         <!-- Event Info -->
         <table width="100%" style="background:rgba(0,243,255,0.05);border:1px solid rgba(0,243,255,0.2);border-radius:12px;margin-bottom:16px" cellpadding="0" cellspacing="0">
           <tr><td style="padding:20px 24px;border-bottom:1px solid rgba(255,255,255,0.05)">
             <div style="font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#00f3ff;margin-bottom:4px">Data</div>
-            <div style="font-size:16px;color:#fff;font-weight:600">${date}</div>
+            <div style="font-size:16px;color:#fff;font-weight:600">${esc(date)}</div>
           </td></tr>
           <tr><td style="padding:20px 24px;border-bottom:1px solid rgba(255,255,255,0.05)">
             <div style="font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#00f3ff;margin-bottom:4px">Tipo de Evento / Pack</div>
-            <div style="font-size:15px;color:rgba(255,255,255,0.85)">${eventType} — ${pack}</div>
+            <div style="font-size:15px;color:rgba(255,255,255,0.85)">${esc(eventType)} — ${esc(pack)}</div>
           </td></tr>
           <tr><td style="padding:20px 24px">
             <div style="font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#00f3ff;margin-bottom:4px">Extras</div>
-            <div style="font-size:14px;color:rgba(255,255,255,0.65)">${extras || 'Nenhum'}</div>
+            <div style="font-size:14px;color:rgba(255,255,255,0.65)">${esc(extras) || 'Nenhum'}</div>
           </td></tr>
         </table>
         <!-- Message -->
@@ -135,7 +150,7 @@ app.post('/api/bookings', bookingLimiter, async (req, res) => {
         <table width="100%" style="background:rgba(157,0,255,0.05);border:1px solid rgba(157,0,255,0.25);border-radius:12px;margin-bottom:16px" cellpadding="0" cellspacing="0">
           <tr><td style="padding:20px 24px">
             <div style="font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#9d00ff;margin-bottom:8px">Mensagem</div>
-            <div style="font-size:14px;color:rgba(255,255,255,0.8);line-height:1.7;font-style:italic">&ldquo;${message}&rdquo;</div>
+            <div style="font-size:14px;color:rgba(255,255,255,0.8);line-height:1.7;font-style:italic">&ldquo;${esc(message)}&rdquo;</div>
           </td></tr>
         </table>` : ''}
       </td>
@@ -178,7 +193,7 @@ app.post('/api/suggestions', async (req, res) => {
     const { data: emailData, error: emailError } = await resend.emails.send({
       from: 'Silkadelics Suggestions <onboarding@resend.dev>',
       to: 'silkadelics@gmail.com',
-      subject: `Nova Sugestão de Música: ${song} - ${artist}`,
+      subject: `Nova Sugestão de Música: ${esc(song)} - ${esc(artist)}`,
       html: `
 <!DOCTYPE html>
 <html lang="pt">
@@ -200,11 +215,11 @@ app.post('/api/suggestions', async (req, res) => {
         <table width="100%" style="background:rgba(157,0,255,0.05);border:1px solid rgba(157,0,255,0.2);border-radius:12px;margin-bottom:16px" cellpadding="0" cellspacing="0">
           <tr><td style="padding:20px 24px;border-bottom:1px solid rgba(255,255,255,0.05)">
             <div style="font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#9d00ff;margin-bottom:4px">Música</div>
-            <div style="font-size:18px;color:#fff;font-weight:700">${song}</div>
+            <div style="font-size:18px;color:#fff;font-weight:700">${esc(song)}</div>
           </td></tr>
           <tr><td style="padding:20px 24px">
             <div style="font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#9d00ff;margin-bottom:4px">Artista</div>
-            <div style="font-size:16px;color:rgba(255,255,255,0.85);font-weight:600">${artist}</div>
+            <div style="font-size:16px;color:rgba(255,255,255,0.85);font-weight:600">${esc(artist)}</div>
           </td></tr>
         </table>
 
@@ -212,11 +227,11 @@ app.post('/api/suggestions', async (req, res) => {
         <table width="100%" style="background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.1);border-radius:12px;margin-bottom:16px" cellpadding="0" cellspacing="0">
           <tr><td style="padding:16px 24px;border-bottom:1px solid rgba(255,255,255,0.05)">
             <div style="font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-bottom:4px">Sugerido por</div>
-            <div style="font-size:14px;color:#fff">${name || 'Anónimo'}</div>
+            <div style="font-size:14px;color:#fff">${esc(name) || 'Anónimo'}</div>
           </td></tr>
           ${email ? `<tr><td style="padding:16px 24px">
             <div style="font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-bottom:4px">Contacto</div>
-            <div style="font-size:14px;color:#fff">${email}</div>
+            <div style="font-size:14px;color:#fff">${esc(email)}</div>
           </td></tr>` : ''}
         </table>
 
@@ -225,7 +240,7 @@ app.post('/api/suggestions', async (req, res) => {
         <table width="100%" style="background:rgba(0,243,255,0.03);border:1px solid rgba(0,243,255,0.15);border-radius:12px;margin-bottom:16px" cellpadding="0" cellspacing="0">
           <tr><td style="padding:20px 24px">
             <div style="font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:#00f3ff;margin-bottom:8px">Nota Adicional</div>
-            <div style="font-size:14px;color:rgba(255,255,255,0.7);line-height:1.6;font-style:italic">&ldquo;${message}&rdquo;</div>
+            <div style="font-size:14px;color:rgba(255,255,255,0.7);line-height:1.6;font-style:italic">&ldquo;${esc(message)}&rdquo;</div>
           </td></tr>
         </table>` : ''}
       </td>
@@ -253,12 +268,13 @@ app.post('/api/suggestions', async (req, res) => {
   }
 });
 
-// Get Booked Dates
+// Get Booked Dates — returns only dates for booked/pending bookings, no status exposed
 app.get('/api/bookings/dates', async (req, res) => {
   try {
     const { data, error } = await supabase
       .from('bookings')
-      .select('date, status');
+      .select('date')
+      .in('status', ['booked', 'pending']);
 
     if (error) throw error;
 
@@ -332,7 +348,7 @@ app.get('/api/songs/count', async (req, res) => {
   }
 });
 
-app.post('/api/repertoire', async (req, res) => {
+app.post('/api/repertoire', requireAuth, async (req, res) => {
   try {
     const { title, artist, category, tags, audio_url, is_recommended, display_order } = req.body;
     const { data, error } = await supabase
@@ -348,7 +364,7 @@ app.post('/api/repertoire', async (req, res) => {
   }
 });
 
-app.put('/api/repertoire/:id', async (req, res) => {
+app.put('/api/repertoire/:id', requireAuth, async (req, res) => {
   try {
     const { id } = req.params;
     const { title, artist, category, tags, audio_url, is_recommended, display_order } = req.body;
@@ -367,7 +383,7 @@ app.put('/api/repertoire/:id', async (req, res) => {
   }
 });
 
-app.delete('/api/repertoire/:id', async (req, res) => {
+app.delete('/api/repertoire/:id', requireAuth, async (req, res) => {
   try {
     const { id } = req.params;
     const { error } = await supabase

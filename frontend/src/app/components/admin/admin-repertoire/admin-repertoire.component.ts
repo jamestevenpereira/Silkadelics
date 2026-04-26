@@ -126,13 +126,9 @@ export class AdminRepertoireComponent implements OnInit {
       if (this.editingId()) {
         await this.supabaseService.updateRepertoireItem(this.editingId()!, payload);
       } else {
-        const { data: existing } = await this.supabaseService.client
-          .from('repertoire')
-          .select('id')
-          .ilike('title', this.itemForm.title)
-          .limit(1);
+        const isDuplicate = await this.supabaseService.checkDuplicateRepertoireTitle(this.itemForm.title);
 
-        if (existing && existing.length > 0) {
+        if (isDuplicate) {
           alert('Já existe uma música com este título no repertório!');
           this.loading.set(false);
           return;

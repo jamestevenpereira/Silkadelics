@@ -37,8 +37,7 @@ export class AdminDashboardComponent implements OnInit {
   async ngOnInit() {
     if (isPlatformBrowser(this.platformId)) {
       await this.supabaseService.waitForAuth();
-      const { data: { session } } = await this.supabaseService.getSession();
-      const user = session?.user || await this.supabaseService.getUser();
+      const user = await this.supabaseService.getUser();
 
       if (!user) {
         this.router.navigate(['/admin']);
