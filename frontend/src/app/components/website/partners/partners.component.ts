@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal, computed } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit, signal, computed } from '@angular/core';
 
 import { LanguageService } from '../../../core/services/language.service';
 import { SupabaseService } from '../../../core/services/supabase.service';
@@ -6,6 +6,7 @@ import { SupabaseService } from '../../../core/services/supabase.service';
 @Component({
   selector: 'app-partners',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [],
   templateUrl: './partners.component.html',
   styleUrl: './partners.component.css'

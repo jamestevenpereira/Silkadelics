@@ -1,4 +1,4 @@
-import { Component, ElementRef, AfterViewInit, OnDestroy, ViewChildren, QueryList, inject, OnInit, signal, PLATFORM_ID } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, AfterViewInit, OnDestroy, ViewChildren, QueryList, inject, OnInit, signal, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { Subscription } from 'rxjs';
 import { CommonModule } from '@angular/common';
@@ -8,6 +8,7 @@ import { LanguageService } from '../../../core/services/language.service';
 @Component({
   selector: 'app-packs',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule],
   templateUrl: './packs.component.html',
   styles: ``

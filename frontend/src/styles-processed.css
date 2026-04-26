@@ -693,6 +693,9 @@
   .h-\[2px\] {
     height: 2px;
   }
+  .h-\[53px\] {
+    height: 53px;
+  }
   .h-\[72vh\] {
     height: 72vh;
   }
@@ -728,6 +731,12 @@
   }
   .max-h-\[90vh\] {
     max-height: 90vh;
+  }
+  .max-h-\[500px\] {
+    max-height: 500px;
+  }
+  .max-h-\[600px\] {
+    max-height: 600px;
   }
   .max-h-\[750px\] {
     max-height: 750px;
@@ -1492,6 +1501,9 @@
   .bg-\[\#0A192F\] {
     background-color: #0A192F;
   }
+  .bg-\[\#1a1a1a\] {
+    background-color: #1a1a1a;
+  }
   .bg-\[\#022B22\] {
     background-color: #022B22;
   }
@@ -2158,6 +2170,9 @@
   .py-12 {
     padding-block: calc(var(--spacing) * 12);
   }
+  .py-16 {
+    padding-block: calc(var(--spacing) * 16);
+  }
   .py-20 {
     padding-block: calc(var(--spacing) * 20);
   }
@@ -2538,6 +2553,10 @@
   .italic {
     font-style: italic;
   }
+  .tabular-nums {
+    --tw-numeric-spacing: tabular-nums;
+    font-variant-numeric: var(--tw-ordinal,) var(--tw-slashed-zero,) var(--tw-numeric-figure,) var(--tw-numeric-spacing,) var(--tw-numeric-fraction,);
+  }
   .underline {
     text-decoration-line: underline;
   }
@@ -2566,6 +2585,9 @@
   }
   .opacity-30 {
     opacity: 30%;
+  }
+  .opacity-50 {
+    opacity: 50%;
   }
   .opacity-60 {
     opacity: 60%;
@@ -3034,6 +3056,13 @@
     &:is(:where(.group):hover *) {
       @media (hover: hover) {
         color: var(--color-gray-300);
+      }
+    }
+  }
+  .group-hover\:text-gray-400 {
+    &:is(:where(.group):hover *) {
+      @media (hover: hover) {
+        color: var(--color-gray-400);
       }
     }
   }
@@ -4357,7 +4386,10 @@ h1, h2, h3, h4, h5, h6 {
   box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
 }
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
+  /* Scope to non-marquee elements only — marquee is decorative and intentionally runs always */
+  *:not(.marquee-track):not(.marquee-container),
+  *:not(.marquee-track):not(.marquee-container)::before,
+  *:not(.marquee-track):not(.marquee-container)::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
@@ -4516,6 +4548,26 @@ select option {
   inherits: false;
 }
 @property --tw-tracking {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-ordinal {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-slashed-zero {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-numeric-figure {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-numeric-spacing {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-numeric-fraction {
   syntax: "*";
   inherits: false;
 }
@@ -4731,6 +4783,11 @@ select option {
       --tw-leading: initial;
       --tw-font-weight: initial;
       --tw-tracking: initial;
+      --tw-ordinal: initial;
+      --tw-slashed-zero: initial;
+      --tw-numeric-figure: initial;
+      --tw-numeric-spacing: initial;
+      --tw-numeric-fraction: initial;
       --tw-shadow: 0 0 #0000;
       --tw-shadow-color: initial;
       --tw-shadow-alpha: 100%;

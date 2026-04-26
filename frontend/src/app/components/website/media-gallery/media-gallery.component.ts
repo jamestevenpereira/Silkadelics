@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
 
 import { SupabaseService } from '../../../core/services/supabase.service';
 import { LanguageService } from '../../../core/services/language.service';
@@ -9,6 +9,7 @@ import { SafePipe } from '../../../shared/pipes/safe.pipe';
 @Component({
   selector: 'app-media-gallery',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterLink, SafePipe],
   templateUrl: './media-gallery.component.html',
   styleUrl: './media-gallery.component.css'

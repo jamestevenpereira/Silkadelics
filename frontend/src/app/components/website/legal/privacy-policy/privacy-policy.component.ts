@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import { LanguageService } from '../../../../core/services/language.service';
 import { SeoService } from '../../../../core/services/seo.service';
 import { RouterLink } from '@angular/router';
@@ -6,6 +6,7 @@ import { RouterLink } from '@angular/router';
 @Component({
     selector: 'app-privacy-policy',
     standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [RouterLink],
     templateUrl: './privacy-policy.component.html',
     styles: []

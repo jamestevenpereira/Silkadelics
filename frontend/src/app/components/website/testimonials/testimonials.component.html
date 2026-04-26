@@ -15,7 +15,7 @@
 
         @if (testimonials().length > 0) {
         <div class="marquee-container">
-            <div class="marquee-content">
+            <div class="marquee-track">
                 @for (t of displayTestimonials(); track $index) {
                 <div class="testimonial-card glass-dark rounded-3xl border border-white/10 p-8 md:p-10 relative">
                     <div class="absolute top-6 right-8 text-4xl font-serif text-primary/10 select-none">"</div>
@@ -44,11 +44,9 @@
                     </div>
                 </div>
                 }
-            </div>
-            <!-- Duplicate for seamless infinite loop -->
-            <div class="marquee-content" aria-hidden="true">
+                <!-- Duplicate set for seamless infinite loop -->
                 @for (t of displayTestimonials(); track $index) {
-                <div class="testimonial-card glass-dark rounded-3xl border border-white/10 p-8 md:p-10 relative">
+                <div class="testimonial-card glass-dark rounded-3xl border border-white/10 p-8 md:p-10 relative" aria-hidden="true">
                     <div class="absolute top-6 right-8 text-4xl font-serif text-primary/10 select-none">"</div>
                     <div class="flex text-primary mb-6 gap-1">
                         @for (s of [1,2,3,4,5]; track s) {

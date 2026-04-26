@@ -1,4 +1,4 @@
-import { Component, inject, computed, signal, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, computed, signal, OnInit } from '@angular/core';
 
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, FormArray, FormControl } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
@@ -10,6 +10,7 @@ import { environment } from '../../../../environments/environment';
 @Component({
   selector: 'app-booking-form',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [ReactiveFormsModule, CalendarComponent],
   templateUrl: './booking-form.component.html',
   styleUrl: './booking-form.component.css'

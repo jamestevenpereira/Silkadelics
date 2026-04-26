@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal, OnDestroy, PLATFORM_ID } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit, signal, OnDestroy, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { LanguageService } from '../../../core/services/language.service';
 import { SupabaseService } from '../../../core/services/supabase.service';
@@ -9,6 +9,7 @@ declare var YT: any;
 @Component({
   selector: 'app-hero',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [],
   templateUrl: './hero.component.html',
   styleUrl: './hero.component.css'
@@ -23,8 +24,8 @@ export class HeroComponent implements OnInit, OnDestroy {
   videoUrl = signal<SafeResourceUrl | null>(null);
   isMuted = signal<boolean>(true);
   videoLoaded = signal<boolean>(false);
-  posterShown = true;
-  posterUrl = signal<string>('/assets/images/about-band.webp'); // Default poster
+  posterShown = signal<boolean>(true);
+  posterUrl = signal<string>('/assets/images/about-band.webp');
   rawVideoUrl = '';
   player: any;
   videoId = '';
@@ -95,7 +96,7 @@ export class HeroComponent implements OnInit, OnDestroy {
 
   loadVideo(): void {
     if (this.videoLoaded() || !isPlatformBrowser(this.platformId)) return;
-    this.posterShown = false;
+    this.posterShown.set(false);
     this.videoLoaded.set(true);
     this.initYoutubeApi();
   }

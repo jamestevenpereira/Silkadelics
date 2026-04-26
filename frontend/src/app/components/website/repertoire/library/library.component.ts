@@ -1,6 +1,4 @@
-import { Component, computed, inject, OnInit, signal } from '@angular/core';
-import { jsPDF } from 'jspdf';
-import autoTable from 'jspdf-autotable';
+import { ChangeDetectionStrategy, Component, computed, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { ViewportScroller } from '@angular/common';
 import { NavbarComponent } from '../../navbar/navbar.component';
@@ -32,6 +30,7 @@ import { SongSuggestionModalComponent } from '../../../../shared/components/ui/s
 @Component({
   selector: 'app-library',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterLink, NavbarComponent, FooterComponent, SearchBarComponent, ButtonShinyComponent, SongSuggestionModalComponent],
   templateUrl: './library.component.html'
 })
@@ -196,7 +195,10 @@ export class LibraryComponent implements OnInit {
     return this.sortedActiveSongs().length;
   }
 
-  downloadPdf(): void {
+  async downloadPdf(): Promise<void> {
+    const { jsPDF } = await import('jspdf');
+    const { default: autoTable } = await import('jspdf-autotable');
+
     const doc = new jsPDF();
     const eraName = this.activeEra();
     const title = `Silkadelics - Repertório (${eraName})`;
@@ -213,13 +215,13 @@ export class LibraryComponent implements OnInit {
       s.artist,
       s.song
     ]);
-    
+
     autoTable(doc, {
       head: [['#', 'Artista', 'Música']],
       body: tableData,
       startY: 40,
       theme: 'grid',
-      headStyles: { fillColor: [139, 92, 246] }, // Luxury Purple
+      headStyles: { fillColor: [139, 92, 246] },
       styles: { font: 'helvetica', fontSize: 10 },
       margin: { top: 40 }
     });

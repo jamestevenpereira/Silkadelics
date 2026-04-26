@@ -1,21 +1,21 @@
 .marquee-container {
-    display: flex;
     overflow: hidden;
     user-select: none;
-    gap: 2rem;
     padding: 2rem 0;
 }
 
-.marquee-container:hover .marquee-content {
+.marquee-container:hover .marquee-track {
     animation-play-state: paused;
 }
 
-.marquee-content {
-    flex-shrink: 0;
+.marquee-track {
     display: flex;
     gap: 2rem;
-    min-width: 100%;
-    animation: scroll 40s linear infinite;
+    width: max-content;
+    /* !important overrides the global prefers-reduced-motion rule in styles-processed.css */
+    animation: scroll 40s linear infinite !important;
+    animation-duration: 40s !important;
+    animation-iteration-count: infinite !important;
 }
 
 @keyframes scroll {
@@ -23,7 +23,9 @@
         transform: translateX(0);
     }
     to {
-        transform: translateX(calc(-100% - 2rem));
+        /* Track contains 2 copies of the cards (+1 gap between them).
+           Translate by exactly half the track width to seamlessly land on the duplicate. */
+        transform: translateX(calc(-50% - 1rem));
     }
 }
 
@@ -37,13 +39,7 @@
         width: 300px;
     }
 
-    .marquee-content {
-        animation-duration: 25s;
-    }
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .marquee-content {
-        animation-play-state: paused;
+    .marquee-track {
+        animation-duration: 25s !important;
     }
 }

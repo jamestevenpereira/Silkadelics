@@ -1,4 +1,4 @@
-import { Component, ElementRef, AfterViewInit, OnDestroy, ViewChildren, QueryList, inject, PLATFORM_ID } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, AfterViewInit, OnDestroy, ViewChildren, QueryList, inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 
 import { LanguageService } from '../../../core/services/language.service';
@@ -6,6 +6,7 @@ import { LanguageService } from '../../../core/services/language.service';
 @Component({
   selector: 'app-event-types',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [],
   templateUrl: './event-types.component.html',
   styleUrl: './event-types.component.css'

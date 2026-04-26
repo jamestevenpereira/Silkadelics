@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal, computed, effect } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit, signal, computed, effect } from '@angular/core';
 
 import { LanguageService } from '../../../core/services/language.service';
 import { SupabaseService } from '../../../core/services/supabase.service';
@@ -7,6 +7,7 @@ import { SeoService } from '../../../core/services/seo.service';
 @Component({
   selector: 'app-faq',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [],
   templateUrl: './faq.component.html',
   styleUrl: './faq.component.css'

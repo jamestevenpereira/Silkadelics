@@ -1,4 +1,4 @@
-import { Component, ElementRef, AfterViewInit, OnDestroy, ViewChild, inject, PLATFORM_ID } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, AfterViewInit, OnDestroy, ViewChild, inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 
 import { LanguageService } from '../../../core/services/language.service';
@@ -6,6 +6,7 @@ import { LanguageService } from '../../../core/services/language.service';
 @Component({
   selector: 'app-about',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [],
   templateUrl: './about.component.html',
   styleUrl: './about.component.css'

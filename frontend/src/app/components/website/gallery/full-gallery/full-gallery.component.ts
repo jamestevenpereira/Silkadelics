@@ -1,4 +1,4 @@
-import { Component, HostListener, inject, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostListener, inject, OnInit, signal } from '@angular/core';
 
 import { SupabaseService } from '../../../../core/services/supabase.service';
 import { LanguageService } from '../../../../core/services/language.service';
@@ -10,6 +10,7 @@ import { SafePipe } from '../../../../shared/pipes/safe.pipe';
 @Component({
   selector: 'app-full-gallery',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterLink, SafePipe],
   templateUrl: './full-gallery.component.html',
   styleUrl: './full-gallery.component.css'

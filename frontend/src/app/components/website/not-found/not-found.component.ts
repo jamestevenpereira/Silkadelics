@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { LanguageService } from '../../../core/services/language.service';
 import { SeoService } from '../../../core/services/seo.service';
@@ -6,6 +6,7 @@ import { SeoService } from '../../../core/services/seo.service';
 @Component({
   selector: 'app-not-found',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterLink],
   templateUrl: './not-found.component.html',
   styles: [`

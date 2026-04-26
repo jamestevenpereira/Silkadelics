@@ -1,4 +1,4 @@
-import { Component, ElementRef, AfterViewInit, OnDestroy, ViewChildren, QueryList, inject, OnInit, signal, computed, PLATFORM_ID } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, AfterViewInit, OnDestroy, ViewChildren, QueryList, inject, OnInit, signal, computed, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { Subscription } from 'rxjs';
 
@@ -8,6 +8,7 @@ import { SupabaseService } from '../../../core/services/supabase.service';
 @Component({
   selector: 'app-band-members',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [],
   templateUrl: './band-members.component.html',
   styleUrl: './band-members.component.css'
