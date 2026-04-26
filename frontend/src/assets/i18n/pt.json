@@ -74,11 +74,18 @@
     "bookingLabel": "Reservar",
     "extrasTitle": "Personalize com Extras Exclusivos",
     "packNames": {
+      "Essencial": "Essencial",
+      "Completo": "Completo",
+      "Premium": "Premium",
       "Bronze": "Bronze",
       "Prata": "Prata",
       "Ouro": "Ouro"
     },
     "extras": [
+      {
+        "name": "Cerimónia (Igreja ou Civil)",
+        "price": "400€"
+      },
       {
         "name": "Violino (Músico Extra)",
         "price": "Sob Consulta"

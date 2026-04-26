@@ -23,6 +23,13 @@ import { ConfirmDialogComponent, ConfirmDialogOptions } from '../shared/confirm-
 export class AdminDashboardComponent implements OnInit {
   private platformId = inject(PLATFORM_ID);
   activeTab: 'general' | 'team' | 'repertoire' | 'testimonials' | 'packs' | 'bookings' | 'metrics' = 'general';
+  mobileMenuOpen = false;
+
+  setTab(tab: AdminDashboardComponent['activeTab']) {
+    this.activeTab = tab;
+    this.mobileMenuOpen = false;
+  }
+
   gallery: any[] = [];
   promoVideoUrl = '';
   loading = false;

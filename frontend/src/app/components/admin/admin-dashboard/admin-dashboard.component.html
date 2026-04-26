@@ -12,49 +12,94 @@
                         class="text-[10px] font-bold text-gold uppercase tracking-[0.2em] bg-gold/10 px-3 py-1 rounded-full">Backoffice</span>
                 </div>
 
-                <!-- Navigation Tabs -->
+                <!-- Navigation Tabs (desktop) -->
                 <nav class="hidden md:flex items-center gap-8 ml-8">
-                    <button (click)="activeTab = 'general'" [class.text-gold]="activeTab === 'general'"
+                    <button (click)="setTab('general')" [class.text-gold]="activeTab === 'general'"
                         class="text-[10px] font-bold uppercase tracking-[0.2em] transition-colors hover:text-gold">
                         Geral
                     </button>
-                    <button (click)="activeTab = 'team'" [class.text-gold]="activeTab === 'team'"
+                    <button (click)="setTab('team')" [class.text-gold]="activeTab === 'team'"
                         class="text-[10px] font-bold uppercase tracking-[0.2em] transition-colors hover:text-gold">
                         Equipa & Parceiros
                     </button>
-                    <button (click)="activeTab = 'repertoire'" [class.text-gold]="activeTab === 'repertoire'"
+                    <button (click)="setTab('repertoire')" [class.text-gold]="activeTab === 'repertoire'"
                         class="text-[10px] font-bold uppercase tracking-[0.2em] transition-colors hover:text-gold">
                         Repertório
                     </button>
-                    <button (click)="activeTab = 'testimonials'" [class.text-gold]="activeTab === 'testimonials'"
+                    <button (click)="setTab('testimonials')" [class.text-gold]="activeTab === 'testimonials'"
                         class="text-[10px] font-bold uppercase tracking-[0.2em] transition-colors hover:text-gold">
                         Testemunhos
                     </button>
-                    <button (click)="activeTab = 'packs'" [class.text-gold]="activeTab === 'packs'"
+                    <button (click)="setTab('packs')" [class.text-gold]="activeTab === 'packs'"
                         class="text-[10px] font-bold uppercase tracking-[0.2em] transition-colors hover:text-gold">
                         Packs
                     </button>
-                    <button (click)="activeTab = 'bookings'" [class.text-gold]="activeTab === 'bookings'"
+                    <button (click)="setTab('bookings')" [class.text-gold]="activeTab === 'bookings'"
                         class="text-[10px] font-bold uppercase tracking-[0.2em] transition-colors hover:text-gold">
                         Reservas
                     </button>
-                    <button (click)="activeTab = 'metrics'" [class.text-gold]="activeTab === 'metrics'"
+                    <button (click)="setTab('metrics')" [class.text-gold]="activeTab === 'metrics'"
                         class="text-[10px] font-bold uppercase tracking-[0.2em] transition-colors hover:text-gold">
                         Métricas
                     </button>
                 </nav>
             </div>
 
-            <button (click)="onLogout()"
-                class="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] hover:text-white transition-colors flex items-center gap-2">
-                Sair
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                </svg>
-            </button>
+            <div class="flex items-center gap-4">
+                <!-- Hamburger (mobile only) -->
+                <button (click)="mobileMenuOpen = !mobileMenuOpen"
+                    class="md:hidden w-10 h-10 flex items-center justify-center text-white hover:text-gold transition-colors"
+                    [attr.aria-label]="mobileMenuOpen ? 'Fechar menu' : 'Abrir menu'">
+                    @if (!mobileMenuOpen) {
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8h16M4 16h16" />
+                    </svg>
+                    } @else {
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                    }
+                </button>
+
+                <button (click)="onLogout()"
+                    class="text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] hover:text-white transition-colors flex items-center gap-2">
+                    Sair
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                    </svg>
+                </button>
+            </div>
         </div>
     </header>
+
+    <!-- Mobile Menu Panel -->
+    @if (mobileMenuOpen) {
+    <div class="md:hidden fixed inset-0 z-40 bg-black/95 backdrop-blur-sm flex flex-col items-center justify-center gap-2 pt-20">
+        @for (tab of [
+            {key: 'general', label: 'Geral'},
+            {key: 'team', label: 'Equipa & Parceiros'},
+            {key: 'repertoire', label: 'Repertório'},
+            {key: 'testimonials', label: 'Testemunhos'},
+            {key: 'packs', label: 'Packs'},
+            {key: 'bookings', label: 'Reservas'},
+            {key: 'metrics', label: 'Métricas'}
+        ]; track tab.key) {
+        <button (click)="setTab($any(tab.key))"
+            class="w-full max-w-xs py-5 text-center text-xl font-serif transition-colors"
+            [class.text-gold]="activeTab === tab.key"
+            [class.text-white]="activeTab !== tab.key">
+            {{ tab.label }}
+        </button>
+        }
+        <div class="mt-8 border-t border-white/10 pt-8 w-full max-w-xs">
+            <button (click)="onLogout()"
+                class="w-full py-4 text-center text-[10px] font-bold text-gray-500 uppercase tracking-widest hover:text-white transition-colors">
+                Sair
+            </button>
+        </div>
+    </div>
+    }
 
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
 

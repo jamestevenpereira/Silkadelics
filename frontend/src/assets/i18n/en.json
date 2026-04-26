@@ -74,11 +74,18 @@
     "bookingLabel": "Book Now",
     "extrasTitle": "Customize with Exclusive Extras",
     "packNames": {
+      "Essencial": "Essential",
+      "Completo": "Complete",
+      "Premium": "Premium",
       "Bronze": "Bronze",
       "Prata": "Silver",
       "Ouro": "Gold"
     },
     "extras": [
+      {
+        "name": "Ceremony (Church or Civil)",
+        "price": "400€"
+      },
       {
         "name": "Violin (Extra Musician)",
         "price": "On Request"

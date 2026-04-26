@@ -16,9 +16,10 @@
     <!-- Bookings Table -->
     <div class="glass-dark rounded-3xl border border-white/10 overflow-hidden">
         <div class="overflow-x-auto">
+            <div class="max-h-[70vh] overflow-y-auto">
             <table class="w-full text-left border-collapse">
-                <thead>
-                    <tr class="border-b border-white/5 bg-white/5">
+                <thead class="sticky top-0 z-10">
+                    <tr class="border-b border-white/5 bg-[#1a1a1a]">
                         <th class="px-8 py-6 text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em]">Data</th>
                         <th class="px-8 py-6 text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em]">Cliente</th>
                         <th class="px-8 py-6 text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em]">Evento</th>
@@ -126,6 +127,7 @@
                     }
                 </tbody>
             </table>
+            </div>
         </div>
     </div>
 </div>
