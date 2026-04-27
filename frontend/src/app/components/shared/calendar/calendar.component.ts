@@ -79,9 +79,10 @@ export class CalendarComponent implements OnInit, OnChanges {
             const d = new Date(year, month, i);
             const dStr = this.formatDate(d);
 
-            // Normalize and find bookings
+            // Normalize and find bookings (handle string or Date inputs defensively)
             const bookingsForDay = this.bookedDates.filter(b => {
-                const bDate = b.date.includes('T') ? b.date.split('T')[0] : b.date;
+                const raw = typeof b.date === 'string' ? b.date : new Date(b.date as any).toISOString();
+                const bDate = raw.includes('T') ? raw.split('T')[0] : raw;
                 return bDate === dStr;
             });
 

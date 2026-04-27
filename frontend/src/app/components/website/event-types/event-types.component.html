@@ -17,7 +17,7 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
             @for (type of content().eventTypes?.items; track type.title) {
             <a href="#booking" #cardElement [attr.data-type]="type.type" (click)="onCardClick($event, type.type)"
-                [class.is-active]="activeCard === type.type"
+                [class.is-active]="activeCard() === type.type"
                 class="group relative p-12 rounded-3xl border border-white/5 bg-white/5 backdrop-blur-sm hover:border-primary/30 group-[.is-active]:border-primary/30 active:border-primary/40 active:bg-white/10 transition-all duration-700 overflow-hidden block active:scale-[0.98] will-change-transform">
                 <!-- Background Glow: Partially visible on mobile for depth, full on hover or tap -->
                 <div

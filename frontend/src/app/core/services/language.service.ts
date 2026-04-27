@@ -40,7 +40,10 @@ export class LanguageService {
 
         try {
             const data = await firstValueFrom(
-                this.http.get<Content>(`/assets/i18n/${lang}.json`)
+                this.http.get<Content>(`/assets/i18n/${lang}.json`, {
+                    headers: { 'Cache-Control': 'no-cache' },
+                    params: { _: Date.now().toString() }
+                })
             );
             this.contentData.set(data);
         } catch (error) {

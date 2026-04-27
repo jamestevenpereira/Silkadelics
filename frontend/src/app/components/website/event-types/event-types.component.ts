@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ElementRef, AfterViewInit, OnDestroy, ViewChildren, QueryList, inject, PLATFORM_ID } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, AfterViewInit, OnDestroy, ViewChildren, QueryList, inject, PLATFORM_ID, signal } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 
 import { LanguageService } from '../../../core/services/language.service';
@@ -18,7 +18,7 @@ export class EventTypesComponent implements AfterViewInit, OnDestroy {
 
   @ViewChildren('cardElement') cardElements!: QueryList<ElementRef>;
 
-  activeCard: string | null = null;
+  activeCard = signal<string | null>(null);
   private observer: IntersectionObserver | null = null;
 
   ngAfterViewInit() {
@@ -41,12 +41,12 @@ export class EventTypesComponent implements AfterViewInit, OnDestroy {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
             const typeId = (entry.target as HTMLElement).getAttribute('data-type');
-            this.activeCard = typeId;
+            this.activeCard.set(typeId);
           }
         });
       } else {
         // clear on desktop so hover takes full control
-        this.activeCard = null;
+        this.activeCard.set(null);
       }
     }, options);
 
