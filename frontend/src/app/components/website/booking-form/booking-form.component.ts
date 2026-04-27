@@ -69,7 +69,6 @@ export class BookingFormComponent implements OnInit {
 
     try {
       const dates = await this.supabaseService.getBookedDates();
-      console.log('[booking-form] booked dates payload:', dates);
       this.bookedDates.set(dates);
     } catch (err) {
       console.error('Error fetching booked dates:', err);
