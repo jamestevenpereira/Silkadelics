@@ -45,8 +45,6 @@ export class NavbarComponent {
     if (this.isMenuOpen) {
       this.isMenuOpen = false;
     }
-    this.router.navigate(['/'], { fragment: 'booking' }).then(() => {
-      setTimeout(() => this.scroller.scrollToAnchor('booking'), 300);
-    });
+    this.router.navigate(['/'], { fragment: 'booking' });
   }
 }

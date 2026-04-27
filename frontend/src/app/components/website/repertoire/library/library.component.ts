@@ -258,9 +258,7 @@ export class LibraryComponent implements OnInit {
   }
 
   goToBooking(): void {
-    this.router.navigate(['/'], { fragment: 'booking' }).then(() => {
-      setTimeout(() => this.scroller.scrollToAnchor('booking'), 300);
-    });
+    this.router.navigate(['/'], { fragment: 'booking' });
   }
 
   openSuggestionModal() {
