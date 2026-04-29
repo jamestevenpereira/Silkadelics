@@ -8,7 +8,11 @@
       "Bash(git add *)",
       "Bash(npm install *)",
       "Bash(node \"C:/Users/jonny/.claude/skills/i18n-audit/check.mjs\" \"C:/Users/jonny/Desktop/Silkadelics/frontend/src/app\" \"C:/Users/jonny/Desktop/Silkadelics/frontend/src/assets/i18n\")",
-      "Bash(node backend/scripts/seed-testimonials.js)"
+      "Bash(node backend/scripts/seed-testimonials.js)",
+      "Bash(node -e ' *)",
+      "Bash(node -e \"require\\('dotenv'\\).config\\({ path: 'backend/.env' }\\); const { createClient } = require\\('./backend/node_modules/@supabase/supabase-js'\\); const sb = createClient\\(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY\\); sb.from\\('testimonials'\\).delete\\(\\).neq\\('id', 0\\).then\\(\\({ error }\\) => { if \\(error\\) { console.error\\(error\\); process.exit\\(1\\); } console.log\\('Supabase limpo.'\\); }\\);\")",
+      "Bash(node scripts/seed-testimonials.js)",
+      "Bash(node scripts/revert-testimonials.js)"
     ]
   }
 }

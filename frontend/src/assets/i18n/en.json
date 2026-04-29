@@ -128,21 +128,13 @@
     "empty": "No testimonials available yet.",
     "items": [
       {
-        "name": "Ana Farias",
-        "role": "Graphic Design",
-        "text": "I sought out Beatriz's services because I wanted to leverage the skills I already had to change careers. I was afraid to hire an HR professional because, if I didn't know what job I wanted, how could she help me? 'An HR professional can't know every field and every niche!', I thought. Beatriz gave me an extraordinary brainstorming session. Observant and full of great questions, she drew out what I knew without realising it, and works her professional magic to transform that information into concrete and tailored possibilities.",
+        "name": "Ana & Pedro",
+        "text": "The band was amazing! All the guests loved the music and the energy.",
         "rating": 5
       },
       {
-        "name": "Murilo Evangelista",
-        "role": "Management Controller",
-        "text": "Beatriz helped me at a very important moment in my career, a moment of transition in which her support and attention was crucial for my new challenge. Beatriz is a very dedicated, attentive and results-committed professional.",
-        "rating": 5
-      },
-      {
-        "name": "Hélia Barros",
-        "role": "Founder and Nutritionist at HBNutrição",
-        "text": "Beatriz embraced HBnutrição's needs with a dedication and professionalism that are hard to find nowadays. The needs were urgent and very specific, and her response from day one was 'nothing is impossible'. The procedures were always developed in close partnership with the clinic's management, but with an autonomy and immersion that allowed us to delegate with confidence!",
+        "name": "Carlos Silva",
+        "text": "Excellent professionalism. Highly recommend for corporate events.",
         "rating": 5
       }
     ]

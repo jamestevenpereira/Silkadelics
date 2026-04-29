@@ -26,6 +26,7 @@ export class TestimonialsComponent implements OnInit {
       const data = await this.supabaseService.getTestimonialsApi();
       if (data?.length) {
         this.testimonials.set(data);
+        // Single set — duplication is done in template for seamless loop
         this.displayTestimonials.set(data);
         return;
       }
@@ -34,16 +35,14 @@ export class TestimonialsComponent implements OnInit {
       if (fallback.data?.length) {
         this.testimonials.set(fallback.data);
         this.displayTestimonials.set(fallback.data);
-        return;
       }
     } catch (error) {
       console.error('Error fetching testimonials:', error);
-    }
-
-    const i18nItems = this.content().testimonials?.items;
-    if (i18nItems?.length) {
-      this.testimonials.set(i18nItems);
-      this.displayTestimonials.set(i18nItems);
+      const fallback = await this.supabaseService.getTestimonials();
+      if (fallback.data?.length) {
+        this.testimonials.set(fallback.data);
+        this.displayTestimonials.set(fallback.data);
+      }
     }
   }
 }
