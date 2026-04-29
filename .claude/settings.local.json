@@ -7,7 +7,8 @@
       "Bash(git push *)",
       "Bash(git add *)",
       "Bash(npm install *)",
-      "Bash(node \"C:/Users/jonny/.claude/skills/i18n-audit/check.mjs\" \"C:/Users/jonny/Desktop/Silkadelics/frontend/src/app\" \"C:/Users/jonny/Desktop/Silkadelics/frontend/src/assets/i18n\")"
+      "Bash(node \"C:/Users/jonny/.claude/skills/i18n-audit/check.mjs\" \"C:/Users/jonny/Desktop/Silkadelics/frontend/src/app\" \"C:/Users/jonny/Desktop/Silkadelics/frontend/src/assets/i18n\")",
+      "Bash(node backend/scripts/seed-testimonials.js)"
     ]
   }
 }
